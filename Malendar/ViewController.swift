@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var monthLabel: UILabel!
     @IBOutlet weak var menuView: CVCalendarMenuView!
     @IBOutlet weak var calendarView: CVCalendarView!
-    
+
     var shouldShowDaysOut = true
     var animationFinished = true
     

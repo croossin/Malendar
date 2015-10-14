@@ -24,7 +24,7 @@
                                 <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WKa-Fj-ZRL" customClass="CVCalendarMenuView" customModule="Malendar" customModuleProvider="target">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WKa-Fj-ZRL" customClass="CVCalendarMenuView" customModule="Malendar" customModuleProvider="target">
                                 <rect key="frame" x="16" y="71" width="568" height="24"/>
                                 <animations/>
                                 <connections>
@@ -44,13 +44,6 @@
                                     <outlet property="calendarDelegate" destination="Zys-73-7dp" id="QWV-RQ-Ir8"/>
                                 </connections>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Autolayout" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ugv-bT-DPt">
-                                <rect key="frame" x="259" y="411" width="83" height="21"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uDE-3r-rQY">
                                 <rect key="frame" x="16" y="25" width="38" height="30"/>
                                 <animations/>
@@ -71,50 +64,23 @@
                                     <action selector="toMonthView:" destination="Zys-73-7dp" eventType="touchUpInside" id="QLB-II-F71"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7My-5m-kFV">
-                                <rect key="frame" x="312" y="440" width="30" height="30"/>
-                                <animations/>
-                                <state key="normal" title="&gt;">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="loadNext:" destination="Zys-73-7dp" eventType="touchUpInside" id="WgN-IP-oAk"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KcR-ti-Ll3">
-                                <rect key="frame" x="259" y="440" width="30" height="30"/>
-                                <animations/>
-                                <state key="normal" title="&lt;">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="loadPrevious:" destination="Zys-73-7dp" eventType="touchUpInside" id="wFf-Eg-mB7"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="KcR-ti-Ll3" firstAttribute="leading" secondItem="Ugv-bT-DPt" secondAttribute="leading" id="8cn-W3-gZx"/>
-                            <constraint firstAttribute="centerX" secondItem="Ugv-bT-DPt" secondAttribute="centerX" constant="-0.5" id="BCa-Um-3ZR"/>
+                            <constraint firstItem="WKa-Fj-ZRL" firstAttribute="top" secondItem="p5Y-eH-phh" secondAttribute="bottom" constant="16" id="4ho-2A-Eu1"/>
                             <constraint firstItem="cw2-xF-JIQ" firstAttribute="top" secondItem="gCL-VB-pxL" secondAttribute="top" constant="103" id="Bly-tA-IX5"/>
-                            <constraint firstItem="7My-5m-kFV" firstAttribute="top" secondItem="Ugv-bT-DPt" secondAttribute="bottom" constant="8" id="DAM-Wg-ogl"/>
                             <constraint firstItem="cw2-xF-JIQ" firstAttribute="leading" secondItem="WKa-Fj-ZRL" secondAttribute="leading" id="Evs-Rs-Zcz"/>
                             <constraint firstItem="a9j-vR-EwU" firstAttribute="top" secondItem="d45-VJ-eqf" secondAttribute="bottom" constant="8" symbolic="YES" id="G24-i6-R2g"/>
                             <constraint firstItem="uDE-3r-rQY" firstAttribute="top" secondItem="d45-VJ-eqf" secondAttribute="bottom" constant="5" id="Jno-VJ-LH8"/>
-                            <constraint firstItem="Ugv-bT-DPt" firstAttribute="top" secondItem="cw2-xF-JIQ" secondAttribute="bottom" constant="8" id="LfW-X2-0Sq"/>
-                            <constraint firstItem="KcR-ti-Ll3" firstAttribute="top" secondItem="cw2-xF-JIQ" secondAttribute="bottom" constant="37" id="MxK-Fi-WlH"/>
                             <constraint firstItem="p5Y-eH-phh" firstAttribute="top" secondItem="d45-VJ-eqf" secondAttribute="bottom" constant="5" id="YHK-u4-mRl"/>
-                            <constraint firstItem="7My-5m-kFV" firstAttribute="trailing" secondItem="Ugv-bT-DPt" secondAttribute="trailing" id="Ymh-uL-wFM"/>
                             <constraint firstItem="a9j-vR-EwU" firstAttribute="centerX" secondItem="WKa-Fj-ZRL" secondAttribute="centerX" id="cES-61-McC"/>
                             <constraint firstItem="cw2-xF-JIQ" firstAttribute="top" secondItem="WKa-Fj-ZRL" secondAttribute="bottom" constant="8" symbolic="YES" id="cyJ-C0-PAI"/>
                             <constraint firstItem="cw2-xF-JIQ" firstAttribute="trailing" secondItem="WKa-Fj-ZRL" secondAttribute="trailing" id="gTZ-uk-wqN"/>
                             <constraint firstItem="p5Y-eH-phh" firstAttribute="leading" secondItem="uDE-3r-rQY" secondAttribute="trailing" constant="8" id="h4k-XK-UbX"/>
-                            <constraint firstItem="KcR-ti-Ll3" firstAttribute="top" secondItem="Ugv-bT-DPt" secondAttribute="bottom" constant="8" id="hwz-Vh-YBZ"/>
                             <constraint firstItem="cw2-xF-JIQ" firstAttribute="leading" secondItem="gCL-VB-pxL" secondAttribute="leadingMargin" id="qDY-aU-f1J"/>
                             <constraint firstItem="uDE-3r-rQY" firstAttribute="leading" secondItem="gCL-VB-pxL" secondAttribute="leadingMargin" id="u2C-td-uMP"/>
                             <constraint firstItem="WKa-Fj-ZRL" firstAttribute="trailing" secondItem="gCL-VB-pxL" secondAttribute="trailingMargin" id="uxW-PJ-LgS"/>
-                            <constraint firstItem="7My-5m-kFV" firstAttribute="top" secondItem="cw2-xF-JIQ" secondAttribute="bottom" constant="37" id="yJg-lC-ixz"/>
                         </constraints>
                     </view>
                     <connections>
