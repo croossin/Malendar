@@ -40,6 +40,8 @@
 		8C3F0AC41BCEF106009E172E /* CVSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3F0AA91BCEF106009E172E /* CVSet.swift */; settings = {ASSET_TAGS = (); }; };
 		8C3F0AC51BCEF106009E172E /* CVShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3F0AAA1BCEF106009E172E /* CVShape.swift */; settings = {ASSET_TAGS = (); }; };
 		8C3F0AC61BCEF106009E172E /* CVWeekdaySymbolType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3F0AAB1BCEF106009E172E /* CVWeekdaySymbolType.swift */; settings = {ASSET_TAGS = (); }; };
+		8C3F0ACC1BCF0822009E172E /* BTNavigationDropdownMenu.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8C3F0ACA1BCF0822009E172E /* BTNavigationDropdownMenu.bundle */; settings = {ASSET_TAGS = (); }; };
+		8C3F0ACD1BCF0822009E172E /* BTNavigationDropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3F0ACB1BCF0822009E172E /* BTNavigationDropdownMenu.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +80,8 @@
 		8C3F0AA91BCEF106009E172E /* CVSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVSet.swift; sourceTree = "<group>"; };
 		8C3F0AAA1BCEF106009E172E /* CVShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVShape.swift; sourceTree = "<group>"; };
 		8C3F0AAB1BCEF106009E172E /* CVWeekdaySymbolType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVWeekdaySymbolType.swift; sourceTree = "<group>"; };
+		8C3F0ACA1BCF0822009E172E /* BTNavigationDropdownMenu.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = BTNavigationDropdownMenu.bundle; sourceTree = "<group>"; };
+		8C3F0ACB1BCF0822009E172E /* BTNavigationDropdownMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTNavigationDropdownMenu.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +129,7 @@
 		8C3F0A8F1BCEF0EF009E172E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8C3F0AC91BCF0818009E172E /* BTNavigation */,
 				8C3F0A901BCEF106009E172E /* CVCalendar */,
 			);
 			name = Frameworks;
@@ -162,6 +167,15 @@
 				8C3F0AAB1BCEF106009E172E /* CVWeekdaySymbolType.swift */,
 			);
 			path = CVCalendar;
+			sourceTree = "<group>";
+		};
+		8C3F0AC91BCF0818009E172E /* BTNavigation */ = {
+			isa = PBXGroup;
+			children = (
+				8C3F0ACA1BCF0822009E172E /* BTNavigationDropdownMenu.bundle */,
+				8C3F0ACB1BCF0822009E172E /* BTNavigationDropdownMenu.swift */,
+			);
+			name = BTNavigation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -224,6 +238,7 @@
 				8C3F0A881BCEF05C009E172E /* LaunchScreen.storyboard in Resources */,
 				8C3F0A851BCEF05C009E172E /* Assets.xcassets in Resources */,
 				8C3F0A801BCEF05C009E172E /* Main.storyboard in Resources */,
+				8C3F0ACC1BCF0822009E172E /* BTNavigationDropdownMenu.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -234,6 +249,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C3F0ACD1BCF0822009E172E /* BTNavigationDropdownMenu.swift in Sources */,
 				8C3F0AB01BCEF106009E172E /* CVCalendarManager.swift in Sources */,
 				8C3F0AC61BCEF106009E172E /* CVWeekdaySymbolType.swift in Sources */,
 				8C3F0AAC1BCEF106009E172E /* CVAuxiliaryView.swift in Sources */,

@@ -17,11 +17,37 @@ class ViewController: UIViewController {
     var shouldShowDaysOut = true
     var animationFinished = true
     
+    var dropDownMenuView: BTNavigationDropdownMenu!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Set month title
         monthLabel.text = CVDate(date: NSDate()).globalDescription
+        
+        //Initialize drop down menu
+        //Menu
+        let items = ["Monthly Calendar", "Weekly Calendar"]
+        self.navigationController?.navigationBar.translucent = false
+        self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.0/255.0, green:180/255.0, blue:220/255.0, alpha: 1.0)
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        
+        let dropDownMenuView = BTNavigationDropdownMenu(title: items.first!, items: items)
+        dropDownMenuView.cellHeight = 50
+        dropDownMenuView.cellBackgroundColor = self.navigationController?.navigationBar.barTintColor
+        dropDownMenuView.cellSelectionColor = UIColor(red: 0.0/255.0, green:160.0/255.0, blue:195.0/255.0, alpha: 1.0)
+        dropDownMenuView.cellTextLabelColor = UIColor.whiteColor()
+        dropDownMenuView.cellTextLabelFont = UIFont(name: "Avenir-Heavy", size: 17)
+        dropDownMenuView.arrowPadding = 15
+        dropDownMenuView.animationDuration = 0.5
+        dropDownMenuView.maskBackgroundColor = UIColor.blackColor()
+        dropDownMenuView.maskBackgroundOpacity = 0.3
+        dropDownMenuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> () in
+            print("Did select item at index: \(indexPath)")
+            self.dealWithNavBarSelection(indexPath)
+        }
+        
+        self.navigationItem.titleView = dropDownMenuView
     }
     
     override func viewDidLayoutSubviews() {
@@ -35,9 +61,22 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    //Determines what to do when something in navbar is selected
+    func dealWithNavBarSelection(indexSelected: Int){
+        //monthly
+        if(indexSelected == 0){
+            self.calendarView.changeMode(.MonthView)
+        }
+        //weekly
+        if(indexSelected == 1){
+            self.calendarView.changeMode(.WeekView)
+            print("week view")
+        }
+    }
 
 }
+
 
 // MARK: - CVCalendarViewDelegate & CVCalendarMenuViewDelegate
 
