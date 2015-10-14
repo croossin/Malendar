@@ -1,51 +1,131 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Zys-73-7dp">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--Calendar Appearance Delegate-->
+        <scene sceneID="UmW-5D-gVq">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Malendar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Zys-73-7dp" customClass="ViewController" customModule="Malendar" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                        <viewControllerLayoutGuide type="top" id="d45-VJ-eqf"/>
+                        <viewControllerLayoutGuide type="bottom" id="kQb-JN-Ooo"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" id="gCL-VB-pxL">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Lg-Ek-7Mf" customClass="CVCalendarMenuView" customModule="Malendar" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="59" width="600" height="41"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="January, 2015" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a9j-vR-EwU">
+                                <rect key="frame" x="237" y="28" width="127" height="24"/>
                                 <animations/>
-                                <color key="backgroundColor" red="0.32980523950000001" green="0.74408280770000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bbL-Kh-KXR" customClass="CVCalendarView" customModule="Malendar" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="122" width="600" height="274"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WKa-Fj-ZRL" customClass="CVCalendarMenuView" customModule="Malendar" customModuleProvider="target">
+                                <rect key="frame" x="16" y="71" width="568" height="24"/>
                                 <animations/>
-                                <color key="backgroundColor" red="0.23137254900000001" green="0.84705882349999995" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="menuViewDelegate" destination="Zys-73-7dp" id="9U0-Sx-Cci"/>
+                                </connections>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Current Month" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hML-7O-55T">
-                                <rect key="frame" x="0.0" y="20" width="600" height="31"/>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cw2-xF-JIQ" customClass="CVCalendarView" customModule="Malendar" customModuleProvider="target">
+                                <rect key="frame" x="16" y="103" width="568" height="300"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="to4-Tx-ctB">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="480"/>
+                                    </constraint>
+                                </constraints>
+                                <connections>
+                                    <outlet property="calendarAppearanceDelegate" destination="Zys-73-7dp" id="j3T-9T-8hC"/>
+                                    <outlet property="calendarDelegate" destination="Zys-73-7dp" id="QWV-RQ-Ir8"/>
+                                </connections>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Autolayout" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ugv-bT-DPt">
+                                <rect key="frame" x="259" y="411" width="83" height="21"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uDE-3r-rQY">
+                                <rect key="frame" x="16" y="25" width="38" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Week">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="toWeekView:" destination="Zys-73-7dp" eventType="touchUpInside" id="MWG-OR-u1l"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p5Y-eH-phh">
+                                <rect key="frame" x="62" y="25" width="44" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Month">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="toMonthView:" destination="Zys-73-7dp" eventType="touchUpInside" id="QLB-II-F71"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7My-5m-kFV">
+                                <rect key="frame" x="312" y="440" width="30" height="30"/>
+                                <animations/>
+                                <state key="normal" title="&gt;">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="loadNext:" destination="Zys-73-7dp" eventType="touchUpInside" id="WgN-IP-oAk"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KcR-ti-Ll3">
+                                <rect key="frame" x="259" y="440" width="30" height="30"/>
+                                <animations/>
+                                <state key="normal" title="&lt;">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="loadPrevious:" destination="Zys-73-7dp" eventType="touchUpInside" id="wFf-Eg-mB7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="KcR-ti-Ll3" firstAttribute="leading" secondItem="Ugv-bT-DPt" secondAttribute="leading" id="8cn-W3-gZx"/>
+                            <constraint firstAttribute="centerX" secondItem="Ugv-bT-DPt" secondAttribute="centerX" constant="-0.5" id="BCa-Um-3ZR"/>
+                            <constraint firstItem="cw2-xF-JIQ" firstAttribute="top" secondItem="gCL-VB-pxL" secondAttribute="top" constant="103" id="Bly-tA-IX5"/>
+                            <constraint firstItem="7My-5m-kFV" firstAttribute="top" secondItem="Ugv-bT-DPt" secondAttribute="bottom" constant="8" id="DAM-Wg-ogl"/>
+                            <constraint firstItem="cw2-xF-JIQ" firstAttribute="leading" secondItem="WKa-Fj-ZRL" secondAttribute="leading" id="Evs-Rs-Zcz"/>
+                            <constraint firstItem="a9j-vR-EwU" firstAttribute="top" secondItem="d45-VJ-eqf" secondAttribute="bottom" constant="8" symbolic="YES" id="G24-i6-R2g"/>
+                            <constraint firstItem="uDE-3r-rQY" firstAttribute="top" secondItem="d45-VJ-eqf" secondAttribute="bottom" constant="5" id="Jno-VJ-LH8"/>
+                            <constraint firstItem="Ugv-bT-DPt" firstAttribute="top" secondItem="cw2-xF-JIQ" secondAttribute="bottom" constant="8" id="LfW-X2-0Sq"/>
+                            <constraint firstItem="KcR-ti-Ll3" firstAttribute="top" secondItem="cw2-xF-JIQ" secondAttribute="bottom" constant="37" id="MxK-Fi-WlH"/>
+                            <constraint firstItem="p5Y-eH-phh" firstAttribute="top" secondItem="d45-VJ-eqf" secondAttribute="bottom" constant="5" id="YHK-u4-mRl"/>
+                            <constraint firstItem="7My-5m-kFV" firstAttribute="trailing" secondItem="Ugv-bT-DPt" secondAttribute="trailing" id="Ymh-uL-wFM"/>
+                            <constraint firstItem="a9j-vR-EwU" firstAttribute="centerX" secondItem="WKa-Fj-ZRL" secondAttribute="centerX" id="cES-61-McC"/>
+                            <constraint firstItem="cw2-xF-JIQ" firstAttribute="top" secondItem="WKa-Fj-ZRL" secondAttribute="bottom" constant="8" symbolic="YES" id="cyJ-C0-PAI"/>
+                            <constraint firstItem="cw2-xF-JIQ" firstAttribute="trailing" secondItem="WKa-Fj-ZRL" secondAttribute="trailing" id="gTZ-uk-wqN"/>
+                            <constraint firstItem="p5Y-eH-phh" firstAttribute="leading" secondItem="uDE-3r-rQY" secondAttribute="trailing" constant="8" id="h4k-XK-UbX"/>
+                            <constraint firstItem="KcR-ti-Ll3" firstAttribute="top" secondItem="Ugv-bT-DPt" secondAttribute="bottom" constant="8" id="hwz-Vh-YBZ"/>
+                            <constraint firstItem="cw2-xF-JIQ" firstAttribute="leading" secondItem="gCL-VB-pxL" secondAttribute="leadingMargin" id="qDY-aU-f1J"/>
+                            <constraint firstItem="uDE-3r-rQY" firstAttribute="leading" secondItem="gCL-VB-pxL" secondAttribute="leadingMargin" id="u2C-td-uMP"/>
+                            <constraint firstItem="WKa-Fj-ZRL" firstAttribute="trailing" secondItem="gCL-VB-pxL" secondAttribute="trailingMargin" id="uxW-PJ-LgS"/>
+                            <constraint firstItem="7My-5m-kFV" firstAttribute="top" secondItem="cw2-xF-JIQ" secondAttribute="bottom" constant="37" id="yJg-lC-ixz"/>
+                        </constraints>
                     </view>
                     <connections>
-                        <outlet property="calendarView" destination="bbL-Kh-KXR" id="ky0-Dp-lTQ"/>
-                        <outlet property="menuView" destination="7Lg-Ek-7Mf" id="eYA-nX-GLt"/>
-                        <outlet property="monthLabel" destination="hML-7O-55T" id="q18-Ce-7Qm"/>
+                        <outlet property="calendarView" destination="cw2-xF-JIQ" id="b6T-PN-snO"/>
+                        <outlet property="menuView" destination="WKa-Fj-ZRL" id="mEE-3L-E6Q"/>
+                        <outlet property="monthLabel" destination="a9j-vR-EwU" id="RUj-CL-dUd"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aib-rF-tqg" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="305" y="429"/>
+            <point key="canvasLocation" x="18" y="293"/>
         </scene>
     </scenes>
 </document>

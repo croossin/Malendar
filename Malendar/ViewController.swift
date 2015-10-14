@@ -9,13 +9,26 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    @IBOutlet weak var monthLabel: UILabel!
     @IBOutlet weak var menuView: CVCalendarMenuView!
     @IBOutlet weak var calendarView: CVCalendarView!
-    @IBOutlet weak var monthLabel: UILabel!
-
+    
+    var shouldShowDaysOut = true
+    var animationFinished = true
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        monthLabel.text = CVDate(date: NSDate()).globalDescription
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        calendarView.commitCalendarViewUpdate()
+        menuView.commitMenuViewUpdate()
     }
 
     override func didReceiveMemoryWarning() {
