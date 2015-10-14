@@ -27,7 +27,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cw2-xF-JIQ" customClass="CVCalendarView" customModule="Malendar" customModuleProvider="target">
                                 <rect key="frame" x="16" y="163" width="568" height="300"/>
                                 <animations/>
-                                <color key="backgroundColor" red="0.36862745879999997" green="0.98823535439999999" blue="0.18823531269999999" alpha="1" colorSpace="deviceRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="300" id="to4-Tx-ctB">
                                         <variation key="heightClass=regular-widthClass=regular" constant="480"/>
@@ -41,7 +40,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WKa-Fj-ZRL" customClass="CVCalendarMenuView" customModule="Malendar" customModuleProvider="target">
                                 <rect key="frame" x="16" y="131" width="568" height="24"/>
                                 <animations/>
-                                <color key="backgroundColor" red="0.32980523950000001" green="0.74408280770000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="Skb-Fa-l1P"/>
                                 </constraints>
@@ -69,7 +67,26 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" id="9oA-bc-9vU"/>
+                    <navigationItem key="navigationItem" id="9oA-bc-9vU">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="kqG-ss-a9S">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="vea-7P-OaE">
+                                <rect key="frame" x="20" y="7" width="133" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <state key="normal" title="Today"/>
+                            </button>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="+" style="plain" id="a8D-PP-zLF">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="VWf-H4-5FP">
+                                <rect key="frame" x="447" y="7" width="133" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <rect key="contentStretch" x="0.0" y="0.0" width="0.90000000000000002" height="1"/>
+                                <size key="titleShadowOffset" width="2.2250738585072014e-308" height="0.0"/>
+                                <state key="normal" title="Add +"/>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="calendarView" destination="cw2-xF-JIQ" id="b6T-PN-snO"/>
                         <outlet property="menuView" destination="WKa-Fj-ZRL" id="mEE-3L-E6Q"/>
