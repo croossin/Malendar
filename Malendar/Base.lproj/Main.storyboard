@@ -42,6 +42,9 @@
                                 <rect key="frame" x="16" y="131" width="568" height="24"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.32980523950000001" green="0.74408280770000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="Skb-Fa-l1P"/>
+                                </constraints>
                                 <connections>
                                     <outlet property="menuViewDelegate" destination="Zys-73-7dp" id="9U0-Sx-Cci"/>
                                 </connections>
@@ -60,6 +63,11 @@
                             <constraint firstItem="cw2-xF-JIQ" firstAttribute="leading" secondItem="gCL-VB-pxL" secondAttribute="leadingMargin" constant="-4" id="qDY-aU-f1J"/>
                             <constraint firstItem="WKa-Fj-ZRL" firstAttribute="trailing" secondItem="gCL-VB-pxL" secondAttribute="trailingMargin" constant="4" id="uxW-PJ-LgS"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Bly-tA-IX5"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="9oA-bc-9vU"/>
                     <connections>
