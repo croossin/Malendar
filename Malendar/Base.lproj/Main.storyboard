@@ -112,6 +112,11 @@
                                 <rect key="contentStretch" x="0.0" y="0.0" width="0.90000000000000002" height="1"/>
                                 <size key="titleShadowOffset" width="2.2250738585072014e-308" height="0.0"/>
                                 <state key="normal" title="Add +"/>
+                                <connections>
+                                    <segue destination="9eN-Kp-kgt" kind="popoverPresentation" popoverAnchorView="VWf-H4-5FP" id="LP0-uc-7cm">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
                             </button>
                         </barButtonItem>
                     </navigationItem>
@@ -125,6 +130,27 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aib-rF-tqg" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="360" y="293"/>
+        </scene>
+        <!--Popover View Controller-->
+        <scene sceneID="tsK-9U-anb">
+            <objects>
+                <viewController id="9eN-Kp-kgt" customClass="PopoverViewController" customModule="Malendar" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="v33-uF-hia"/>
+                        <viewControllerLayoutGuide type="bottom" id="wY3-06-M0u"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pZz-tz-cBD">
+                        <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" red="0.26422333717346191" green="0.91602712869644165" blue="0.87323981523513794" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="150" height="150"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yBK-dj-D42" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="899" y="179"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="mwq-FZ-Nsd">

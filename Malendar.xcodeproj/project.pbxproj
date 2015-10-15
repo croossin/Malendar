@@ -120,7 +120,7 @@
 			children = (
 				8C3F0A8F1BCEF0EF009E172E /* Frameworks */,
 				8C3F0A7A1BCEF05C009E172E /* AppDelegate.swift */,
-				8C3F0A7C1BCEF05C009E172E /* ViewController.swift */,
+				8CC29BC01BD05F9E00ECB9C3 /* ViewControllers */,
 				8CC29BBA1BD01D3800ECB9C3 /* EventTableViewCell.xib */,
 				8C3F0A7E1BCEF05C009E172E /* Main.storyboard */,
 				8C3F0A841BCEF05C009E172E /* Assets.xcassets */,
@@ -182,6 +182,14 @@
 				8C3F0ACB1BCF0822009E172E /* BTNavigationDropdownMenu.swift */,
 			);
 			name = BTNavigation;
+			sourceTree = "<group>";
+		};
+		8CC29BC01BD05F9E00ECB9C3 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				8C3F0A7C1BCEF05C009E172E /* ViewController.swift */,
+			);
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -135,27 +135,37 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return self.eventsList.count;
     }
     
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell:EventTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("customCell") as! EventTableViewCell!
-        
+
         let cellTitle = self.eventsList[indexPath.row].title
         let cellNote = self.eventsList[indexPath.row].notes
         let cellStart = self.eventsList[indexPath.row].startDate
         let cellEnd = self.eventsList[indexPath.row].endDate
+        
         
         cell.loadItem(cellTitle, note: cellNote!, start: cellStart, end: cellEnd)
         
         return cell
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
+    //CUSTOM ACTIONS WHEN SWIPE
+    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+       
+        var editAction = UITableViewRowAction(style: .Normal, title: "Edit") { (action:
+            UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
+            print("edit")
+        }
+        
+        var deleteAction = UITableViewRowAction(style: .Normal, title: "Delete") { (action:
+            UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
             let alertView = SCLAlertView()
             alertView.addButton("Yes"){
                 
                 tableView.beginUpdates()
                 
-               //actually delete calendar event
+                //actually delete calendar event
                 do{
                     try self.eventStore.removeEvent(self.eventsList[indexPath.row], span: .ThisEvent)
                 } catch{
@@ -173,6 +183,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             alertView.showCloseButton = false
             alertView.showWarning("Delete?", subTitle: "Are you sure you want to delete this event?")
         }
+        
+        
+        
+        deleteAction.backgroundColor = UIColor.redColor()
+        editAction.backgroundColor = UIColor.grayColor()
+        return [editAction, deleteAction]
     }
     
     
