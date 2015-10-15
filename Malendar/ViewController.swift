@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import EventKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
@@ -19,7 +20,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var shouldShowDaysOut = true
     var animationFinished = true
     
-    var test: [String] = ["We", "Heart", "Swift"]
+    var tableViewContents: [String] = []
     
     var dropDownMenuView: BTNavigationDropdownMenu!
     
@@ -51,7 +52,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.dealWithNavBarSelection(indexPath)
         }
        
-        
+
         self.navigationItem.titleView = dropDownMenuView
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
@@ -83,22 +84,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(self.test.count)
-        return self.test.count;
+        return self.tableViewContents.count;
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell:UITableViewCell = self.tableView.dequeueReusableCellWithIdentifier("cell") as! UITableViewCell!
-        
-        cell.textLabel?.text = self.test[indexPath.row]
-        
+        cell.textLabel?.text = self.tableViewContents[indexPath.row]
         return cell
     }
     
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
         print("You selected cell #\(indexPath.row)!")
     }
+    
+    func reloadTable(){
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.tableView.reloadData()
+        })
+    }
 }
+
 
 
 // MARK: - CVCalendarViewDelegate & CVCalendarMenuViewDelegate
@@ -128,6 +133,9 @@ extension ViewController: CVCalendarViewDelegate, CVCalendarMenuViewDelegate {
     func didSelectDayView(dayView: CVCalendarDayView) {
         let date = dayView.date
         print("\(calendarView.presentedDate.commonDescription) is selected!")
+        tableViewContents.removeAll()
+        tableViewContents.append(calendarView.presentedDate.commonDescription)
+        reloadTable()
     }
     
     func presentedDateUpdated(date: CVDate) {
