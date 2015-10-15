@@ -18,17 +18,17 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="January, 2015" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a9j-vR-EwU">
-                                <rect key="frame" x="232.5" y="88" width="136" height="24"/>
+                                <rect key="frame" x="232" y="88" width="136" height="24"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cw2-xF-JIQ" customClass="CVCalendarView" customModule="Malendar" customModuleProvider="target">
-                                <rect key="frame" x="16" y="163" width="568" height="300"/>
+                                <rect key="frame" x="16" y="163" width="568" height="275"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="300" id="to4-Tx-ctB">
+                                    <constraint firstAttribute="height" constant="275" id="to4-Tx-ctB">
                                         <variation key="heightClass=regular-widthClass=regular" constant="480"/>
                                     </constraint>
                                 </constraints>
@@ -47,19 +47,39 @@
                                     <outlet property="menuViewDelegate" destination="Zys-73-7dp" id="9U0-Sx-Cci"/>
                                 </connections>
                             </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="obf-UP-jl5">
+                                <rect key="frame" x="0.0" y="472" width="600" height="128"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Agenda:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9by-OQ-MLL">
+                                <rect key="frame" x="0.0" y="454" width="600" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="obf-UP-jl5" firstAttribute="top" secondItem="cw2-xF-JIQ" secondAttribute="bottom" constant="34" id="AZ4-Cc-qHL"/>
                             <constraint firstItem="cw2-xF-JIQ" firstAttribute="top" secondItem="gCL-VB-pxL" secondAttribute="top" constant="163" id="Bly-tA-IX5"/>
+                            <constraint firstItem="obf-UP-jl5" firstAttribute="top" secondItem="9by-OQ-MLL" secondAttribute="bottom" constant="-3" id="Ehb-Pa-iRe"/>
                             <constraint firstItem="cw2-xF-JIQ" firstAttribute="leading" secondItem="WKa-Fj-ZRL" secondAttribute="leading" id="Evs-Rs-Zcz"/>
                             <constraint firstItem="a9j-vR-EwU" firstAttribute="top" secondItem="d45-VJ-eqf" secondAttribute="bottom" constant="24" id="G24-i6-R2g"/>
                             <constraint firstItem="WKa-Fj-ZRL" firstAttribute="top" secondItem="a9j-vR-EwU" secondAttribute="bottom" constant="19" id="KdX-WZ-QBW"/>
+                            <constraint firstItem="9by-OQ-MLL" firstAttribute="centerX" secondItem="gCL-VB-pxL" secondAttribute="centerX" id="Wwl-df-qKX"/>
+                            <constraint firstItem="obf-UP-jl5" firstAttribute="bottom" secondItem="kQb-JN-Ooo" secondAttribute="top" id="akK-mY-B9T"/>
                             <constraint firstItem="a9j-vR-EwU" firstAttribute="centerX" secondItem="WKa-Fj-ZRL" secondAttribute="centerX" id="cES-61-McC"/>
                             <constraint firstItem="cw2-xF-JIQ" firstAttribute="top" secondItem="WKa-Fj-ZRL" secondAttribute="bottom" constant="8" symbolic="YES" id="cyJ-C0-PAI"/>
                             <constraint firstItem="cw2-xF-JIQ" firstAttribute="trailing" secondItem="WKa-Fj-ZRL" secondAttribute="trailing" id="gTZ-uk-wqN"/>
+                            <constraint firstItem="9by-OQ-MLL" firstAttribute="leading" secondItem="obf-UP-jl5" secondAttribute="leading" id="h1K-Vu-z54"/>
+                            <constraint firstItem="obf-UP-jl5" firstAttribute="leading" secondItem="gCL-VB-pxL" secondAttribute="leading" id="jdc-zq-rib"/>
                             <constraint firstItem="cw2-xF-JIQ" firstAttribute="leading" secondItem="gCL-VB-pxL" secondAttribute="leadingMargin" constant="-4" id="qDY-aU-f1J"/>
                             <constraint firstItem="WKa-Fj-ZRL" firstAttribute="trailing" secondItem="gCL-VB-pxL" secondAttribute="trailingMargin" constant="4" id="uxW-PJ-LgS"/>
+                            <constraint firstItem="obf-UP-jl5" firstAttribute="centerX" secondItem="gCL-VB-pxL" secondAttribute="centerX" id="woI-8b-vuv"/>
+                            <constraint firstItem="9by-OQ-MLL" firstAttribute="top" secondItem="cw2-xF-JIQ" secondAttribute="bottom" constant="16" id="znn-g5-eew"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
