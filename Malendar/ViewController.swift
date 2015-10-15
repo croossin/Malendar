@@ -91,15 +91,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.eventStore = EKEventStore()
 
         self.navigationItem.titleView = dropDownMenuView
-        var nib = UINib(nibName: "EventTableViewCell", bundle: nil)
         
+        var nib = UINib(nibName: "EventTableViewCell", bundle: nil)
         self.tableView.registerNib(nib, forCellReuseIdentifier: "customCell")
-//        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        
+        
     }
     
     override func viewDidAppear(animated: Bool) {
         // Check whether we are authorized to access Calendar
         self.checkEventStoreAccessForCalendar()
+        reloadTable()
     }
     
     override func viewDidLayoutSubviews() {
@@ -149,8 +151,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
+    
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
         print("You selected cell #\(indexPath.row)!")
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 80
     }
     
     func reloadTable(){
@@ -253,7 +260,7 @@ extension ViewController: CVCalendarViewDelegate, CVCalendarMenuViewDelegate {
         // Fetch all events happening in the next 24 hours and put them into eventsList
         let currentDate = calendarView.presentedDate.convertedDate()
         self.eventsList = self.fetchEvents(currentDate!)
-        print(eventsList)
+
         // Update the UI with the above events
         reloadTable()
     }
