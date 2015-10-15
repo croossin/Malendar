@@ -9,6 +9,35 @@
 import UIKit
 import EventKit
 
+class EventTableViewCell : UITableViewCell {
+    @IBOutlet weak var eventTitle: UILabel!
+    @IBOutlet weak var eventNote: UILabel!
+    @IBOutlet weak var eventStart: UILabel!
+    @IBOutlet weak var eventEnd: UILabel!
+    
+    
+    
+    func loadItem(title: String, note: String, start: NSDate, end: NSDate) {
+        
+        var dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "hh:mm"
+        if(!title.isEmpty){
+            eventTitle.text = title
+        }else{
+            eventTitle.text = "Missing Title..."
+        }
+        
+        if(!note.isEmpty){
+            eventNote.text = note
+        }else{
+            eventNote.text = "No note for this event.."
+        }
+        eventStart.text = dateFormatter.stringFromDate(start)
+        eventEnd.text = dateFormatter.stringFromDate(end)
+    }
+
+}
+
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     @IBOutlet weak var monthLabel: UILabel!
@@ -62,7 +91,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.eventStore = EKEventStore()
 
         self.navigationItem.titleView = dropDownMenuView
-        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        var nib = UINib(nibName: "EventTableViewCell", bundle: nil)
+        
+        self.tableView.registerNib(nib, forCellReuseIdentifier: "customCell")
+//        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -101,8 +133,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell:UITableViewCell = self.tableView.dequeueReusableCellWithIdentifier("cell") as! UITableViewCell!
-        cell.textLabel?.text = self.eventsList[indexPath.row].title
+        var cell:EventTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("customCell") as! EventTableViewCell!
+        
+        let cellTitle = self.eventsList[indexPath.row].title
+        let cellNote = self.eventsList[indexPath.row].notes
+        let cellStart = self.eventsList[indexPath.row].startDate
+        let cellEnd = self.eventsList[indexPath.row].endDate
+        
+        print(cellTitle)
+        print(cellNote)
+        print(cellStart)
+        print(cellEnd)
+        cell.loadItem(cellTitle, note: cellNote!, start: cellStart, end: cellEnd)
+        
         return cell
     }
     
@@ -206,11 +249,11 @@ extension ViewController: CVCalendarViewDelegate, CVCalendarMenuViewDelegate {
     func didSelectDayView(dayView: CVCalendarDayView) {
         let date = dayView.date
         print("\(calendarView.presentedDate.commonDescription) is selected!")
-        tableViewContents.removeAll()
-        tableViewContents.append(calendarView.presentedDate.commonDescription)
+        
         // Fetch all events happening in the next 24 hours and put them into eventsList
         let currentDate = calendarView.presentedDate.convertedDate()
         self.eventsList = self.fetchEvents(currentDate!)
+        print(eventsList)
         // Update the UI with the above events
         reloadTable()
     }

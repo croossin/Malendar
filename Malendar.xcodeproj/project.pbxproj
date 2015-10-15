@@ -42,6 +42,7 @@
 		8C3F0AC61BCEF106009E172E /* CVWeekdaySymbolType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3F0AAB1BCEF106009E172E /* CVWeekdaySymbolType.swift */; settings = {ASSET_TAGS = (); }; };
 		8C3F0ACC1BCF0822009E172E /* BTNavigationDropdownMenu.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8C3F0ACA1BCF0822009E172E /* BTNavigationDropdownMenu.bundle */; settings = {ASSET_TAGS = (); }; };
 		8C3F0ACD1BCF0822009E172E /* BTNavigationDropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3F0ACB1BCF0822009E172E /* BTNavigationDropdownMenu.swift */; settings = {ASSET_TAGS = (); }; };
+		8CC29BBB1BD01D3800ECB9C3 /* EventTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CC29BBA1BD01D3800ECB9C3 /* EventTableViewCell.xib */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +83,7 @@
 		8C3F0AAB1BCEF106009E172E /* CVWeekdaySymbolType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVWeekdaySymbolType.swift; sourceTree = "<group>"; };
 		8C3F0ACA1BCF0822009E172E /* BTNavigationDropdownMenu.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = BTNavigationDropdownMenu.bundle; sourceTree = "<group>"; };
 		8C3F0ACB1BCF0822009E172E /* BTNavigationDropdownMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTNavigationDropdownMenu.swift; sourceTree = "<group>"; };
+		8CC29BBA1BD01D3800ECB9C3 /* EventTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 				8C3F0A8F1BCEF0EF009E172E /* Frameworks */,
 				8C3F0A7A1BCEF05C009E172E /* AppDelegate.swift */,
 				8C3F0A7C1BCEF05C009E172E /* ViewController.swift */,
+				8CC29BBA1BD01D3800ECB9C3 /* EventTableViewCell.xib */,
 				8C3F0A7E1BCEF05C009E172E /* Main.storyboard */,
 				8C3F0A841BCEF05C009E172E /* Assets.xcassets */,
 				8C3F0A861BCEF05C009E172E /* LaunchScreen.storyboard */,
@@ -235,6 +238,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8CC29BBB1BD01D3800ECB9C3 /* EventTableViewCell.xib in Resources */,
 				8C3F0A881BCEF05C009E172E /* LaunchScreen.storyboard in Resources */,
 				8C3F0A851BCEF05C009E172E /* Assets.xcassets in Resources */,
 				8C3F0A801BCEF05C009E172E /* Main.storyboard in Resources */,
@@ -427,6 +431,7 @@
 				8C3F0A8E1BCEF05C009E172E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
