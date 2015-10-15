@@ -90,17 +90,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Initialize the event store
         self.eventStore = EKEventStore()
 
+        //Initialize dropdown menu
         self.navigationItem.titleView = dropDownMenuView
         
+        //Set up custom cell
         var nib = UINib(nibName: "EventTableViewCell", bundle: nil)
         self.tableView.registerNib(nib, forCellReuseIdentifier: "customCell")
-        
-        
     }
     
     override func viewDidAppear(animated: Bool) {
         // Check whether we are authorized to access Calendar
         self.checkEventStoreAccessForCalendar()
+        self.eventsList = self.fetchEvents(NSDate())
         reloadTable()
     }
     
@@ -142,10 +143,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let cellStart = self.eventsList[indexPath.row].startDate
         let cellEnd = self.eventsList[indexPath.row].endDate
         
-        print(cellTitle)
-        print(cellNote)
-        print(cellStart)
-        print(cellEnd)
         cell.loadItem(cellTitle, note: cellNote!, start: cellStart, end: cellEnd)
         
         return cell
