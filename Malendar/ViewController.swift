@@ -22,6 +22,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var tableViewContents: [String] = []
     
+    var eventStore: EKEventStore!
+    
+    var defaultCalendar: EKCalendar!
+    
+    var eventsList: [EKEvent] = []
+    
     var dropDownMenuView: BTNavigationDropdownMenu!
     
     override func viewDidLoad() {
@@ -52,9 +58,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.dealWithNavBarSelection(indexPath)
         }
        
+        // Initialize the event store
+        self.eventStore = EKEventStore()
 
         self.navigationItem.titleView = dropDownMenuView
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        // Check whether we are authorized to access Calendar
+        self.checkEventStoreAccessForCalendar()
     }
     
     override func viewDidLayoutSubviews() {
@@ -84,12 +97,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.tableViewContents.count;
+        return self.eventsList.count;
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell:UITableViewCell = self.tableView.dequeueReusableCellWithIdentifier("cell") as! UITableViewCell!
-        cell.textLabel?.text = self.tableViewContents[indexPath.row]
+        cell.textLabel?.text = self.eventsList[indexPath.row].title
         return cell
     }
     
@@ -102,6 +115,66 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.tableView.reloadData()
         })
     }
+    
+    // Fetch all events happening in the next 24 hours
+    private func fetchEvents(givenStartDate: NSDate) -> [EKEvent] {
+        let startDate = givenStartDate
+        
+        //Create the end date components
+        let tomorrowDateComponents = NSDateComponents()
+        tomorrowDateComponents.day = 1
+        
+        let endDate = NSCalendar.currentCalendar().dateByAddingComponents(tomorrowDateComponents,
+            toDate: startDate,
+            options: [])!
+        // We will only search the default calendar for our events
+        let calendarArray: [EKCalendar] = [self.defaultCalendar]
+        
+        // Create the predicate
+        let predicate = self.eventStore.predicateForEventsWithStartDate(startDate,
+            endDate: endDate,
+            calendars: calendarArray)
+        
+        // Fetch all events that match the predicate
+        let events = self.eventStore.eventsMatchingPredicate(predicate)
+        
+        return events
+    }
+    
+    // Check the authorization status of our application for Calendar
+    private func checkEventStoreAccessForCalendar() {
+        let status = EKEventStore.authorizationStatusForEntityType(EKEntityType.Event)
+        
+        switch status {
+            // Update our UI if the user has granted access to their Calendar
+        case .Authorized: self.defaultCalendar = self.eventStore.defaultCalendarForNewEvents
+            // Prompt the user for access to Calendar if there is no definitive answer
+        case .NotDetermined: self.requestCalendarAccess()
+            // Display a message if the user has denied or restricted access to Calendar
+        case .Denied, .Restricted:
+            print("denied")
+        }
+    }
+    
+    // Prompt the user for access to their Calendar
+    private func requestCalendarAccess() {
+        self.eventStore.requestAccessToEntityType(.Event) {[weak self] granted, error in
+            if granted {
+                // Let's ensure that our code will be executed from the main queue
+                dispatch_async(dispatch_get_main_queue()) {
+                    // The user has granted access to their Calendar; let's populate our UI with all events occuring in the next 24 hours.
+                    self?.accessGrantedForCalendar()
+                }
+            }
+        }
+    }
+    
+    // This method is called when the user has granted permission to Calendar
+    private func accessGrantedForCalendar() {
+        // Let's get the default calendar associated with our event store
+        self.defaultCalendar = self.eventStore.defaultCalendarForNewEvents
+    }
+    
 }
 
 
@@ -135,6 +208,10 @@ extension ViewController: CVCalendarViewDelegate, CVCalendarMenuViewDelegate {
         print("\(calendarView.presentedDate.commonDescription) is selected!")
         tableViewContents.removeAll()
         tableViewContents.append(calendarView.presentedDate.commonDescription)
+        // Fetch all events happening in the next 24 hours and put them into eventsList
+        let currentDate = calendarView.presentedDate.convertedDate()
+        self.eventsList = self.fetchEvents(currentDate!)
+        // Update the UI with the above events
         reloadTable()
     }
     
