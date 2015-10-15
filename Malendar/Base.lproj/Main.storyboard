@@ -51,6 +51,10 @@
                                 <rect key="frame" x="0.0" y="472" width="600" height="128"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Zys-73-7dp" id="zB2-gn-L3U"/>
+                                    <outlet property="delegate" destination="Zys-73-7dp" id="mLY-n9-3vk"/>
+                                </connections>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Todays Agenda:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9by-OQ-MLL">
                                 <rect key="frame" x="0.0" y="454" width="600" height="21"/>
@@ -114,6 +118,7 @@
                         <outlet property="calendarView" destination="cw2-xF-JIQ" id="b6T-PN-snO"/>
                         <outlet property="menuView" destination="WKa-Fj-ZRL" id="mEE-3L-E6Q"/>
                         <outlet property="monthLabel" destination="a9j-vR-EwU" id="RUj-CL-dUd"/>
+                        <outlet property="tableView" destination="obf-UP-jl5" id="Zql-G4-YSw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aib-rF-tqg" sceneMemberID="firstResponder"/>

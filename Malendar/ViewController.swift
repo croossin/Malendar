@@ -8,14 +8,18 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     @IBOutlet weak var monthLabel: UILabel!
     @IBOutlet weak var menuView: CVCalendarMenuView!
     @IBOutlet weak var calendarView: CVCalendarView!
+    @IBOutlet weak var tableView: UITableView!
+    
 
     var shouldShowDaysOut = true
     var animationFinished = true
+    
+    var test: [String] = ["We", "Heart", "Swift"]
     
     var dropDownMenuView: BTNavigationDropdownMenu!
     
@@ -46,8 +50,10 @@ class ViewController: UIViewController {
             print("Did select item at index: \(indexPath)")
             self.dealWithNavBarSelection(indexPath)
         }
+       
         
         self.navigationItem.titleView = dropDownMenuView
+        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
     override func viewDidLayoutSubviews() {
@@ -74,7 +80,24 @@ class ViewController: UIViewController {
             print("week view")
         }
     }
-
+    
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(self.test.count)
+        return self.test.count;
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        var cell:UITableViewCell = self.tableView.dequeueReusableCellWithIdentifier("cell") as! UITableViewCell!
+        
+        cell.textLabel?.text = self.test[indexPath.row]
+        
+        return cell
+    }
+    
+    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+        print("You selected cell #\(indexPath.row)!")
+    }
 }
 
 
