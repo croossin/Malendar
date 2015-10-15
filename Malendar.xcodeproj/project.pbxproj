@@ -43,6 +43,7 @@
 		8C3F0ACC1BCF0822009E172E /* BTNavigationDropdownMenu.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8C3F0ACA1BCF0822009E172E /* BTNavigationDropdownMenu.bundle */; settings = {ASSET_TAGS = (); }; };
 		8C3F0ACD1BCF0822009E172E /* BTNavigationDropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3F0ACB1BCF0822009E172E /* BTNavigationDropdownMenu.swift */; settings = {ASSET_TAGS = (); }; };
 		8CC29BBB1BD01D3800ECB9C3 /* EventTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CC29BBA1BD01D3800ECB9C3 /* EventTableViewCell.xib */; settings = {ASSET_TAGS = (); }; };
+		8CC29BBD1BD0518D00ECB9C3 /* SCLAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC29BBC1BD0518D00ECB9C3 /* SCLAlertView.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +85,7 @@
 		8C3F0ACA1BCF0822009E172E /* BTNavigationDropdownMenu.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = BTNavigationDropdownMenu.bundle; sourceTree = "<group>"; };
 		8C3F0ACB1BCF0822009E172E /* BTNavigationDropdownMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTNavigationDropdownMenu.swift; sourceTree = "<group>"; };
 		8CC29BBA1BD01D3800ECB9C3 /* EventTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventTableViewCell.xib; sourceTree = "<group>"; };
+		8CC29BBC1BD0518D00ECB9C3 /* SCLAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCLAlertView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 		8C3F0A8F1BCEF0EF009E172E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8CC29BBC1BD0518D00ECB9C3 /* SCLAlertView.swift */,
 				8C3F0AC91BCF0818009E172E /* BTNavigation */,
 				8C3F0A901BCEF106009E172E /* CVCalendar */,
 			);
@@ -255,6 +258,7 @@
 			files = (
 				8C3F0ACD1BCF0822009E172E /* BTNavigationDropdownMenu.swift in Sources */,
 				8C3F0AB01BCEF106009E172E /* CVCalendarManager.swift in Sources */,
+				8CC29BBD1BD0518D00ECB9C3 /* SCLAlertView.swift in Sources */,
 				8C3F0AC61BCEF106009E172E /* CVWeekdaySymbolType.swift in Sources */,
 				8C3F0AAC1BCEF106009E172E /* CVAuxiliaryView.swift in Sources */,
 				8C3F0AB91BCEF106009E172E /* CVCalendarViewAppearance.swift in Sources */,

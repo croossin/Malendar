@@ -136,7 +136,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell:EventTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("customCell") as! EventTableViewCell!
+        let cell:EventTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("customCell") as! EventTableViewCell!
         
         let cellTitle = self.eventsList[indexPath.row].title
         let cellNote = self.eventsList[indexPath.row].notes
@@ -148,8 +148,35 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            let alertView = SCLAlertView()
+            alertView.addButton("Yes"){
+                
+                tableView.beginUpdates()
+                
+               //actually delete calendar event
+                do{
+                    try self.eventStore.removeEvent(self.eventsList[indexPath.row], span: .ThisEvent)
+                } catch{
+                    print(error)
+                }
+                
+                //update table to reflect delete
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                self.eventsList.removeAtIndex(indexPath.row)
+                tableView.endUpdates()
+            }
+            alertView.addButton("No") {
+                self.reloadTable()
+            }
+            alertView.showCloseButton = false
+            alertView.showWarning("Delete?", subTitle: "Are you sure you want to delete this event?")
+        }
+    }
     
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         print("You selected cell #\(indexPath.row)!")
     }
     
