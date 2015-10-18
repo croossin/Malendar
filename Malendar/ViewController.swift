@@ -188,7 +188,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         deleteAction.backgroundColor = UIColor.redColor()
         editAction.backgroundColor = UIColor.grayColor()
-        return [editAction, deleteAction]
+        return [deleteAction, editAction]
     }
     
     
@@ -463,6 +463,15 @@ class NativeEventNavigationController: UINavigationController, RowControllerType
 
 class NativeEventFormViewController : FormViewController {
     
+    var defaultCalendar: EKCalendar!
+    var eventStore: EKEventStore!
+    var eventTitle: String =  ""
+    var eventLocation: String = ""
+    var eventAllday: Bool = false
+    var eventStart: NSDate = NSDate()
+    var eventEnd: NSDate = NSDate()
+    var eventNotes: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.leftBarButtonItem?.target = self
@@ -472,8 +481,11 @@ class NativeEventFormViewController : FormViewController {
         self.navigationItem.rightBarButtonItem?.action = "addEvent:"
         
         initializeForm()
-       
+        // Initialize the event store
+        self.eventStore = EKEventStore()
+        self.checkEventStoreAccessForCalendar()
     }
+    
     
     private func initializeForm() {
         
@@ -481,10 +493,15 @@ class NativeEventFormViewController : FormViewController {
             
             TextRow("Title").cellSetup { cell, row in
                 cell.textField.placeholder = row.tag
+                }.onChange { [weak self] row in
+                    self!.eventTitle = row.value as String!
             }
+            
             
             <<< TextRow("Location").cellSetup {
                 $0.cell.textField.placeholder = $0.row.tag
+                }.onChange { [weak self] row in
+                    self!.eventLocation = row.value as String!
             }
             
             +++
@@ -511,6 +528,7 @@ class NativeEventFormViewController : FormViewController {
                     endDate.updateCell()
                     startDate.inlineRow?.updateCell()
                     endDate.inlineRow?.updateCell()
+                    self!.eventAllday = row.value as Bool!
             }
             
             <<< DateTimeInlineRow("Starts") {
@@ -524,6 +542,7 @@ class NativeEventFormViewController : FormViewController {
                         endRow.cell!.backgroundColor = .whiteColor()
                         endRow.updateCell()
                     }
+                    self!.eventStart = row.value as NSDate!
                 }
                 .onExpandInlineRow { cell, row, inlineRow in
                     inlineRow.cellUpdate { [weak self] cell, dateRow in
@@ -540,6 +559,7 @@ class NativeEventFormViewController : FormViewController {
                         cell.detailTextLabel?.textColor = color
                     }
                     cell.detailTextLabel?.textColor = cell.tintColor
+                    
             }
             
             <<< DateTimeInlineRow("Ends"){
@@ -555,6 +575,7 @@ class NativeEventFormViewController : FormViewController {
                         row.cell!.backgroundColor = .whiteColor()
                     }
                     row.updateCell()
+                    self!.eventEnd = row.value as NSDate!
                 }
                 .onExpandInlineRow { cell, row, inlineRow in
                     inlineRow.cellUpdate { [weak self] cell, dateRow in
@@ -575,53 +596,10 @@ class NativeEventFormViewController : FormViewController {
         
         form +++=
             
-            PushRow<RepeatInterval>("Repeat") {
-                $0.title = $0.tag
-                $0.options = RepeatInterval.allValues
-                $0.value = .Never
-        }
-        
-        form +++=
-            
-            PushRow<EventAlert>() {
-                $0.title = "Alert"
-                $0.options = EventAlert.allValues
-                $0.value = .Never
-                }
-                .onChange { [weak self] row in
-                    if row.value == .Never {
-                        if let second : PushRow<EventAlert> = self?.form.rowByTag("Another Alert"), let secondIndexPath = second.indexPath() {
-                            row.section?.removeAtIndex(secondIndexPath.row)
-                        }
-                    }
-                    else{
-                        guard let _ : PushRow<EventAlert> = self?.form.rowByTag("Another Alert") else {
-                            let second = PushRow<EventAlert>("Another Alert") {
-                                $0.title = $0.tag
-                                $0.value = .Never
-                                $0.options = EventAlert.allValues
-                            }
-                            row.section?.insert(second, atIndex: row.indexPath()!.row + 1)
-                            return
-                        }
-                    }
-        }
-        
-        form +++=
-            
-            PushRow<EventState>("Show As") {
-                $0.title = "Show As"
-                $0.options = EventState.allValues
-        }
-        
-        form +++=
-            
-            URLRow("URL") {
-                $0.placeholder = "URL"
-            }
-            
-            <<< TextAreaRow("notes") {
+            TextAreaRow("notes") {
                 $0.placeholder = "Notes"
+            }.onChange { [weak self] row in
+                self!.eventNotes = row.value as String!
         }
         
     }
@@ -631,7 +609,23 @@ class NativeEventFormViewController : FormViewController {
     }
     
     func addEvent(barButtonItem: UIBarButtonItem) {
-        print("add event")
+        let event:EKEvent = EKEvent(eventStore: eventStore)
+        
+        event.title = eventTitle
+        event.startDate = eventStart
+        event.endDate = eventEnd
+        event.notes = eventNotes
+        event.allDay = eventAllday
+        event.location = eventLocation
+        event.calendar = eventStore.defaultCalendarForNewEvents
+        do{
+            try self.eventStore.saveEvent(event, span: .ThisEvent)
+            
+        }catch{
+            print(error)
+        }
+        print("Saved Event")
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     enum RepeatInterval : String, CustomStringConvertible {
@@ -668,5 +662,39 @@ class NativeEventFormViewController : FormViewController {
         case Free
         
         static let allValues = [Busy, Free]
+    }
+    
+    // Check the authorization status of our application for Calendar
+    private func checkEventStoreAccessForCalendar() {
+        let status = EKEventStore.authorizationStatusForEntityType(EKEntityType.Event)
+        
+        switch status {
+            // Update our UI if the user has granted access to their Calendar
+        case .Authorized: self.defaultCalendar = self.eventStore.defaultCalendarForNewEvents
+            // Prompt the user for access to Calendar if there is no definitive answer
+        case .NotDetermined: self.requestCalendarAccess()
+            // Display a message if the user has denied or restricted access to Calendar
+        case .Denied, .Restricted:
+            print("denied")
+        }
+    }
+    
+    // Prompt the user for access to their Calendar
+    private func requestCalendarAccess() {
+        self.eventStore.requestAccessToEntityType(.Event) {[weak self] granted, error in
+            if granted {
+                // Let's ensure that our code will be executed from the main queue
+                dispatch_async(dispatch_get_main_queue()) {
+                    // The user has granted access to their Calendar; let's populate our UI with all events occuring in the next 24 hours.
+                    self?.accessGrantedForCalendar()
+                }
+            }
+        }
+    }
+    
+    // This method is called when the user has granted permission to Calendar
+    private func accessGrantedForCalendar() {
+        // Let's get the default calendar associated with our event store
+        self.defaultCalendar = self.eventStore.defaultCalendarForNewEvents
     }
 }
