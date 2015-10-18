@@ -457,15 +457,22 @@ extension ViewController {
     }
 }
 
+class NativeEventNavigationController: UINavigationController, RowControllerType {
+    var completionCallback : ((UIViewController) -> ())?
+}
+
 class NativeEventFormViewController : FormViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        initializeForm()
-        
         self.navigationItem.leftBarButtonItem?.target = self
         self.navigationItem.leftBarButtonItem?.action = "cancelTapped:"
+        
+        self.navigationItem.rightBarButtonItem?.target = self
+        self.navigationItem.rightBarButtonItem?.action = "addEvent:"
+        
+        initializeForm()
+       
     }
     
     private func initializeForm() {
@@ -617,6 +624,14 @@ class NativeEventFormViewController : FormViewController {
                 $0.placeholder = "Notes"
         }
         
+    }
+    
+    func cancelTapped(barButtonItem: UIBarButtonItem) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func addEvent(barButtonItem: UIBarButtonItem) {
+        print("add event")
     }
     
     enum RepeatInterval : String, CustomStringConvertible {

@@ -113,7 +113,7 @@
                                 <size key="titleShadowOffset" width="2.2250738585072014e-308" height="0.0"/>
                                 <state key="normal" title="Add +"/>
                                 <connections>
-                                    <segue destination="vGM-b3-cLt" kind="show" id="UeW-iM-V7Q"/>
+                                    <segue destination="xHO-wp-s4T" kind="show" id="SKi-Tt-mwi"/>
                                 </connections>
                             </button>
                         </barButtonItem>
@@ -147,19 +147,19 @@
             <point key="canvasLocation" x="-366" y="293"/>
         </scene>
         <!--Add Event-->
-        <scene sceneID="IC4-Cb-AML">
+        <scene sceneID="z2s-br-WWU">
             <objects>
-                <viewController id="vGM-b3-cLt" customClass="NativeEventFormViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="VTd-V7-qk4" customClass="NativeEventFormViewController" customModule="Malendar" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="3gb-pH-cGW"/>
-                        <viewControllerLayoutGuide type="bottom" id="6wl-Qb-1zP"/>
+                        <viewControllerLayoutGuide type="top" id="xlH-Sl-Z0s"/>
+                        <viewControllerLayoutGuide type="bottom" id="VrP-4z-Qyl"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="2xo-kV-dqF">
+                    <view key="view" contentMode="scaleToFill" id="C2a-QE-URh">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="1b8-0y-OKD">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="568"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="DXG-8g-ogb">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                             </tableView>
@@ -167,22 +167,42 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="1b8-0y-OKD" secondAttribute="trailing" id="UDt-3c-hoz"/>
-                            <constraint firstItem="6wl-Qb-1zP" firstAttribute="top" secondItem="1b8-0y-OKD" secondAttribute="bottom" id="abu-xb-5Ie"/>
-                            <constraint firstItem="1b8-0y-OKD" firstAttribute="top" secondItem="3gb-pH-cGW" secondAttribute="bottom" constant="-64" id="acj-gY-3aO"/>
-                            <constraint firstItem="1b8-0y-OKD" firstAttribute="leading" secondItem="2xo-kV-dqF" secondAttribute="leading" id="bFM-A9-BYE"/>
+                            <constraint firstItem="DXG-8g-ogb" firstAttribute="leading" secondItem="C2a-QE-URh" secondAttribute="leading" id="KuM-yU-wsE"/>
+                            <constraint firstAttribute="trailing" secondItem="DXG-8g-ogb" secondAttribute="trailing" id="Mcx-x1-nzu"/>
+                            <constraint firstItem="DXG-8g-ogb" firstAttribute="top" secondItem="xlH-Sl-Z0s" secondAttribute="bottom" constant="-64" id="fwZ-4P-GVk"/>
+                            <constraint firstItem="VrP-4z-Qyl" firstAttribute="top" secondItem="DXG-8g-ogb" secondAttribute="bottom" id="hvw-MB-9U9"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Add Event" id="jXj-ml-hoQ">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Alm-G4-4kr"/>
+                    <navigationItem key="navigationItem" title="Add Event" id="1kb-Eg-l6d">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="g4g-nf-Cla"/>
+                        <barButtonItem key="rightBarButtonItem" title="Add Event" id="MoY-c9-aVR" userLabel="Add Event"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="tableView" destination="1b8-0y-OKD" id="dlT-Ce-pqq"/>
+                        <outlet property="tableView" destination="DXG-8g-ogb" id="fYm-H5-I7q"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0im-qs-IoR" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dcs-xw-tq3" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1120" y="325"/>
+            <point key="canvasLocation" x="1690" y="315"/>
+        </scene>
+        <!--Native Event Navigation Controller-->
+        <scene sceneID="bbr-yf-12j">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xHO-wp-s4T" customClass="NativeEventNavigationController" customModule="Malendar" customModuleProvider="target" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Thb-FZ-xQv">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="VTd-V7-qk4" kind="relationship" relationship="rootViewController" id="9id-Oe-xlJ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sqw-rz-a2n" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1043" y="309"/>
         </scene>
     </scenes>
 </document>
