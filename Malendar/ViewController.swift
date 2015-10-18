@@ -17,20 +17,17 @@ class EventTableViewCell : UITableViewCell {
     
     
     
-    func loadItem(title: String, note: String, start: NSDate, end: NSDate) {
+    func loadItem(title: String, note: String?, start: NSDate, end: NSDate) {
         
         var dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "hh:mm"
-        if(!title.isEmpty){
-            eventTitle.text = title
-        }else{
-            eventTitle.text = "Missing Title..."
-        }
+    
         
-        if(!note.isEmpty){
-            eventNote.text = note
+        eventTitle.text = title
+        if(note != nil){
+           eventNote.text = note
         }else{
-            eventNote.text = "No note for this event.."
+            eventNote.text = "No note..."
         }
         eventStart.text = dateFormatter.stringFromDate(start)
         eventEnd.text = dateFormatter.stringFromDate(end)
@@ -144,8 +141,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let cellStart = self.eventsList[indexPath.row].startDate
         let cellEnd = self.eventsList[indexPath.row].endDate
         
-        
-        cell.loadItem(cellTitle, note: cellNote!, start: cellStart, end: cellEnd)
+        cell.loadItem(cellTitle, note: cellNote, start: cellStart, end: cellEnd)
         
         return cell
     }
