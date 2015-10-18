@@ -113,9 +113,7 @@
                                 <size key="titleShadowOffset" width="2.2250738585072014e-308" height="0.0"/>
                                 <state key="normal" title="Add +"/>
                                 <connections>
-                                    <segue destination="9eN-Kp-kgt" kind="popoverPresentation" popoverAnchorView="VWf-H4-5FP" id="LP0-uc-7cm">
-                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                    </segue>
+                                    <segue destination="vGM-b3-cLt" kind="show" id="UeW-iM-V7Q"/>
                                 </connections>
                             </button>
                         </barButtonItem>
@@ -130,27 +128,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aib-rF-tqg" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="360" y="293"/>
-        </scene>
-        <!--Popover View Controller-->
-        <scene sceneID="tsK-9U-anb">
-            <objects>
-                <viewController id="9eN-Kp-kgt" customClass="PopoverViewController" customModule="Malendar" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="v33-uF-hia"/>
-                        <viewControllerLayoutGuide type="bottom" id="wY3-06-M0u"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="pZz-tz-cBD">
-                        <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
-                        <color key="backgroundColor" red="0.26422333717346191" green="0.91602712869644165" blue="0.87323981523513794" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </view>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="150" height="150"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="yBK-dj-D42" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="899" y="179"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="mwq-FZ-Nsd">
@@ -168,6 +145,44 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="onB-Df-4KB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-366" y="293"/>
+        </scene>
+        <!--Add Event-->
+        <scene sceneID="IC4-Cb-AML">
+            <objects>
+                <viewController id="vGM-b3-cLt" customClass="NativeEventFormViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3gb-pH-cGW"/>
+                        <viewControllerLayoutGuide type="bottom" id="6wl-Qb-1zP"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2xo-kV-dqF">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="1b8-0y-OKD">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="568"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                            </tableView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="1b8-0y-OKD" secondAttribute="trailing" id="UDt-3c-hoz"/>
+                            <constraint firstItem="6wl-Qb-1zP" firstAttribute="top" secondItem="1b8-0y-OKD" secondAttribute="bottom" id="abu-xb-5Ie"/>
+                            <constraint firstItem="1b8-0y-OKD" firstAttribute="top" secondItem="3gb-pH-cGW" secondAttribute="bottom" constant="-64" id="acj-gY-3aO"/>
+                            <constraint firstItem="1b8-0y-OKD" firstAttribute="leading" secondItem="2xo-kV-dqF" secondAttribute="leading" id="bFM-A9-BYE"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Add Event" id="jXj-ml-hoQ">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Alm-G4-4kr"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="1b8-0y-OKD" id="dlT-Ce-pqq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0im-qs-IoR" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1120" y="325"/>
         </scene>
     </scenes>
 </document>

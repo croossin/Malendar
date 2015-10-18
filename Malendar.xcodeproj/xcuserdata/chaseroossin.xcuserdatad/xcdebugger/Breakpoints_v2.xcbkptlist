@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "327"
             endingLineNumber = "327"
-            landmarkName = "didSelectDayView(_:)"
+            landmarkName = "presentedDateUpdated(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -31,7 +31,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "328"
             endingLineNumber = "328"
-            landmarkName = "didSelectDayView(_:)"
+            landmarkName = "presentedDateUpdated(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

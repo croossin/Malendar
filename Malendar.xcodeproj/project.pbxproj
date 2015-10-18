@@ -42,6 +42,11 @@
 		8C3F0AC61BCEF106009E172E /* CVWeekdaySymbolType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3F0AAB1BCEF106009E172E /* CVWeekdaySymbolType.swift */; settings = {ASSET_TAGS = (); }; };
 		8C3F0ACC1BCF0822009E172E /* BTNavigationDropdownMenu.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8C3F0ACA1BCF0822009E172E /* BTNavigationDropdownMenu.bundle */; settings = {ASSET_TAGS = (); }; };
 		8C3F0ACD1BCF0822009E172E /* BTNavigationDropdownMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3F0ACB1BCF0822009E172E /* BTNavigationDropdownMenu.swift */; settings = {ASSET_TAGS = (); }; };
+		8C8892841BD4474000F1763F /* Cells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C88927F1BD4474000F1763F /* Cells.swift */; settings = {ASSET_TAGS = (); }; };
+		8C8892851BD4474000F1763F /* Controllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8892801BD4474000F1763F /* Controllers.swift */; settings = {ASSET_TAGS = (); }; };
+		8C8892861BD4474000F1763F /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8892811BD4474000F1763F /* Core.swift */; settings = {ASSET_TAGS = (); }; };
+		8C8892871BD4474000F1763F /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8892821BD4474000F1763F /* Helpers.swift */; settings = {ASSET_TAGS = (); }; };
+		8C8892881BD4474000F1763F /* Rows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8892831BD4474000F1763F /* Rows.swift */; settings = {ASSET_TAGS = (); }; };
 		8CC29BBB1BD01D3800ECB9C3 /* EventTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CC29BBA1BD01D3800ECB9C3 /* EventTableViewCell.xib */; settings = {ASSET_TAGS = (); }; };
 		8CC29BBD1BD0518D00ECB9C3 /* SCLAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC29BBC1BD0518D00ECB9C3 /* SCLAlertView.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
@@ -84,6 +89,12 @@
 		8C3F0AAB1BCEF106009E172E /* CVWeekdaySymbolType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVWeekdaySymbolType.swift; sourceTree = "<group>"; };
 		8C3F0ACA1BCF0822009E172E /* BTNavigationDropdownMenu.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = BTNavigationDropdownMenu.bundle; sourceTree = "<group>"; };
 		8C3F0ACB1BCF0822009E172E /* BTNavigationDropdownMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BTNavigationDropdownMenu.swift; sourceTree = "<group>"; };
+		8C88927E1BD4474000F1763F /* Eureka.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Eureka.h; sourceTree = "<group>"; };
+		8C88927F1BD4474000F1763F /* Cells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cells.swift; sourceTree = "<group>"; };
+		8C8892801BD4474000F1763F /* Controllers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Controllers.swift; sourceTree = "<group>"; };
+		8C8892811BD4474000F1763F /* Core.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
+		8C8892821BD4474000F1763F /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		8C8892831BD4474000F1763F /* Rows.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rows.swift; sourceTree = "<group>"; };
 		8CC29BBA1BD01D3800ECB9C3 /* EventTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventTableViewCell.xib; sourceTree = "<group>"; };
 		8CC29BBC1BD0518D00ECB9C3 /* SCLAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCLAlertView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -134,6 +145,12 @@
 		8C3F0A8F1BCEF0EF009E172E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8C88927E1BD4474000F1763F /* Eureka.h */,
+				8C88927F1BD4474000F1763F /* Cells.swift */,
+				8C8892801BD4474000F1763F /* Controllers.swift */,
+				8C8892811BD4474000F1763F /* Core.swift */,
+				8C8892821BD4474000F1763F /* Helpers.swift */,
+				8C8892831BD4474000F1763F /* Rows.swift */,
 				8CC29BBC1BD0518D00ECB9C3 /* SCLAlertView.swift */,
 				8C3F0AC91BCF0818009E172E /* BTNavigation */,
 				8C3F0A901BCEF106009E172E /* CVCalendar */,
@@ -265,8 +282,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C3F0ACD1BCF0822009E172E /* BTNavigationDropdownMenu.swift in Sources */,
+				8C8892881BD4474000F1763F /* Rows.swift in Sources */,
 				8C3F0AB01BCEF106009E172E /* CVCalendarManager.swift in Sources */,
 				8CC29BBD1BD0518D00ECB9C3 /* SCLAlertView.swift in Sources */,
+				8C8892861BD4474000F1763F /* Core.swift in Sources */,
 				8C3F0AC61BCEF106009E172E /* CVWeekdaySymbolType.swift in Sources */,
 				8C3F0AAC1BCEF106009E172E /* CVAuxiliaryView.swift in Sources */,
 				8C3F0AB91BCEF106009E172E /* CVCalendarViewAppearance.swift in Sources */,
@@ -283,15 +302,18 @@
 				8C3F0AC21BCEF106009E172E /* CVScrollDirection.swift in Sources */,
 				8C3F0AAD1BCEF106009E172E /* CVCalendarContentViewController.swift in Sources */,
 				8C3F0AB31BCEF106009E172E /* CVCalendarMonthContentViewController.swift in Sources */,
+				8C8892841BD4474000F1763F /* Cells.swift in Sources */,
 				8C3F0A7D1BCEF05C009E172E /* ViewController.swift in Sources */,
 				8C3F0AB11BCEF106009E172E /* CVCalendarMenuView.swift in Sources */,
 				8C3F0A831BCEF05C009E172E /* Malendar.xcdatamodeld in Sources */,
+				8C8892851BD4474000F1763F /* Controllers.swift in Sources */,
 				8C3F0AB41BCEF106009E172E /* CVCalendarMonthView.swift in Sources */,
 				8C3F0AAF1BCEF106009E172E /* CVCalendarDayViewControlCoordinator.swift in Sources */,
 				8C3F0AB61BCEF106009E172E /* CVCalendarView.swift in Sources */,
 				8C3F0ABE1BCEF106009E172E /* CVCalendarWeekday.swift in Sources */,
 				8C3F0AAE1BCEF106009E172E /* CVCalendarDayView.swift in Sources */,
 				8C3F0AC11BCEF106009E172E /* CVRange.swift in Sources */,
+				8C8892871BD4474000F1763F /* Helpers.swift in Sources */,
 				8C3F0A7B1BCEF05C009E172E /* AppDelegate.swift in Sources */,
 				8C3F0AC51BCEF106009E172E /* CVShape.swift in Sources */,
 				8C3F0ABC1BCEF106009E172E /* CVCalendarViewPresentationMode.swift in Sources */,
