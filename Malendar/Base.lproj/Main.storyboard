@@ -106,7 +106,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="+" style="plain" id="a8D-PP-zLF">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="VWf-H4-5FP">
-                                <rect key="frame" x="447" y="7" width="133" height="30"/>
+                                <rect key="frame" x="440" y="7" width="140" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <animations/>
                                 <rect key="contentStretch" x="0.0" y="0.0" width="0.90000000000000002" height="1"/>
