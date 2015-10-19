@@ -145,12 +145,7 @@
 		8C3F0A8F1BCEF0EF009E172E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8C88927E1BD4474000F1763F /* Eureka.h */,
-				8C88927F1BD4474000F1763F /* Cells.swift */,
-				8C8892801BD4474000F1763F /* Controllers.swift */,
-				8C8892811BD4474000F1763F /* Core.swift */,
-				8C8892821BD4474000F1763F /* Helpers.swift */,
-				8C8892831BD4474000F1763F /* Rows.swift */,
+				8C8892891BD5683700F1763F /* Eureka */,
 				8CC29BBC1BD0518D00ECB9C3 /* SCLAlertView.swift */,
 				8C3F0AC91BCF0818009E172E /* BTNavigation */,
 				8C3F0A901BCEF106009E172E /* CVCalendar */,
@@ -199,6 +194,19 @@
 				8C3F0ACB1BCF0822009E172E /* BTNavigationDropdownMenu.swift */,
 			);
 			name = BTNavigation;
+			sourceTree = "<group>";
+		};
+		8C8892891BD5683700F1763F /* Eureka */ = {
+			isa = PBXGroup;
+			children = (
+				8C88927E1BD4474000F1763F /* Eureka.h */,
+				8C88927F1BD4474000F1763F /* Cells.swift */,
+				8C8892801BD4474000F1763F /* Controllers.swift */,
+				8C8892811BD4474000F1763F /* Core.swift */,
+				8C8892821BD4474000F1763F /* Helpers.swift */,
+				8C8892831BD4474000F1763F /* Rows.swift */,
+			);
+			name = Eureka;
 			sourceTree = "<group>";
 		};
 		8CC29BC01BD05F9E00ECB9C3 /* ViewControllers */ = {
