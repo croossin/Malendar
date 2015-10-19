@@ -146,7 +146,7 @@
             </objects>
             <point key="canvasLocation" x="-366" y="293"/>
         </scene>
-        <!--Add Event-->
+        <!--New Event-->
         <scene sceneID="z2s-br-WWU">
             <objects>
                 <viewController id="VTd-V7-qk4" customClass="NativeEventFormViewController" customModule="Malendar" customModuleProvider="target" sceneMemberID="viewController">
@@ -173,7 +173,7 @@
                             <constraint firstItem="VrP-4z-Qyl" firstAttribute="top" secondItem="DXG-8g-ogb" secondAttribute="bottom" id="hvw-MB-9U9"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Add Event" id="1kb-Eg-l6d">
+                    <navigationItem key="navigationItem" title="New Event" id="1kb-Eg-l6d">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="g4g-nf-Cla"/>
                         <barButtonItem key="rightBarButtonItem" title="Add Event" id="MoY-c9-aVR" userLabel="Add Event"/>
                     </navigationItem>
