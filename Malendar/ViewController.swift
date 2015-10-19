@@ -455,9 +455,12 @@ extension ViewController {
 
 class NativeEventNavigationController: UINavigationController, RowControllerType {
     var completionCallback : ((UIViewController) -> ())?
+    
+    
 }
 
 class NativeEventFormViewController : FormViewController {
+    
     
     var defaultCalendar: EKCalendar!
     var eventStore: EKEventStore!
@@ -487,6 +490,7 @@ class NativeEventFormViewController : FormViewController {
         
         form =
             
+        
             TextRow("Title").cellSetup { cell, row in
                 cell.textField.placeholder = row.tag
                 }.onChange { [weak self] row in
@@ -605,23 +609,29 @@ class NativeEventFormViewController : FormViewController {
     }
     
     func addEvent(barButtonItem: UIBarButtonItem) {
-        let event:EKEvent = EKEvent(eventStore: eventStore)
-        
-        event.title = eventTitle
-        event.startDate = eventStart
-        event.endDate = eventEnd
-        event.notes = eventNotes
-        event.allDay = eventAllday
-        event.location = eventLocation
-        event.calendar = eventStore.defaultCalendarForNewEvents
-        do{
-            try self.eventStore.saveEvent(event, span: .ThisEvent)
+        if(eventTitle == ""){
+            let alertView = SCLAlertView()
+            alertView.showCloseButton = true
+            alertView.showWarning("Title", subTitle: "Please include at least an event title.")
+        }else{
+            let event:EKEvent = EKEvent(eventStore: eventStore)
             
-        }catch{
-            print(error)
+            event.title = eventTitle
+            event.startDate = eventStart
+            event.endDate = eventEnd
+            event.notes = eventNotes
+            event.allDay = eventAllday
+            event.location = eventLocation
+            event.calendar = eventStore.defaultCalendarForNewEvents
+            do{
+                try self.eventStore.saveEvent(event, span: .ThisEvent)
+                
+            }catch{
+                print(error)
+            }
+            print("Saved Event")
+            self.dismissViewControllerAnimated(true, completion: nil)
         }
-        print("Saved Event")
-        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     enum RepeatInterval : String, CustomStringConvertible {
