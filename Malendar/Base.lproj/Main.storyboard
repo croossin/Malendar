@@ -123,6 +123,7 @@
                         <outlet property="menuView" destination="WKa-Fj-ZRL" id="mEE-3L-E6Q"/>
                         <outlet property="monthLabel" destination="a9j-vR-EwU" id="RUj-CL-dUd"/>
                         <outlet property="tableView" destination="obf-UP-jl5" id="Zql-G4-YSw"/>
+                        <segue destination="Mgd-uX-BFn" kind="show" identifier="editEvent" id="1B3-hy-fFP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aib-rF-tqg" sceneMemberID="firstResponder"/>
@@ -204,6 +205,65 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sqw-rz-a2n" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1043" y="309"/>
+        </scene>
+        <!--Edit Event-->
+        <scene sceneID="uDY-Am-VHO">
+            <objects>
+                <viewController id="AjC-11-bNr" customClass="EditNativeEventFormViewController" customModule="Malendar" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="lGv-PC-ckr"/>
+                        <viewControllerLayoutGuide type="bottom" id="V2T-iC-bSd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="UCt-s8-PtW">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="BXp-ou-eHm">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                            </tableView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="V2T-iC-bSd" firstAttribute="top" secondItem="BXp-ou-eHm" secondAttribute="bottom" id="8cd-iq-r04"/>
+                            <constraint firstItem="BXp-ou-eHm" firstAttribute="leading" secondItem="UCt-s8-PtW" secondAttribute="leading" id="Eji-J7-AoP"/>
+                            <constraint firstItem="BXp-ou-eHm" firstAttribute="top" secondItem="lGv-PC-ckr" secondAttribute="bottom" constant="-64" id="axy-Jw-gJt"/>
+                            <constraint firstAttribute="trailing" secondItem="BXp-ou-eHm" secondAttribute="trailing" id="do7-72-a47"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Edit Event" id="3qO-EB-fRL">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="2RA-g4-h9K"/>
+                        <barButtonItem key="rightBarButtonItem" title="Update Event" id="Lhg-Lw-DQq" userLabel="Add Event"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="BXp-ou-eHm" id="jmb-Ae-Fsh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mSr-A7-tTI" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1447" y="1034"/>
+        </scene>
+        <!--Edit Native Event Navigation Controller-->
+        <scene sceneID="8dE-mJ-bFj">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Mgd-uX-BFn" customClass="EditNativeEventNavigationController" customModule="Malendar" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="8Wx-dV-Jr6">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                        <color key="barTintColor" red="0.0" green="0.64313725489999995" blue="0.83921568629999999" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="AjC-11-bNr" kind="relationship" relationship="rootViewController" id="ELC-Qc-LJt"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="saP-So-iUD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="790" y="1034"/>
         </scene>
     </scenes>
 </document>
