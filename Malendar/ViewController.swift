@@ -215,8 +215,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             toDate: startDate,
             options: [])!
         // We will only search the default calendar for our events
+        if(self.defaultCalendar != nil){
+            let calendarArray: [EKCalendar] = [self.defaultCalendar]
+        }else{
+            self.checkEventStoreAccessForCalendar()
+        }
         let calendarArray: [EKCalendar] = [self.defaultCalendar]
-        
         // Create the predicate
         let predicate = self.eventStore.predicateForEventsWithStartDate(startDate,
             endDate: endDate,
@@ -234,7 +238,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         switch status {
             // Update our UI if the user has granted access to their Calendar
-        case .Authorized: self.defaultCalendar = self.eventStore.defaultCalendarForNewEvents
+        case .Authorized:
+            self.eventStore = EKEventStore()
+            self.defaultCalendar = self.eventStore.defaultCalendarForNewEvents
+            
             // Prompt the user for access to Calendar if there is no definitive answer
         case .NotDetermined: self.requestCalendarAccess()
             // Display a message if the user has denied or restricted access to Calendar
@@ -345,33 +352,16 @@ extension ViewController: CVCalendarViewDelegate, CVCalendarMenuViewDelegate {
     }
     
     func dotMarker(shouldShowOnDayView dayView: CVCalendarDayView) -> Bool {
-//        let day = dayView.date.day
-//        let randomDay = Int(arc4random_uniform(31))
-//        if day == randomDay {
-//            return true
-//        }
-//        
+        var tempEventsList: [EKEvent] = []
+        tempEventsList = fetchEvents(dayView.date.convertedDate()!)
+        if(!tempEventsList.isEmpty){
+            return true
+        }
         return false
     }
     
     func dotMarker(colorOnDayView dayView: CVCalendarDayView) -> [UIColor] {
-        let day = dayView.date.day
-        
-        let red = CGFloat(arc4random_uniform(600) / 255)
-        let green = CGFloat(arc4random_uniform(600) / 255)
-        let blue = CGFloat(arc4random_uniform(600) / 255)
-        
-        let color = UIColor(red: red, green: green, blue: blue, alpha: 1)
-        
-        let numberOfDots = Int(arc4random_uniform(3) + 1)
-        switch(numberOfDots) {
-        case 2:
-            return [color, color]
-        case 3:
-            return [color, color, color]
-        default:
-            return [color] // return 1 dot
-        }
+        return [UIColor.redColor()]
     }
     
     func dotMarker(shouldMoveOnHighlightingOnDayView dayView: CVCalendarDayView) -> Bool {
