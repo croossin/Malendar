@@ -136,7 +136,7 @@
 				8C3F0A8F1BCEF0EF009E172E /* Frameworks */,
 				8C3F0A7A1BCEF05C009E172E /* AppDelegate.swift */,
 				8CC29BC01BD05F9E00ECB9C3 /* ViewControllers */,
-				8CC29BBA1BD01D3800ECB9C3 /* EventTableViewCell.xib */,
+				8CFA18451BD6B3FF00D74FD9 /* Xib */,
 				8C3F0A7E1BCEF05C009E172E /* Main.storyboard */,
 				8C3F0A841BCEF05C009E172E /* Assets.xcassets */,
 				8C3F0A861BCEF05C009E172E /* LaunchScreen.storyboard */,
@@ -221,6 +221,14 @@
 				8CFA18431BD6B26900D74FD9 /* EditEvent.swift */,
 			);
 			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		8CFA18451BD6B3FF00D74FD9 /* Xib */ = {
+			isa = PBXGroup;
+			children = (
+				8CC29BBA1BD01D3800ECB9C3 /* EventTableViewCell.xib */,
+			);
+			name = Xib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
