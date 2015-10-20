@@ -19,7 +19,7 @@ class EventTableViewCell : UITableViewCell {
     
     func loadItem(title: String, note: String?, start: NSDate, end: NSDate) {
         
-        var dateFormatter = NSDateFormatter()
+        let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "hh:mm"
     
         
@@ -91,7 +91,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.navigationItem.titleView = dropDownMenuView
         
         //Set up custom cell
-        var nib = UINib(nibName: "EventTableViewCell", bundle: nil)
+        let nib = UINib(nibName: "EventTableViewCell", bundle: nil)
         self.tableView.registerNib(nib, forCellReuseIdentifier: "customCell")
     }
     
@@ -149,14 +149,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //CUSTOM ACTIONS WHEN SWIPE
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
        
-        var editAction = UITableViewRowAction(style: .Normal, title: "Edit") { (action:
+        let editAction = UITableViewRowAction(style: .Normal, title: "Edit") { (action:
             UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
             print("edit")
             globalEditEvent.event = self.eventsList[indexPath.row]
             self.performSegueWithIdentifier("editEvent", sender: nil)
         }
         
-        var deleteAction = UITableViewRowAction(style: .Normal, title: "Delete") { (action:
+        let deleteAction = UITableViewRowAction(style: .Normal, title: "Delete") { (action:
             UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
             let alertView = SCLAlertView()
             alertView.addButton("Yes"){
@@ -181,7 +181,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             alertView.showCloseButton = false
             alertView.showWarning("Delete?", subTitle: "Are you sure you want to delete this event?")
         }
-        
         
         
         deleteAction.backgroundColor = UIColor.redColor()
