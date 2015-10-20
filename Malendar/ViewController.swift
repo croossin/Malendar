@@ -43,9 +43,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var tableView: UITableView!
     
 
-    
-    
-    
     var shouldShowDaysOut = true
     var animationFinished = true
     
@@ -458,6 +455,7 @@ extension ViewController {
     }
 }
 
+//To add an event
 class NativeEventNavigationController: UINavigationController, RowControllerType {
     var completionCallback : ((UIViewController) -> ())?
     
@@ -710,10 +708,13 @@ class NativeEventFormViewController : FormViewController {
     }
 }
 
+//Global Edit Event
 class globalEditEvent{
     static var event: EKEvent?
 }
 
+
+//To edit an event
 class EditNativeEventNavigationController: UINavigationController, RowControllerType {
     var completionCallback : ((UIViewController) -> ())?
     
