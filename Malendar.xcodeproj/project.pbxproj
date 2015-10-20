@@ -49,6 +49,8 @@
 		8C8892881BD4474000F1763F /* Rows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8892831BD4474000F1763F /* Rows.swift */; settings = {ASSET_TAGS = (); }; };
 		8CC29BBB1BD01D3800ECB9C3 /* EventTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CC29BBA1BD01D3800ECB9C3 /* EventTableViewCell.xib */; settings = {ASSET_TAGS = (); }; };
 		8CC29BBD1BD0518D00ECB9C3 /* SCLAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC29BBC1BD0518D00ECB9C3 /* SCLAlertView.swift */; settings = {ASSET_TAGS = (); }; };
+		8CFA18421BD6B21F00D74FD9 /* AddEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFA18411BD6B21F00D74FD9 /* AddEvent.swift */; settings = {ASSET_TAGS = (); }; };
+		8CFA18441BD6B26900D74FD9 /* EditEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFA18431BD6B26900D74FD9 /* EditEvent.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -97,6 +99,8 @@
 		8C8892831BD4474000F1763F /* Rows.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rows.swift; sourceTree = "<group>"; };
 		8CC29BBA1BD01D3800ECB9C3 /* EventTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventTableViewCell.xib; sourceTree = "<group>"; };
 		8CC29BBC1BD0518D00ECB9C3 /* SCLAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCLAlertView.swift; sourceTree = "<group>"; };
+		8CFA18411BD6B21F00D74FD9 /* AddEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddEvent.swift; sourceTree = "<group>"; };
+		8CFA18431BD6B26900D74FD9 /* EditEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditEvent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +217,8 @@
 			isa = PBXGroup;
 			children = (
 				8C3F0A7C1BCEF05C009E172E /* ViewController.swift */,
+				8CFA18411BD6B21F00D74FD9 /* AddEvent.swift */,
+				8CFA18431BD6B26900D74FD9 /* EditEvent.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -291,6 +297,7 @@
 			files = (
 				8C3F0ACD1BCF0822009E172E /* BTNavigationDropdownMenu.swift in Sources */,
 				8C8892881BD4474000F1763F /* Rows.swift in Sources */,
+				8CFA18441BD6B26900D74FD9 /* EditEvent.swift in Sources */,
 				8C3F0AB01BCEF106009E172E /* CVCalendarManager.swift in Sources */,
 				8CC29BBD1BD0518D00ECB9C3 /* SCLAlertView.swift in Sources */,
 				8C8892861BD4474000F1763F /* Core.swift in Sources */,
@@ -321,6 +328,7 @@
 				8C3F0ABE1BCEF106009E172E /* CVCalendarWeekday.swift in Sources */,
 				8C3F0AAE1BCEF106009E172E /* CVCalendarDayView.swift in Sources */,
 				8C3F0AC11BCEF106009E172E /* CVRange.swift in Sources */,
+				8CFA18421BD6B21F00D74FD9 /* AddEvent.swift in Sources */,
 				8C8892871BD4474000F1763F /* Helpers.swift in Sources */,
 				8C3F0A7B1BCEF05C009E172E /* AppDelegate.swift in Sources */,
 				8C3F0AC51BCEF106009E172E /* CVShape.swift in Sources */,
