@@ -755,7 +755,7 @@ class EditNativeEventFormViewController : FormViewController {
             
             
             TextRow("Title").cellSetup { cell, row in
-                cell.textField.placeholder = row.tag
+                cell.textField.placeholder = self.eventToEdit?.title
                 }.onChange { [weak self] row in
                     self!.eventTitle = row.value as String!
             }
@@ -872,30 +872,6 @@ class EditNativeEventFormViewController : FormViewController {
     }
     
     func editEvent(barButtonItem: UIBarButtonItem) {
-//        if(eventTitle == ""){
-//            let alertView = SCLAlertView()
-//            alertView.showCloseButton = true
-//            alertView.showWarning("Title", subTitle: "Please include at least an event title.")
-//        }else{
-//            let event:EKEvent = EKEvent(eventStore: eventStore)
-//            
-//            event.title = eventTitle
-//            event.startDate = eventStart
-//            event.endDate = eventEnd
-//            event.notes = eventNotes
-//            event.allDay = eventAllday
-//            event.location = eventLocation
-//            event.calendar = eventStore.defaultCalendarForNewEvents
-//            do{
-//                try self.eventStore.saveEvent(event, span: .ThisEvent)
-//                
-//            }catch{
-//                print(error)
-//            }
-//            print("Saved Event")
-//            self.dismissViewControllerAnimated(true, completion: nil)
-//        }
-        
         let event = eventStore.eventWithIdentifier((eventToEdit?.eventIdentifier)!)
         event!.title = eventTitle
         event!.startDate = eventStart
