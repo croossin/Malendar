@@ -19,7 +19,6 @@ class EditNativeEventNavigationController: UINavigationController, RowController
 
 class EditNativeEventFormViewController : FormViewController {
     
-    
     var defaultCalendar: EKCalendar!
     var eventToEdit: EKEvent?
     var eventStore: EKEventStore!
