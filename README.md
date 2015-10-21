@@ -21,7 +21,7 @@
 ##Screenshots
 ![MalendarScreenshot](Images/MalendarStockPhoto.png)
 
-##Implemented / To-DO
+##Implemented / To-Do
 
 - [ ] 3D Touch on event for preview
 - [ ] Notifications
