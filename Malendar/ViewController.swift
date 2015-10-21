@@ -21,18 +21,18 @@ class EventTableViewCell : UITableViewCell {
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "hh:mm"
-    
+        
         
         eventTitle.text = title
         if(note != nil){
-           eventNote.text = note
+            eventNote.text = note
         }else{
             eventNote.text = "No note..."
         }
         eventStart.text = dateFormatter.stringFromDate(start)
         eventEnd.text = dateFormatter.stringFromDate(end)
     }
-
+    
 }
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
@@ -42,7 +42,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var calendarView: CVCalendarView!
     @IBOutlet weak var tableView: UITableView!
     
-
+    
     var shouldShowDaysOut = true
     var animationFinished = true
     
@@ -83,16 +83,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             print("Did select item at index: \(indexPath)")
             self.dealWithNavBarSelection(indexPath)
         }
-       
+        
         // Initialize the event store
         self.eventStore = EKEventStore()
-
+        
         //Initialize dropdown menu
         self.navigationItem.titleView = dropDownMenuView
         
         //Set up custom cell
         let nib = UINib(nibName: "EventTableViewCell", bundle: nil)
         self.tableView.registerNib(nib, forCellReuseIdentifier: "customCell")
+        
+        //Set up 3D touch
+        if traitCollection.forceTouchCapability == UIForceTouchCapability.Available {
+            // register UIViewControllerPreviewingDelegate to enable Peek & Pop
+            registerForPreviewingWithDelegate(self, sourceView: view)
+        }else {
+            // 3DTouch Unavailable : present alertController
+            print("Not on 3D-touch capable device")
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -100,15 +109,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.checkEventStoreAccessForCalendar()
         self.eventsList = self.fetchEvents(NSDate())
         reloadTable()
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
         calendarView.commitCalendarViewUpdate()
         menuView.commitMenuViewUpdate()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -135,7 +144,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell:EventTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("customCell") as! EventTableViewCell!
-
+        
         let cellTitle = self.eventsList[indexPath.row].title
         let cellNote = self.eventsList[indexPath.row].notes
         let cellStart = self.eventsList[indexPath.row].startDate
@@ -148,7 +157,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //CUSTOM ACTIONS WHEN SWIPE
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-       
+        
         let editAction = UITableViewRowAction(style: .Normal, title: "Edit") { (action:
             UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
             print("edit")
@@ -271,7 +280,65 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
 }
 
-
+//MARK: - PeekAndPopPreview -> MainTableViewController Extension
+typealias PeekAndPopPreview = ViewController
+extension PeekAndPopPreview : UIViewControllerPreviewingDelegate {
+    
+    /// Called when the user has pressed a source view in a previewing view controller (Peek).
+    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        
+        print("Trying to use 3D touch on:")
+        print(location)
+        
+        //Date formater
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "hh:mm"
+        
+        print(tableView.center)
+        
+        // Get indexPath for location (CGPoint) + cell (for sourceRect)
+        guard let indexPath = self.tableView.indexPathForRowAtPoint(location),
+            cell = self.tableView.cellForRowAtIndexPath(indexPath) else { return nil }
+        
+        //        print(cell)
+        print(indexPath.row)
+        print(eventsList[indexPath.row])
+        
+        // Instantiate VC with Identifier (Storyboard ID)
+        guard let previewViewController = storyboard?.instantiateViewControllerWithIdentifier("PeekViewID") as? PeekViewController else { return nil }
+        
+        // Pass datas to the previewing context
+        let previewItem = eventsList[indexPath.row]
+        
+        previewViewController.eventTitle.text = previewItem.title
+        if(previewItem.notes != nil){
+            previewViewController.eventNotes.text = previewItem.notes
+        }else{
+            previewViewController.eventNotes.text = "No notes..."
+        }
+        previewViewController.eventStart.text = dateFormatter.stringFromDate(previewItem.startDate)
+        previewViewController.eventEnd.text = dateFormatter.stringFromDate(previewItem.endDate)
+        if(previewItem.location != nil){
+            previewViewController.eventLocation.text = previewItem.location
+        }else{
+            previewViewController.eventLocation.text = "No location..."
+        }
+        
+        
+        // Preferred Content Size for Preview (CGSize)
+        previewViewController.preferredContentSize = CGSize(width: 50.0, height: 50.0)
+        
+        // Current context Source.
+        previewingContext.sourceRect = cell.frame
+        
+        return previewViewController
+    }
+    /// Called to let you prepare the presentation of a commit (Pop).
+    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+        // Presents viewControllerToCommit in a primary context
+        showViewController(viewControllerToCommit, sender: self)
+    }
+}
 
 // MARK: - CVCalendarViewDelegate & CVCalendarMenuViewDelegate
 
@@ -298,13 +365,12 @@ extension ViewController: CVCalendarViewDelegate, CVCalendarMenuViewDelegate {
     }
     
     func didSelectDayView(dayView: CVCalendarDayView) {
-        let date = dayView.date
         print("\(calendarView.presentedDate.commonDescription) is selected!")
         
         // Fetch all events happening in the next 24 hours and put them into eventsList
         let currentDate = calendarView.presentedDate.convertedDate()
         self.eventsList = self.fetchEvents(currentDate!)
-
+        
         // Update the UI with the above events
         reloadTable()
     }
