@@ -93,6 +93,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //Set up custom cell
         let nib = UINib(nibName: "EventTableViewCell", bundle: nil)
         self.tableView.registerNib(nib, forCellReuseIdentifier: "customCell")
+        
+        //Set up 3D touch
+        if traitCollection.forceTouchCapability == UIForceTouchCapability.Available {
+            // register UIViewControllerPreviewingDelegate to enable Peek & Pop
+            registerForPreviewingWithDelegate(self, sourceView: view)
+        }else {
+            // 3DTouch Unavailable : present alertController
+            print("Not on 3D-touch capable device")
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -271,7 +280,62 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
 }
 
+//MARK: - PeekAndPopPreview -> MainTableViewController Extension
+typealias PeekAndPopPreview = ViewController
+extension PeekAndPopPreview : UIViewControllerPreviewingDelegate {
+    
+    /// Called when the user has pressed a source view in a previewing view controller (Peek).
+    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        
+        print("Trying to use 3D touch on:")
+        
+        
+        //Date formater
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "hh:mm"
+        
+//        // Get indexPath for location (CGPoint) + cell (for sourceRect)
+         let indexPath = tableView.indexPathForSelectedRow
+        
+//        print(cell)
+        print(indexPath!.row)
+        print(eventsList[indexPath!.row])
+        
+        // Instantiate VC with Identifier (Storyboard ID)
+        guard let previewViewController = storyboard?.instantiateViewControllerWithIdentifier("PeekViewID") as? PeekViewController else { return nil }
+        
+        // Pass datas to the previewing context
+        let previewItem = eventsList[indexPath!.row]
+        
+        previewViewController.eventTitle.text = previewItem.title
+        if(previewItem.notes != nil){
+            previewViewController.eventNotes.text = previewItem.notes
+        }else{
+            previewViewController.eventNotes.text = "No notes..."
+        }
+        previewViewController.eventStart.text = dateFormatter.stringFromDate(previewItem.startDate)
+        previewViewController.eventEnd.text = dateFormatter.stringFromDate(previewItem.endDate)
+        if(previewItem.location != nil){
+            previewViewController.eventLocation.text = previewItem.location
+        }else{
+            previewViewController.eventLocation.text = "No location..."
+        }
 
+        
+        // Preferred Content Size for Preview (CGSize)
+        previewViewController.preferredContentSize = CGSize(width: 50.0, height: 50.0)
+        
+        // Current context Source.
+//        previewingContext.sourceRect = cell!.frame
+
+        return previewViewController
+    }
+    /// Called to let you prepare the presentation of a commit (Pop).
+    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+        // Presents viewControllerToCommit in a primary context
+        showViewController(viewControllerToCommit, sender: self)
+    }
+}
 
 // MARK: - CVCalendarViewDelegate & CVCalendarMenuViewDelegate
 
