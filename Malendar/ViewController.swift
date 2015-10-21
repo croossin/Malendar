@@ -100,11 +100,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.checkEventStoreAccessForCalendar()
         self.eventsList = self.fetchEvents(NSDate())
         reloadTable()
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
         calendarView.commitCalendarViewUpdate()
         menuView.commitMenuViewUpdate()
     }
@@ -298,7 +298,6 @@ extension ViewController: CVCalendarViewDelegate, CVCalendarMenuViewDelegate {
     }
     
     func didSelectDayView(dayView: CVCalendarDayView) {
-        let date = dayView.date
         print("\(calendarView.presentedDate.commonDescription) is selected!")
         
         // Fetch all events happening in the next 24 hours and put them into eventsList

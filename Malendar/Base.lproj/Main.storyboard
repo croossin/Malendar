@@ -243,7 +243,26 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mSr-A7-tTI" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1447" y="1034"/>
+            <point key="canvasLocation" x="1690" y="1020"/>
+        </scene>
+        <!--Peek View Controller-->
+        <scene sceneID="zPY-EI-DkE">
+            <objects>
+                <viewController id="1C2-Oz-GYF" customClass="PeekViewController" customModule="Malendar" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="oOW-Qk-Sl3"/>
+                        <viewControllerLayoutGuide type="bottom" id="NWM-XZ-tw0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="GLN-JM-Img">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DXd-Wd-Tdd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="360" y="1020"/>
         </scene>
         <!--Edit Native Event Navigation Controller-->
         <scene sceneID="8dE-mJ-bFj">
@@ -263,7 +282,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="saP-So-iUD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="790" y="1034"/>
+            <point key="canvasLocation" x="1043" y="1020"/>
         </scene>
     </scenes>
 </document>
