@@ -6,9 +6,6 @@
 	<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift2-compatible-4BC51D.svg?style=flat" alt="Swift 2 compatible" /></a>
 </p>
 
-#MALENDAR
-A personal calendar app that connects to your default calendar and lets you add/delete events.
-
 ##Introduction
 **Malendar** is a personal calendar app that connects to your default calendar and lets you add/delete events.  It will gather events from your default iOS calendar.
 
