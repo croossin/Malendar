@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "435"
             endingLineNumber = "435"
-            landmarkName = "dotMarker(sizeOnDayView:)"
+            landmarkName = "toggleMonthViewWithMonthOffset(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -31,7 +31,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "436"
             endingLineNumber = "436"
-            landmarkName = "dotMarker(sizeOnDayView:)"
+            landmarkName = "toggleMonthViewWithMonthOffset(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -111,7 +111,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "421"
             endingLineNumber = "421"
-            landmarkName = "dotMarker(shouldShowOnDayView:)"
+            landmarkName = "loadPrevious(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
