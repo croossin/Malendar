@@ -94,8 +94,16 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="9oA-bc-9vU">
-                        <barButtonItem key="leftBarButtonItem" title="Today" id="Esx-Ah-kVa"/>
-                        <barButtonItem key="rightBarButtonItem" title="Add +" id="O9Y-qQ-r22"/>
+                        <barButtonItem key="leftBarButtonItem" title="Today" id="Esx-Ah-kVa">
+                            <connections>
+                                <action selector="todayMonthView" destination="Zys-73-7dp" id="ge7-B7-u8h"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Add +" id="O9Y-qQ-r22">
+                            <connections>
+                                <segue destination="xHO-wp-s4T" kind="show" id="lgu-Fk-7Wy"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="calendarView" destination="cw2-xF-JIQ" id="b6T-PN-snO"/>
