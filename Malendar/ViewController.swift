@@ -97,7 +97,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //Set up 3D touch
         if traitCollection.forceTouchCapability == UIForceTouchCapability.Available {
             // register UIViewControllerPreviewingDelegate to enable Peek & Pop
-            registerForPreviewingWithDelegate(self, sourceView: view)
+            registerForPreviewingWithDelegate(self, sourceView: tableView)
         }else {
             // 3DTouch Unavailable : present alertController
             print("Not on 3D-touch capable device")
