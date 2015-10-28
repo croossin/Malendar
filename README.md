@@ -20,6 +20,7 @@
 
 ##Screenshots
 ![MalendarScreenshot](Images/MalendarStockPhoto.png)
+<img src="Images/Malendargiphy.gif" width="300" alt="Screenshot of Malendar in action"/>
 
 ##Implemented / To-Do
 
