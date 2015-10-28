@@ -30,3 +30,8 @@
 - [x] Add and Edit Events
 - [x] Dot markers on busy days
 - [x] Single view calendar swiping
+
+##Special thanks to:
+* [CVCalendar](https://github.com/Mozharovsky/CVCalendar)
+* [SCLAlertView](https://github.com/vikmeup/SCLAlertView-Swift)
+* [BTNavigationDropdownMenu](https://github.com/PhamBaTho/BTNavigationDropdownMenu)
