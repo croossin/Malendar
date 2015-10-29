@@ -52,7 +52,13 @@ class NativeEventFormViewController : FormViewController {
             TextRow("Title").cellSetup { cell, row in
                 cell.textField.placeholder = row.tag
                 }.onChange { [weak self] row in
-                    self!.eventTitle = row.value as String!
+                    let inputTitle = row.value as String?
+                    if(inputTitle != nil){
+                        self!.eventTitle = row.value as String!
+                    }else{
+                        self!.eventTitle = ""
+                    }
+                    
             }
             
             
