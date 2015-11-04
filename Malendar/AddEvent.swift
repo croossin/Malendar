@@ -65,7 +65,12 @@ class NativeEventFormViewController : FormViewController {
             <<< TextRow("Location").cellSetup {
                 $0.cell.textField.placeholder = $0.row.tag
                 }.onChange { [weak self] row in
-                    self!.eventLocation = row.value as String!
+                    let inputTitle = row.value as String?
+                    if(inputTitle != nil){
+                        self!.eventLocation = row.value as String!
+                    }else{
+                        self!.eventLocation = ""
+                    }
             }
             
             +++
@@ -163,7 +168,13 @@ class NativeEventFormViewController : FormViewController {
             TextAreaRow("notes") {
                 $0.placeholder = "Notes"
                 }.onChange { [weak self] row in
-                    self!.eventNotes = row.value as String!
+                    let inputTitle = row.value as String?
+                    if(inputTitle != nil){
+                        self!.eventNotes = row.value as String!
+                    }else{
+                        self!.eventNotes = ""
+                    }
+                    
         }
         
     }

@@ -54,14 +54,26 @@ class EditNativeEventFormViewController : FormViewController {
             TextRow("Title").cellSetup { cell, row in
                 cell.textField.placeholder = self.eventToEdit?.title
                 }.onChange { [weak self] row in
-                    self!.eventTitle = row.value as String!
+                    let inputTitle = row.value as String?
+                    if(inputTitle != nil){
+                        self!.eventTitle = row.value as String!
+                    }else{
+                        self!.eventTitle = ""
+                    }
+                    
             }
             
             
             <<< TextRow("Location").cellSetup {
                 $0.cell.textField.placeholder = $0.row.tag
                 }.onChange { [weak self] row in
-                    self!.eventLocation = row.value as String!
+                    let inputTitle = row.value as String?
+                    if(inputTitle != nil){
+                        self!.eventLocation = row.value as String!
+                    }else{
+                        self!.eventLocation = ""
+                    }
+                    
             }
             
             +++
@@ -157,9 +169,16 @@ class EditNativeEventFormViewController : FormViewController {
         form +++=
             
             TextAreaRow("notes") {
+                print(self.eventToEdit)
                 $0.placeholder = "Notes"
                 }.onChange { [weak self] row in
-                    self!.eventNotes = row.value as String!
+                    let inputTitle = row.value as String?
+                    if(inputTitle != nil){
+                        self!.eventNotes = row.value as String!
+                    }else{
+                        self!.eventNotes = ""
+                    }
+                    
         }
         
     }
