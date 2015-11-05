@@ -244,7 +244,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.defaultCalendar = self.eventStore.defaultCalendarForNewEvents
             
             // Prompt the user for access to Calendar if there is no definitive answer
-        case .NotDetermined: self.requestCalendarAccess()
+        case .NotDetermined:
+            self.eventStore = EKEventStore()
+            self.requestCalendarAccess()
             // Display a message if the user has denied or restricted access to Calendar
         case .Denied, .Restricted:
             print("denied")
@@ -253,7 +255,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // Prompt the user for access to their Calendar
     private func requestCalendarAccess() {
-        self.eventStore.requestAccessToEntityType(.Event) {[weak self] granted, error in
+        self.eventStore.requestAccessToEntityType(EKEntityType.Event) {[weak self] granted, error in
             if granted {
                 // Let's ensure that our code will be executed from the main queue
                 dispatch_async(dispatch_get_main_queue()) {
