@@ -32,7 +32,7 @@ public protocol RowControllerType : NSObjectProtocol {
 }
 
 public protocol TypedRowControllerType : RowControllerType {
-    typealias RowValue: Equatable
+    associatedtype RowValue: Equatable
     var row : RowOf<Self.RowValue>! { get set }
 }
 
@@ -73,8 +73,8 @@ public protocol BaseRowType : Taggable {
 
 public protocol TypedRowType : BaseRowType {
     
-    typealias Value : Equatable
-    typealias Cell : BaseCell, CellType
+    associatedtype Value : Equatable
+    associatedtype Cell : BaseCell, CellType
     var cell : Self.Cell! { get }
     var value : Self.Value? { get set }
 }
@@ -90,7 +90,7 @@ public protocol BaseInlineRowType {
 }
 
 public protocol InlineRowType: TypedRowType, BaseInlineRowType {
-    typealias InlineRow: RowType
+    associatedtype InlineRow: RowType
 }
 
 extension InlineRowType where Self: BaseRow, Self.InlineRow : BaseRow, Self.Cell : TypedCellType, Self.Cell.Value == Self.Value, Self.InlineRow.Cell.Value == Self.InlineRow.Value, Self.InlineRow.Value == Self.Value {
@@ -163,7 +163,7 @@ extension InlineRowType where Self: BaseRow, Self.InlineRow : BaseRow, Self.Cell
 
 public protocol PresenterRowType: TypedRowType {
     
-    typealias ProviderType : UIViewController, TypedRowControllerType
+    associatedtype ProviderType : UIViewController, TypedRowControllerType
     var presentationMode: PresentationMode<ProviderType>? { get set }
     var onPresentCallback: ((FormViewController, ProviderType)->())? { get set }
 }
@@ -186,7 +186,7 @@ public protocol BaseCellType : class {
 
 
 public protocol TypedCellType : BaseCellType {
-    typealias Value : Equatable
+    associatedtype Value : Equatable
     var row : RowOf<Value>! { get set }
 }
 
@@ -301,7 +301,9 @@ extension Form : RangeReplaceableCollectionType {
     public func reserveCapacity(n: Int){}
 
     public func replaceRange<C : CollectionType where C.Generator.Element == Section>(subRange: Range<Int>, with newElements: C) {
-        for (var i = subRange.startIndex; i < subRange.endIndex; i++) {
+        
+        //for (var i = subRange.startIndex; i < subRange.endIndex; i++) {
+        for i in subRange.startIndex..<subRange.endIndex {
             if let section = kvoWrapper.sections.objectAtIndex(i) as? Section {
                 section.willBeRemovedFromForm()
                 kvoWrapper._allSections.removeAtIndex(kvoWrapper._allSections.indexOf(section)!)
@@ -418,7 +420,7 @@ extension Form {
         guard var index = kvoWrapper._allSections.indexOf(section) else { return }
         var formIndex = NSNotFound
         while (formIndex == NSNotFound && index > 0){
-            let previous = kvoWrapper._allSections[--index]
+            let previous = kvoWrapper._allSections[index--]
             formIndex = kvoWrapper.sections.indexOfObject(previous)
         }
         kvoWrapper.sections.insertObject(section, atIndex: formIndex == NSNotFound ? 0 : ++formIndex)
@@ -520,7 +522,9 @@ extension Section : RangeReplaceableCollectionType {
     public func reserveCapacity(n: Int){}
     
     public func replaceRange<C : CollectionType where C.Generator.Element == BaseRow>(subRange: Range<Int>, with newElements: C) {
-        for (var i = subRange.startIndex; i < subRange.endIndex; i++) {
+        
+        //for (var i = subRange.startIndex; i < subRange.endIndex; i++) {
+        for i in subRange.startIndex..<subRange.endIndex {
             if let row = kvoWrapper.rows.objectAtIndex(i) as? BaseRow {
                 row.willBeRemovedFromForm()
                 kvoWrapper._allRows.removeAtIndex(kvoWrapper._allRows.indexOf(row)!)
@@ -1694,11 +1698,11 @@ public class FormViewController : UIViewController, FormViewControllerProtocol {
         [unowned self] in
         let naview = NavigationAccessoryView(frame: CGRectMake(0, 0, self.view.frame.width, 44.0))
         naview.doneButton.target = self
-        naview.doneButton.action = "navigationDone:"
+        naview.doneButton.action = #selector(FormViewController.navigationDone(_:))
         naview.previousButton.target = self
-        naview.previousButton.action = "navigationAction:"
+        naview.previousButton.action = #selector(FormViewController.navigationAction(_:))
         naview.nextButton.target = self
-        naview.nextButton.action = "navigationAction:"
+        naview.nextButton.action = #selector(FormViewController.navigationAction(_:))
         naview.tintColor = self.view.tintColor
         return naview
         }()
@@ -1739,8 +1743,8 @@ public class FormViewController : UIViewController, FormViewControllerProtocol {
             tableView?.selectRowAtIndexPath(selectedIndexPath, animated: false, scrollPosition: .None)
             tableView?.deselectRowAtIndexPath(selectedIndexPath, animated: true)
         }
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FormViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FormViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
     }
     
     public override func viewDidDisappear(animated: Bool) {

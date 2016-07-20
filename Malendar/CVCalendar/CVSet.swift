@@ -84,6 +84,6 @@ private extension CVSet {
         let nextClosure : () -> T? = {
             (power < self.count) ? self.storage[power++] : nil
         }
-        return anyGenerator(nextClosure)
+        return AnyGenerator(body: nextClosure)
     }
 }

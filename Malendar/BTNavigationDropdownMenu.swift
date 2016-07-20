@@ -201,7 +201,7 @@ public class BTNavigationDropdownMenu: UIView {
 
         // Init button as navigation title
         self.menuButton = UIButton(frame: frame)
-        self.menuButton.addTarget(self, action: "menuButtonTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.menuButton.addTarget(self, action: #selector(BTNavigationDropdownMenu.menuButtonTapped(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(self.menuButton)
         
         self.menuTitle = UILabel(frame: frame)

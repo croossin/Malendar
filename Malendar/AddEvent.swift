@@ -32,10 +32,10 @@ class NativeEventFormViewController : FormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.leftBarButtonItem?.target = self
-        self.navigationItem.leftBarButtonItem?.action = "cancelTapped:"
+        self.navigationItem.leftBarButtonItem?.action = #selector(NativeEventFormViewController.cancelTapped(_:))
         
         self.navigationItem.rightBarButtonItem?.target = self
-        self.navigationItem.rightBarButtonItem?.action = "addEvent:"
+        self.navigationItem.rightBarButtonItem?.action = #selector(NativeEventFormViewController.addEvent(_:))
         
         initializeForm()
         // Initialize the event store

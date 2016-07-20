@@ -134,7 +134,7 @@ public class _FieldCell<T where T: Equatable, T: InputTypeInitiable> : Cell<T>, 
 
         titleLabel?.addObserver(self, forKeyPath: "text", options: NSKeyValueObservingOptions.Old.union(.New), context: nil)
         imageView?.addObserver(self, forKeyPath: "image", options: NSKeyValueObservingOptions.Old.union(.New), context: nil)
-        textField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
+        textField.addTarget(self, action: #selector(_FieldCell.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
         
     }
     
@@ -419,7 +419,7 @@ public class DateCell : Cell<NSDate>, CellType {
         accessoryType = .None
         editingAccessoryType =  .None
         datePicker.datePickerMode = datePickerMode()
-        datePicker.addTarget(self, action: Selector("datePickerValueChanged:"), forControlEvents: .ValueChanged)
+        datePicker.addTarget(self, action: #selector(DateCell.datePickerValueChanged(_:)), forControlEvents: .ValueChanged)
     }
     
     
@@ -507,7 +507,7 @@ public class DatePickerCell : Cell<NSDate>, CellType {
         self.contentView.addSubview(picker)
         self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[picker]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["picker": picker]))
         self.contentView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[picker]-0-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["picker": picker]))
-        picker.addTarget(self, action: "datePickerValueChanged:", forControlEvents: .ValueChanged)
+        picker.addTarget(self, action: #selector(DatePickerCell.datePickerValueChanged(_:)), forControlEvents: .ValueChanged)
         return picker
         }()
     
@@ -730,7 +730,7 @@ public class SwitchCell : Cell<Bool>, CellType {
         selectionStyle = .None
         accessoryView = UISwitch()
         editingAccessoryView = accessoryView
-        switchControl?.addTarget(self, action: "valueChanged", forControlEvents: .ValueChanged)
+        switchControl?.addTarget(self, action: #selector(SwitchCell.valueChanged), forControlEvents: .ValueChanged)
     }
     
     public override func update() {
@@ -773,7 +773,7 @@ public class SegmentedCell<T: Equatable> : Cell<T>, CellType {
         contentView.addSubview(titleLabel!)
         contentView.addSubview(segmentedControl)
         titleLabel?.addObserver(self, forKeyPath: "text", options: NSKeyValueObservingOptions.Old.union(.New), context: nil)
-        segmentedControl.addTarget(self, action: "valueChanged", forControlEvents: .ValueChanged)
+        segmentedControl.addTarget(self, action: #selector(SwitchCell.valueChanged), forControlEvents: .ValueChanged)
         contentView.addConstraint(NSLayoutConstraint(item: segmentedControl, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1, constant: 0))
     }
     
