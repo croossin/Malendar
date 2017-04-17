@@ -6,10 +6,10 @@
 	<a href="https://developer.apple.com/swift"><img src="https://img.shields.io/badge/swift2-compatible-4BC51D.svg?style=flat" alt="Swift 2 compatible" /></a>
 </p>
 
-##Introduction
+## Introduction
 **Malendar** is a personal calendar app that connects to your default calendar and lets you add/delete events.  It will gather events from your default iOS calendar.
 
-##Usage
+## Usage
 * You are able to view your calendar in both weekly and monthly views.
 	* Click the drop-down menu view at the top of the screen in order to toggle which view you would like to see.
 * Add, Edit, and Delete events
@@ -18,11 +18,11 @@
 	* Same with editing an event - swipe right on the event and click edit, you will be prompted to enter the new information about the event
 * Look for a red circle under a given date to determine if you have an event schedule for that day
 
-##Screenshots
+## Screenshots
 ![MalendarScreenshot](Images/MalendarStockPhoto.png)
 <img src="Images/Malendargiphy.gif" width="300" alt="Screenshot of Malendar in action"/>
 
-##Implemented / To-Do
+## Implemented / To-Do
 
 - [ ] 3D Touch on event for preview
 - [ ] Notifications
