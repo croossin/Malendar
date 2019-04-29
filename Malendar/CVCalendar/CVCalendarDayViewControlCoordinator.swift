@@ -37,7 +37,7 @@ extension CVCalendarDayViewControlCoordinator {
     public func deselectionPerformedOnDayView(dayView: DayView) {
         if dayView != selectedDayView {
             selectionSet.remove(dayView)
-            dayView.setDeselectedWithClearing(true)
+            dayView.setDeselectedWithClearing(clearing: true)
         }
     }
     
@@ -55,12 +55,12 @@ extension CVCalendarDayViewControlCoordinator {
 
 private extension CVCalendarDayViewControlCoordinator {
     func presentSelectionOnDayView(dayView: DayView) {
-        animator.animateSelectionOnDayView(dayView)
+        animator.animateSelectionOnDayView(dayView: dayView)
         //animator?.animateSelection(dayView, withControlCoordinator: self)
     }
     
     func presentDeselectionOnDayView(dayView: DayView) {
-        animator.animateDeselectionOnDayView(dayView)
+        animator.animateDeselectionOnDayView(dayView: dayView)
         //animator?.animateDeselection(dayView, withControlCoordinator: self)
     }
 }
@@ -76,7 +76,7 @@ extension CVCalendarDayViewControlCoordinator {
             for dayViewInQueue in selectionSet {
                 if dayView != dayViewInQueue {
                     if dayView.calendarView != nil {
-                        presentDeselectionOnDayView(dayViewInQueue)
+                        presentDeselectionOnDayView(dayView: dayViewInQueue)
                     }
                     
                 }
@@ -87,7 +87,7 @@ extension CVCalendarDayViewControlCoordinator {
         if let animator = animator {
             if selectedDayView != dayView {
                 selectedDayView = dayView
-                presentSelectionOnDayView(dayView)
+                presentSelectionOnDayView(dayView: dayView)
             }
         } 
     }

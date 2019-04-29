@@ -22,7 +22,7 @@ public final class CVAuxiliaryView: UIView {
         }
     }
     
-    public let defaultFillColor = UIColor.colorFromCode(0xe74c3c)
+    public let defaultFillColor = UIColor.colorFromCode(code: 0xe74c3c)
     
     private var radius: CGFloat {
         get {
@@ -36,11 +36,11 @@ public final class CVAuxiliaryView: UIView {
         self.dayView = dayView
         self.shape = shape
         super.init(frame: rect)
-        strokeColor = UIColor.clearColor()
-        fillColor = UIColor.colorFromCode(0xe74c3c)
+        strokeColor = UIColor.clear
+        fillColor = UIColor.colorFromCode(code: 0xe74c3c)
         
         layer.cornerRadius = 5
-        backgroundColor = .clearColor()
+        backgroundColor = .clear
     }
     
     public override func didMoveToSuperview() {
@@ -51,7 +51,7 @@ public final class CVAuxiliaryView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func drawRect(rect: CGRect) {
+    public override func draw(_ rect: CGRect) {
         let context = UIGraphicsGetCurrentContext()
         var path: UIBezierPath!
         
@@ -104,30 +104,30 @@ extension CVAuxiliaryView {
         let offset = appearance.spaceBetweenDayViews!
         
         let flag = UIBezierPath()
-        flag.moveToPoint(CGPointMake(bounds.width / 2, bounds.height / 2 - radius))
-        flag.addLineToPoint(CGPointMake(bounds.width, bounds.height / 2 - radius))
-        flag.addLineToPoint(CGPointMake(bounds.width, bounds.height / 2 + radius ))
-        flag.addLineToPoint(CGPointMake(bounds.width / 2, bounds.height / 2 + radius))
+        flag.move(to: CGPointMake(bounds.width / 2, bounds.height / 2 - radius))
+        flag.addLine(to: CGPointMake(bounds.width, bounds.height / 2 - radius))
+        flag.addLine(to: CGPointMake(bounds.width, bounds.height / 2 + radius ))
+        flag.addLine(to: CGPointMake(bounds.width / 2, bounds.height / 2 + radius))
         
-        let path = CGPathCreateMutable()
+        let path = CGMutablePath()
         CGPathAddPath(path, nil, circlePath().CGPath)
         CGPathAddPath(path, nil, flag.CGPath)
         
-        return UIBezierPath(CGPath: path)
+        return UIBezierPath(cgPath: path)
     }
     
     func leftFlagPath() -> UIBezierPath {
         let flag = UIBezierPath()
-        flag.moveToPoint(CGPointMake(bounds.width / 2, bounds.height / 2 + radius))
-        flag.addLineToPoint(CGPointMake(0, bounds.height / 2 + radius))
-        flag.addLineToPoint(CGPointMake(0, bounds.height / 2 - radius))
-        flag.addLineToPoint(CGPointMake(bounds.width / 2, bounds.height / 2 - radius))
+        flag.move(to: CGPointMake(bounds.width / 2, bounds.height / 2 + radius))
+        flag.addLine(to: CGPointMake(0, bounds.height / 2 + radius))
+        flag.addLine(to: CGPointMake(0, bounds.height / 2 - radius))
+        flag.addLine(to: CGPointMake(bounds.width / 2, bounds.height / 2 - radius))
         
-        let path = CGPathCreateMutable()
+        let path = CGMutablePath()
         CGPathAddPath(path, nil, circlePath().CGPath)
         CGPathAddPath(path, nil, flag.CGPath)
         
-        return UIBezierPath(CGPath: path)
+        return UIBezierPath(cgPath: path)
     }
     
     func rectPath() -> UIBezierPath {
@@ -135,11 +135,11 @@ extension CVAuxiliaryView {
         let midY = bounds.height / 2
         
         let appearance = dayView.calendarView.appearance
-        let offset = appearance.spaceBetweenDayViews!
+        let offset = appearance?.spaceBetweenDayViews!
         
         print("offset = \(offset)")
         
-        let path = UIBezierPath(rect: CGRectMake(0 - offset, midY - radius, bounds.width + offset / 2, radius * 2))
+        let path = UIBezierPath(rect: CGRectMake(0 - offset! ?? <#default value#> ?? <#default value#>, midY - radius, bounds.width + offset! / 2, radius * 2))
         
         return path
     }

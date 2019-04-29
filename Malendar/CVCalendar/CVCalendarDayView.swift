@@ -56,9 +56,9 @@ public final class CVCalendarDayView: UIView {
         }
     }
     
-    public override var hidden: Bool {
+    public override var isHidden: Bool {
         didSet {
-            userInteractionEnabled = hidden ? false : true
+            isUserInteractionEnabled = hidden ? false : true
         }
     }
     
@@ -76,7 +76,7 @@ public final class CVCalendarDayView: UIView {
             super.init(frame: CGRectZero)
         }
         
-        date = dateWithWeekView(weekView, andWeekIndex: weekdayIndex)
+        date = dateWithWeekView(weekView: weekView, andWeekIndex: weekdayIndex)
         
         labelSetup()
         setupDotMarker()
@@ -88,7 +88,7 @@ public final class CVCalendarDayView: UIView {
         }
         
         if !calendarView.shouldShowWeekdaysOut && isOut {
-            hidden = true
+            isHidden = true
         }
     }
     
@@ -108,10 +108,10 @@ public final class CVCalendarDayView: UIView {
         let weekdaysIn = weekView.weekdaysIn
         
         if let weekdaysOut = weekView.weekdaysOut {
-            if hasDayAtWeekdayIndex(weekdayIndex, weekdaysDictionary: weekdaysOut) {
+            if hasDayAtWeekdayIndex(weekdayIndex: weekdayIndex, weekdaysDictionary: weekdaysOut) {
                 isOut = true
                 day = weekdaysOut[weekdayIndex]![0]
-            } else if hasDayAtWeekdayIndex(weekdayIndex, weekdaysDictionary: weekdaysIn!) {
+            } else if hasDayAtWeekdayIndex(weekdayIndex: weekdayIndex, weekdaysDictionary: weekdaysIn!) {
                 day = weekdaysIn![weekdayIndex]![0]
             }
         } else {
@@ -119,8 +119,8 @@ public final class CVCalendarDayView: UIView {
         }
         
         if day == monthView.currentDay && !isOut {
-            let dateRange = Manager.dateRange(monthView.date)
-            let currentDateRange = Manager.dateRange(NSDate())
+            let dateRange = Manager.dateRange(date: monthView.date)
+            let currentDateRange = Manager.dateRange(date: NSDate())
             
             if dateRange.month == currentDateRange.month && dateRange.year == currentDateRange.year {
                 isCurrentDay = true
@@ -128,7 +128,7 @@ public final class CVCalendarDayView: UIView {
         }
         
         
-        let dateRange = Manager.dateRange(monthView.date)
+        let dateRange = Manager.dateRange(date: monthView.date)
         let year = dateRange.year
         let week = weekView.index + 1
         var month = dateRange.month
@@ -153,31 +153,31 @@ extension CVCalendarDayView {
         
         dayLabel = UILabel()
         dayLabel!.text = String(date.day)
-        dayLabel!.textAlignment = NSTextAlignment.Center
+        dayLabel!.textAlignment = NSTextAlignment.center
         dayLabel!.frame = bounds
         
-        var font = appearance.dayLabelWeekdayFont
+        var font = appearance?.dayLabelWeekdayFont
         var color: UIColor?
         
         if isOut {
-            color = appearance.dayLabelWeekdayOutTextColor
+            color = appearance!.dayLabelWeekdayOutTextColor
         } else if isCurrentDay {
             let coordinator = calendarView.coordinator
-            if coordinator.selectedDayView == nil && calendarView.shouldAutoSelectDayOnMonthChange {
+            if coordinator?.selectedDayView == nil && calendarView.shouldAutoSelectDayOnMonthChange {
                 let touchController = calendarView.touchController
-                touchController.receiveTouchOnDayView(self)
-                calendarView.didSelectDayView(self)
+                touchController!.receiveTouchOnDayView(dayView: self)
+                calendarView.didSelectDayView(dayView: self)
             } else {
-                color = appearance.dayLabelPresentWeekdayTextColor
-                if appearance.dayLabelPresentWeekdayInitallyBold! {
-                    font = appearance.dayLabelPresentWeekdayBoldFont
+                color = appearance?.dayLabelPresentWeekdayTextColor
+                if appearance!.dayLabelPresentWeekdayInitallyBold! {
+                    font = appearance?.dayLabelPresentWeekdayBoldFont
                 } else {
-                    font = appearance.dayLabelPresentWeekdayFont
+                    font = appearance?.dayLabelPresentWeekdayFont
                 }
             }
             
         } else {
-            color = appearance.dayLabelWeekdayInTextColor
+            color = appearance?.dayLabelWeekdayInTextColor
         }
         
         if color != nil && font != nil {
@@ -189,29 +189,29 @@ extension CVCalendarDayView {
     }
 
     public func preliminarySetup() {
-        if let delegate = calendarView.delegate, shouldShow = delegate.preliminaryView?(shouldDisplayOnDayView: self) where shouldShow {
+        if let delegate = calendarView.delegate, let shouldShow = delegate.preliminaryView?(shouldDisplayOnDayView: self), shouldShow {
             if let preView = delegate.preliminaryView?(viewOnDayView: self) {
-                insertSubview(preView, atIndex: 0)
+                insertSubview(preView, at: 0)
                 preView.layer.zPosition = CGFloat(-MAXFLOAT)
             }
         }
     }
     
     public func supplementarySetup() {
-        if let delegate = calendarView.delegate, shouldShow = delegate.supplementaryView?(shouldDisplayOnDayView: self) where shouldShow {
+        if let delegate = calendarView.delegate, let shouldShow = delegate.supplementaryView?(shouldDisplayOnDayView: self), shouldShow {
             if let supView = delegate.supplementaryView?(viewOnDayView: self) {
-                insertSubview(supView, atIndex: 0)
+                insertSubview(supView, at: 0)
             }
         }
     }
     
     // TODO: Make this widget customizable
     public func topMarkerSetup() {
-        safeExecuteBlock({
+        safeExecuteBlock(block: {
             func createMarker() {
                 let height = CGFloat(0.5)
                 let layer = CALayer()
-                layer.borderColor = UIColor.grayColor().CGColor
+                layer.borderColor = UIColor.gray.cgColor
                 layer.borderWidth = height
                 layer.frame = CGRectMake(0, 1, CGRectGetWidth(self.frame), height)
                 
@@ -225,7 +225,7 @@ extension CVCalendarDayView {
                     self.topMarker = nil
                 }
                 
-                if let shouldDisplay = delegate.topMarker?(shouldDisplayOnDayView: self) where shouldDisplay {
+                if let shouldDisplay = delegate.topMarker?(shouldDisplayOnDayView: self), shouldDisplay {
                     createMarker()
                 }
             } else {
@@ -241,13 +241,13 @@ extension CVCalendarDayView {
     }
     
     public func setupDotMarker() {
-        for (index, dotMarker) in dotMarkers.enumerate() {
+        for (index, dotMarker) in dotMarkers.enumerated() {
             dotMarkers[index]!.removeFromSuperview()
             dotMarkers[index] = nil
         }
         
         if let delegate = calendarView.delegate {
-            if let shouldShow = delegate.dotMarker?(shouldShowOnDayView: self) where shouldShow {
+            if let shouldShow = delegate.dotMarker?(shouldShowOnDayView: self), shouldShow {
                 
                 var (width, height): (CGFloat, CGFloat) = (13, 13)
                 if let size = delegate.dotMarker?(sizeOnDayView: self) {
@@ -288,8 +288,8 @@ extension CVCalendarDayView {
                 }
                 
                 let coordinator = calendarView.coordinator
-                if self == coordinator.selectedDayView {
-                    moveDotMarkerBack(false, coloring: false)
+                if self == coordinator?.selectedDayView {
+                    moveDotMarkerBack(unwinded: false, coloring: false)
                 }
             }
         }
@@ -299,12 +299,12 @@ extension CVCalendarDayView {
 // MARK: - Dot marker movement
 
 extension CVCalendarDayView {
-    public func moveDotMarkerBack(unwinded: Bool, var coloring: Bool) {
+    public func moveDotMarkerBack(unwinded: Bool, coloring: Bool) {
         for dotMarker in dotMarkers {
 
             if let calendarView = calendarView, let dotMarker = dotMarker {
                 var shouldMove = true
-                if let delegate = calendarView.delegate, let move = delegate.dotMarker?(shouldMoveOnHighlightingOnDayView: self) where !move {
+                if let delegate = calendarView.delegate, let move = delegate.dotMarker?(shouldMoveOnHighlightingOnDayView: self), !move {
                     shouldMove = move
                 }
                 
@@ -315,10 +315,10 @@ extension CVCalendarDayView {
                         var color: UIColor?
                         if unwinded {
                             if let myColor = delegate.dotMarker?(colorOnDayView: self) {
-                                color = (isOut) ? appearance.dayLabelWeekdayOutTextColor : myColor.first
+                                color = (isOut) ? appearance?.dayLabelWeekdayOutTextColor : myColor.first
                             }
                         } else {
-                            color = appearance.dotMarkerColor
+                            color = appearance?.dotMarkerColor
                         }
                         
                         dotMarker.fillColor = color
@@ -330,10 +330,10 @@ extension CVCalendarDayView {
                 func moveMarker() {
                     var transform: CGAffineTransform!
                     if let circleView = circleView {
-                        let point = pointAtAngle(CGFloat(-90).toRadians(), withinCircleView: circleView)
+                        let point = pointAtAngle(angle: CGFloat(-90).toRadians(), withinCircleView: circleView)
                         let spaceBetweenDotAndCircle = CGFloat(1)
                         let offset = point.y - dotMarker.frame.origin.y - dotMarker.bounds.height/2 + spaceBetweenDotAndCircle
-                        transform = unwinded ? CGAffineTransformIdentity : CGAffineTransformMakeTranslation(0, offset)
+                        transform = unwinded ? CGAffineTransformIdentity : CGAffineTransform(translationX: 0, y: offset)
                         
                         if dotMarker.center.y + offset > CGRectGetMaxY(frame) {
                             coloring = true
@@ -343,13 +343,13 @@ extension CVCalendarDayView {
                     }
                     
                     if !coloring {
-                        UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
+                        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: UIView.AnimationOptions.curveEaseOut, animations: {
                             dotMarker.transform = transform
                             }, completion: { _ in
                                 
                         })
                     } else {
-                        moveDotMarkerBack(unwinded, coloring: coloring)
+                        moveDotMarkerBack(unwinded: unwinded, coloring: coloring)
                     }
                 }
                 
@@ -394,13 +394,13 @@ extension CVCalendarDayView {
     public func moveView(view: UIView, onCircleView circleView: UIView, fromAngle angle: CGFloat, toAngle endAngle: CGFloat, straight: Bool) {
         let condition = angle > endAngle ? angle > endAngle : angle < endAngle
         if straight && angle < endAngle || !straight && angle > endAngle {
-            UIView.animateWithDuration(pow(10, -1000), delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 10, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+            UIView.animate(withDuration: pow(10, -1000), delay: 0, usingSpringWithDamping: 0.4, initialSpringVelocity: 10, options: UIView.AnimationOptions.curveEaseIn, animations: {
                 let angle = angle.toRadians()
-                view.center = self.pointAtAngle(angle, withinCircleView: circleView)
+                view.center = self.pointAtAngle(angle: angle, withinCircleView: circleView)
                 }) { _ in
                     let speed = CGFloat(750).toRadians()
                     let newAngle = straight ? angle + speed : angle - speed
-                    self.moveView(view, onCircleView: circleView, fromAngle: newAngle, toAngle: endAngle, straight: straight)
+                    self.moveView(view: view, onCircleView: circleView, fromAngle: newAngle, toAngle: endAngle, straight: straight)
             }
         }
     }
@@ -419,35 +419,35 @@ extension CVCalendarDayView {
         case let .Single:
             shape = .Circle
             if isCurrentDay {
-                dayLabel?.textColor = appearance.dayLabelPresentWeekdaySelectedTextColor!
-                dayLabel?.font = appearance.dayLabelPresentWeekdaySelectedFont
-                backgroundColor = appearance.dayLabelPresentWeekdaySelectedBackgroundColor
-                backgroundAlpha = appearance.dayLabelPresentWeekdaySelectedBackgroundAlpha
+                dayLabel?.textColor = appearance?.dayLabelPresentWeekdaySelectedTextColor!
+                dayLabel?.font = appearance?.dayLabelPresentWeekdaySelectedFont
+                backgroundColor = appearance?.dayLabelPresentWeekdaySelectedBackgroundColor
+                backgroundAlpha = appearance?.dayLabelPresentWeekdaySelectedBackgroundAlpha
             } else {
-                dayLabel?.textColor = appearance.dayLabelWeekdaySelectedTextColor
-                dayLabel?.font = appearance.dayLabelWeekdaySelectedFont
-                backgroundColor = appearance.dayLabelWeekdaySelectedBackgroundColor
-                backgroundAlpha = appearance.dayLabelWeekdaySelectedBackgroundAlpha
+                dayLabel?.textColor = appearance?.dayLabelWeekdaySelectedTextColor
+                dayLabel?.font = appearance?.dayLabelWeekdaySelectedFont
+                backgroundColor = appearance?.dayLabelWeekdaySelectedBackgroundColor
+                backgroundAlpha = appearance?.dayLabelWeekdaySelectedBackgroundAlpha
             }
             
         case let .Range:
             shape = .Rect
             if isCurrentDay {
-                dayLabel?.textColor = appearance.dayLabelPresentWeekdayHighlightedTextColor!
-                dayLabel?.font = appearance.dayLabelPresentWeekdayHighlightedFont
-                backgroundColor = appearance.dayLabelPresentWeekdayHighlightedBackgroundColor
-                backgroundAlpha = appearance.dayLabelPresentWeekdayHighlightedBackgroundAlpha
+                dayLabel?.textColor = appearance?.dayLabelPresentWeekdayHighlightedTextColor!
+                dayLabel?.font = appearance?.dayLabelPresentWeekdayHighlightedFont
+                backgroundColor = appearance?.dayLabelPresentWeekdayHighlightedBackgroundColor
+                backgroundAlpha = appearance?.dayLabelPresentWeekdayHighlightedBackgroundAlpha
             } else {
-                dayLabel?.textColor = appearance.dayLabelWeekdayHighlightedTextColor
-                dayLabel?.font = appearance.dayLabelWeekdayHighlightedFont
-                backgroundColor = appearance.dayLabelWeekdayHighlightedBackgroundColor
-                backgroundAlpha = appearance.dayLabelWeekdayHighlightedBackgroundAlpha
+                dayLabel?.textColor = appearance?.dayLabelWeekdayHighlightedTextColor
+                dayLabel?.font = appearance?.dayLabelWeekdayHighlightedFont
+                backgroundColor = appearance?.dayLabelWeekdayHighlightedBackgroundColor
+                backgroundAlpha = appearance?.dayLabelWeekdayHighlightedBackgroundAlpha
             }
             
         default: break
         }
         
-        if let circleView = circleView where circleView.frame != dayLabel.bounds {
+        if let circleView = circleView, circleView.frame != dayLabel.bounds {
             circleView.frame = dayLabel.bounds
         } else {
             circleView = CVAuxiliaryView(dayView: self, rect: dayLabel.bounds, shape: shape)
@@ -456,9 +456,9 @@ extension CVCalendarDayView {
         circleView!.fillColor = backgroundColor
         circleView!.alpha = backgroundAlpha
         circleView!.setNeedsDisplay()
-        insertSubview(circleView!, atIndex: 0)
+        insertSubview(circleView!, at: 0)
         
-        moveDotMarkerBack(false, coloring: false)
+        moveDotMarkerBack(unwinded: false, coloring: false)
     }
     
     public func setDeselectedWithClearing(clearing: Bool) {
@@ -486,7 +486,7 @@ extension CVCalendarDayView {
             dayLabel?.textColor = color
             dayLabel?.font = font
             
-            moveDotMarkerBack(true, coloring: false)
+            moveDotMarkerBack(unwinded: true, coloring: false)
             
             if clearing {
                 circleView?.removeFromSuperview()
@@ -506,16 +506,16 @@ extension CVCalendarDayView {
         let shouldShowDaysOut = calendarView.shouldShowWeekdaysOut!
         if !shouldShowDaysOut {
             if isOut {
-                hidden = true
+                isHidden = true
             }
         } else {
             if isOut {
-                hidden = false
+                isHidden = false
             }
         }
         
         if circleView != nil {
-            setSelectedWithType(.Single)
+            setSelectedWithType(type: .Single)
         }
     }
 }
@@ -523,7 +523,7 @@ extension CVCalendarDayView {
 // MARK: - Safe execution
 
 extension CVCalendarDayView {
-    public func safeExecuteBlock(block: Void -> Void, collapsingOnNil collapsing: Bool, withObjects objects: AnyObject?...) {
+    public func safeExecuteBlock(block: () -> Void, collapsingOnNil collapsing: Bool, withObjects objects: AnyObject?...) {
         for object in objects {
             if object == nil {
                 if collapsing {

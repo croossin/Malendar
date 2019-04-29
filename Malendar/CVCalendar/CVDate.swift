@@ -17,7 +17,7 @@ public final class CVDate: NSObject {
     public let day: Int
     
    public init(date: NSDate) {
-        let dateRange = Manager.dateRange(date)
+    let dateRange = Manager.dateRange(date: date)
         
         self.date = date
         self.year = dateRange.year
@@ -29,7 +29,7 @@ public final class CVDate: NSObject {
     }
     
     public init(day: Int, month: Int, week: Int, year: Int) {
-        if let date = Manager.dateFromYear(year, month: month, week: week, day: day) {
+        if let date = Manager.dateFromYear(year: year, month: month, week: week, day: day) {
             self.date = date
         } else {
             self.date = NSDate()
@@ -46,29 +46,29 @@ public final class CVDate: NSObject {
 
 extension CVDate {
     public func convertedDate() -> NSDate? {
-        let calendar = NSCalendar.currentCalendar()
-        let comps = Manager.componentsForDate(NSDate())
+        let calendar = NSCalendar.current
+        let comps = Manager.componentsForDate(date: NSDate())
         
         comps.year = year
         comps.month = month
         comps.weekOfMonth = week
         comps.day = day
         
-        return calendar.dateFromComponents(comps)
+        return calendar.dateComponents(comps)
     }
 }
 
 extension CVDate {
     public var globalDescription: String {
         get {
-            let month = dateFormattedStringWithFormat("MMMM", fromDate: date)
+            let month = dateFormattedStringWithFormat(format: "MMMM", fromDate: date)
             return "\(month), \(year)"
         }
     }
     
     public var commonDescription: String {
         get {
-            let month = dateFormattedStringWithFormat("MMMM", fromDate: date)
+            let month = dateFormattedStringWithFormat(format: "MMMM", fromDate: date)
             return "\(day) \(month), \(year)"
         }
     }
@@ -76,8 +76,8 @@ extension CVDate {
 
 private extension CVDate {
     func dateFormattedStringWithFormat(format: String, fromDate date: NSDate) -> String {
-        let formatter = NSDateFormatter()
+        let formatter = DateFormatter()
         formatter.dateFormat = format
-        return formatter.stringFromDate(date)
+        return formatter.stringFromDate(date as Date)
     }
 }

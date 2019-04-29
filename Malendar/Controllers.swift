@@ -30,7 +30,7 @@ public class SelectorViewController<T:Equatable> : FormViewController, TypedRowC
     public var row: RowOf<T>!
     public var completionCallback : ((UIViewController) -> ())?
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
@@ -38,7 +38,7 @@ public class SelectorViewController<T:Equatable> : FormViewController, TypedRowC
         super.init(coder: aDecoder)
     }
     
-    convenience public init(_ callback: (UIViewController) -> ()){
+    convenience public init(_ callback: @escaping (UIViewController) -> ()){
         self.init()
         completionCallback = callback
     }
@@ -66,7 +66,7 @@ public class MultipleSelectorViewController<T:Hashable> : FormViewController, Ty
     public var row: RowOf<Set<T>>!
     public var completionCallback : ((UIViewController) -> ())?
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
@@ -74,7 +74,7 @@ public class MultipleSelectorViewController<T:Hashable> : FormViewController, Ty
         super.init(coder: aDecoder)
     }
     
-    convenience public init(_ callback: (UIViewController) -> ()){
+    convenience public init(_ callback: @escaping (UIViewController) -> ()){
         self.init()
         completionCallback = callback
     }
@@ -112,7 +112,7 @@ public class SelectorAlertController<T: Equatable> : UIAlertController, TypedRow
     public var row: RowOf<T>!
     public var completionCallback : ((UIViewController) -> ())?
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
@@ -120,7 +120,7 @@ public class SelectorAlertController<T: Equatable> : UIAlertController, TypedRow
         super.init(coder: aDecoder)
     }
     
-    convenience public init(_ callback: (UIViewController) -> ()){
+    convenience public init(_ callback: @escaping (UIViewController) -> ()){
         self.init()
         completionCallback = callback
     }
@@ -128,9 +128,9 @@ public class SelectorAlertController<T: Equatable> : UIAlertController, TypedRow
     public override func viewDidLoad() {
         super.viewDidLoad()
         guard let options = row.dataProvider?.arrayData else { return }
-        addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+        addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         for option in options {
-            addAction(UIAlertAction(title: row.displayValueFor?(option), style: .Default, handler: { [weak self] _ in
+            addAction(UIAlertAction(title: row.displayValueFor?(option), style: .default, handler: { [weak self] _ in
                 self?.row.value = option
                 self?.completionCallback?(self!)
             }))

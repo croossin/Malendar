@@ -28,7 +28,7 @@ import UIKit
 extension UIView {
     
     public func findFirstResponder() -> UIView? {
-        if isFirstResponder() { return self }
+        if isFirstResponder { return self }
         for subView in subviews {
             if let firstResponder = subView.findFirstResponder() {
                 return firstResponder

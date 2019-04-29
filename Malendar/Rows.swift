@@ -36,16 +36,16 @@ internal protocol TextAreaConformance : FormatterConformance {
 }
 
 internal protocol FormatterConformance: class {
-    var formatter: NSFormatter? { get set }
+    var formatter: Formatter? { get set }
     var useFormatterDuringInput: Bool { get set }
 }
 
-public class FieldRow<T: Any, Cell: CellType where Cell: BaseCell, Cell: TextFieldCell, Cell.Value == T>: Row<T, Cell>, FieldRowConformance {
+public class FieldRow<T: Any, Cell: CellType>: Row<T, Cell>, FieldRowConformance where Cell: BaseCell, Cell: TextFieldCell, Cell.Value == T {
     
     public var textFieldPercentage : CGFloat?
     public var placeholder : String?
     public var placeholderColor : UIColor?
-    public var formatter: NSFormatter?
+    public var formatter: Formatter?
     public var useFormatterDuringInput: Bool
     
     public required init(tag: String?) {
@@ -58,13 +58,13 @@ public class FieldRow<T: Any, Cell: CellType where Cell: BaseCell, Cell: TextFie
             if let formatter = self.formatter {
                 if self.cell.textField.isFirstResponder() {
                     if self.useFormatterDuringInput {
-                        return formatter.editingStringForObjectValue(v as! AnyObject)
+                        return formatter.editingString(for: v, for: as! AnyObject)
                     }
                     else {
                         return String(v)
                     }
                 }
-                return formatter.stringForObjectValue(v as! AnyObject)
+                return formatter.string(for: v, for: as! AnyObject)
             }
             else{
                 return String(v)
@@ -84,13 +84,13 @@ public class _DateFieldRow: Row<NSDate, DateCell>, _DatePickerRowProtocol {
     public var minimumDate : NSDate?
     public var maximumDate : NSDate?
     public var minuteInterval : Int?
-    public var dateFormatter: NSDateFormatter?
+    public var dateFormatter: DateFormatter?
     
     required public init(tag: String?) {
         super.init(tag: tag)
         displayValueFor = { [unowned self] value in
             guard let val = value, let formatter = self.dateFormatter else { return nil }
-            return formatter.stringFromDate(val)
+            return formatter.stringFromDate(val as Date)
         }
     }
 }
@@ -100,13 +100,13 @@ public class _DateInlineFieldRow: Row<NSDate, DateInlineCell>, _DatePickerRowPro
     public var minimumDate : NSDate?
     public var maximumDate : NSDate?
     public var minuteInterval : Int?
-    public var dateFormatter: NSDateFormatter?
+    public var dateFormatter: DateFormatter?
     
     required public init(tag: String?) {
         super.init(tag: tag)
         displayValueFor = { [unowned self] value in
             guard let val = value, let formatter = self.dateFormatter else { return nil }
-            return formatter.stringFromDate(val)
+            return formatter.stringFromDate(val as Date)
         }
     }
 }
@@ -117,7 +117,7 @@ public class _DateInlineRow: _DateInlineFieldRow {
     
     public required init(tag: String?) {
         super.init(tag: tag)
-        dateFormatter = NSDateFormatter()
+        dateFormatter = DateFormatter()
         dateFormatter?.timeStyle = .NoStyle
         dateFormatter?.dateStyle = .MediumStyle
         dateFormatter?.locale = .currentLocale()
@@ -130,7 +130,7 @@ public class _DateTimeInlineRow: _DateInlineFieldRow {
     
     public required init(tag: String?) {
         super.init(tag: tag)
-        dateFormatter = NSDateFormatter()
+        dateFormatter = DateFormatter()
         dateFormatter?.timeStyle = .ShortStyle
         dateFormatter?.dateStyle = .ShortStyle
         dateFormatter?.locale = .currentLocale()
@@ -143,7 +143,7 @@ public class _TimeInlineRow: _DateInlineFieldRow {
     
     public required init(tag: String?) {
         super.init(tag: tag)
-        dateFormatter = NSDateFormatter()
+        dateFormatter = DateFormatter()
         dateFormatter?.timeStyle = .ShortStyle
         dateFormatter?.dateStyle = .NoStyle
         dateFormatter?.locale = .currentLocale()
@@ -160,8 +160,8 @@ public class _CountDownInlineRow: _DateInlineFieldRow {
             guard let date = $0 else {
                 return nil
             }
-            let hour = NSCalendar.currentCalendar().component(.Hour, fromDate: date)
-            let min = NSCalendar.currentCalendar().component(.Minute, fromDate: date)
+            let hour = NSCalendar.current.component(.hour, from: date as Date)
+            let min = NSCalendar.current.component(.minute, from: date as Date)
             if hour == 1{
                 return "\(hour) hour \(min) min"
             }
@@ -179,7 +179,7 @@ public class _TextRow: FieldRow<String, TextCell> {
 public class _IntRow: FieldRow<Int, IntCell> {
     public required init(tag: String?) {
         super.init(tag: tag)
-        let numberFormatter = NSNumberFormatter()
+        let numberFormatter = NumberFormatter()
         numberFormatter.locale = .currentLocale()
         numberFormatter.numberStyle = .DecimalStyle
         numberFormatter.minimumFractionDigits = 0
@@ -214,7 +214,7 @@ public class _PasswordRow: FieldRow<String, PasswordCell> {
 public class _DecimalRow: FieldRow<Float, DecimalCell> {
     public required init(tag: String?) {
         super.init(tag: tag)
-        let numberFormatter = NSNumberFormatter()
+        let numberFormatter = NumberFormatter()
         numberFormatter.locale = .currentLocale()
         numberFormatter.numberStyle = .DecimalStyle
         numberFormatter.minimumFractionDigits = 2
@@ -243,7 +243,7 @@ public class _AccountRow: FieldRow<String, AccountCell> {
 public class _TimeRow: _DateFieldRow {
     required public init(tag: String?) {
         super.init(tag: tag)
-        dateFormatter = NSDateFormatter()
+        dateFormatter = DateFormatter()
         dateFormatter?.timeStyle = .ShortStyle
         dateFormatter?.dateStyle = .NoStyle
         dateFormatter?.locale = NSLocale.currentLocale()
@@ -253,7 +253,7 @@ public class _TimeRow: _DateFieldRow {
 public class _DateRow: _DateFieldRow {
     required public init(tag: String?) {
         super.init(tag: tag)
-        dateFormatter = NSDateFormatter()
+        dateFormatter = DateFormatter()
         dateFormatter?.timeStyle = .NoStyle
         dateFormatter?.dateStyle = .MediumStyle
         dateFormatter?.locale = NSLocale.currentLocale()
@@ -263,7 +263,7 @@ public class _DateRow: _DateFieldRow {
 public class _DateTimeRow: _DateFieldRow {
     required public init(tag: String?) {
         super.init(tag: tag)
-        dateFormatter = NSDateFormatter()
+        dateFormatter = DateFormatter()
         dateFormatter?.timeStyle = .ShortStyle
         dateFormatter?.dateStyle = .ShortStyle
         dateFormatter?.locale = NSLocale.currentLocale()
@@ -278,9 +278,9 @@ public class _CountDownRow: _DateFieldRow {
                 return nil
             }
             if let formatter = self.dateFormatter {
-                return formatter.stringFromDate(val)
+                return formatter.stringFromDate(val as Date)
             }
-            let components = NSCalendar.currentCalendar().components(NSCalendarUnit.Minute.union(NSCalendarUnit.Hour), fromDate: val)
+            let components = NSCalendar.currentCalendar.components(NSCalendar.Unit.Minute.union(NSCalendar.Unit.Hour), from: val as Date)
             var hourString = "hour"
             if components.hour != 1{
                 hourString += "s"
@@ -332,14 +332,14 @@ public class _PushRow<T: Equatable> : SelectorRow<T, SelectorViewController<T>>,
     
     public required init(tag: String?) {
         super.init(tag: tag)
-        presentationMode = .Show(controllerProvider: ControllerProvider.Callback { return SelectorViewController<T>(){ _ in } }, completionCallback: { vc in vc.navigationController?.popViewControllerAnimated(true) })
+        presentationMode = .Show(controllerProvider: ControllerProvider.Callback { return SelectorViewController<T>(){ _ in } }, completionCallback: { vc in vc.navigationController?.popViewController(animated: true) })
     }
 }
 
-public class AreaRow<T: Equatable, Cell: CellType where Cell: BaseCell, Cell: AreaCell, Cell.Value == T>: Row<T, Cell>, TextAreaConformance {
+public class AreaRow<T: Equatable, Cell: CellType>: Row<T, Cell>, TextAreaConformance where Cell: BaseCell, Cell: AreaCell, Cell.Value == T {
     
     public var placeholder : String?
-    public var formatter: NSFormatter?
+    public var formatter: Formatter?
     public var useFormatterDuringInput: Bool
     
     public required init(tag: String?) {
@@ -352,13 +352,13 @@ public class AreaRow<T: Equatable, Cell: CellType where Cell: BaseCell, Cell: Ar
             if let formatter = self.formatter {
                 if self.cell.textView.isFirstResponder() {
                     if self.useFormatterDuringInput {
-                        return formatter.editingStringForObjectValue(v as! AnyObject)
+                        return formatter.editingString(for: v, for: as! AnyObject)
                     }
                     else {
                         return String(v)
                     }
                 }
-                return formatter.stringForObjectValue(v as! AnyObject)
+                return formatter.string(for: v, for: as! AnyObject)
             }
             else{
                 return String(v)
@@ -368,7 +368,7 @@ public class AreaRow<T: Equatable, Cell: CellType where Cell: BaseCell, Cell: Ar
 
 }
 
-public class OptionsRow<T: Equatable, Cell: CellType where Cell: BaseCell, Cell.Value == T> : Row<T, Cell> {
+public class OptionsRow<T: Equatable, Cell: CellType> : Row<T, Cell> where Cell: BaseCell, Cell.Value == T {
     
     public var options: [T] {
         get { return dataProvider?.arrayData ?? [] }
@@ -387,12 +387,12 @@ public class _ActionSheetRow<T: Equatable>: OptionsRow<T, AlertSelectorCell<T>>,
     public var onPresentCallback : ((FormViewController, SelectorAlertController<T>)->())?
     lazy public var presentationMode: PresentationMode<SelectorAlertController<T>>? = {
         return .PresentModally(controllerProvider: ControllerProvider.Callback { [unowned self] in
-            let vc = SelectorAlertController<T>(title: self.selectorTitle, message: nil, preferredStyle: .ActionSheet)
+            let vc = SelectorAlertController<T>(title: self.selectorTitle, message: nil, preferredStyle: .actionSheet)
             vc.row = self
             return vc
             },
             completionCallback: { [unowned self] in
-                $0.dismissViewControllerAnimated(true, completion: nil)
+                $0.dismiss(animated: true, completion: nil)
                 self.cell?.formViewController()?.tableView?.reloadData()
             })
         }()
@@ -403,14 +403,14 @@ public class _ActionSheetRow<T: Equatable>: OptionsRow<T, AlertSelectorCell<T>>,
     
     public override func customDidSelect() {
         super.customDidSelect()
-        if let presentationMode = presentationMode where !isDisabled {
+        if let presentationMode = presentationMode, !isDisabled {
             if let controller = presentationMode.createController(){
                 controller.row = self
                 onPresentCallback?(cell.formViewController()!, controller)
-                presentationMode.presentViewController(controller, row: self, presentingViewController: cell.formViewController()!)
+                presentationMode.presentViewController(viewController: controller, row: self, presentingViewController: cell.formViewController()!)
             }
             else{
-                presentationMode.presentViewController(nil, row: self, presentingViewController: cell.formViewController()!)
+                presentationMode.presentViewController(viewController: nil, row: self, presentingViewController: cell.formViewController()!)
             }
         }
     }
@@ -421,11 +421,11 @@ public class _AlertRow<T: Equatable>: OptionsRow<T, AlertSelectorCell<T>>, Prese
     public var onPresentCallback : ((FormViewController, SelectorAlertController<T>)->())?
     lazy public var presentationMode: PresentationMode<SelectorAlertController<T>>? = {
         return .PresentModally(controllerProvider: ControllerProvider.Callback { [unowned self] in
-            let vc = SelectorAlertController<T>(title: self.selectorTitle, message: nil, preferredStyle: .Alert)
+            let vc = SelectorAlertController<T>(title: self.selectorTitle, message: nil, preferredStyle: .alert)
             vc.row = self
             return vc
             }, completionCallback: { [unowned self] in
-                $0.dismissViewControllerAnimated(true, completion: nil)
+                $0.dismiss(animated: true, completion: nil)
                 self.cell?.formViewController()?.tableView?.reloadData()
             }
         )
@@ -438,14 +438,14 @@ public class _AlertRow<T: Equatable>: OptionsRow<T, AlertSelectorCell<T>>, Prese
     
     public override func customDidSelect() {
         super.customDidSelect()
-        if let presentationMode = presentationMode where !isDisabled  {
+        if let presentationMode = presentationMode, !isDisabled  {
             if let controller = presentationMode.createController(){
                 controller.row = self
                 onPresentCallback?(cell.formViewController()!, controller)
-                presentationMode.presentViewController(controller, row: self, presentingViewController: cell.formViewController()!)
+                presentationMode.presentViewController(viewController: controller, row: self, presentingViewController: cell.formViewController()!)
             }
             else{
-                presentationMode.presentViewController(nil, row: self, presentingViewController: cell.formViewController()!)
+                presentationMode.presentViewController(viewController: nil, row: self, presentingViewController: cell.formViewController()!)
             }
         }
     }
@@ -454,16 +454,16 @@ public class _AlertRow<T: Equatable>: OptionsRow<T, AlertSelectorCell<T>>, Prese
 public class _ImageRow : SelectorRow<UIImage, ImagePickerController>, PresenterRowType {
     public required init(tag: String?) {
         super.init(tag: tag)
-        presentationMode = .PresentModally(controllerProvider: ControllerProvider.Callback { return ImagePickerController() }, completionCallback: { vc in vc.dismissViewControllerAnimated(true, completion: nil) })
+        presentationMode = .PresentModally(controllerProvider: ControllerProvider.Callback { return ImagePickerController() }, completionCallback: { vc in vc.dismiss(animated: true, completion: nil) })
         self.displayValueFor = nil
     }
     
     public override func customUpdateCell() {
         super.customUpdateCell()
-        cell.accessoryType = .None
+        cell.accessoryType = .none
         if let image = self.value {
             let imageView = UIImageView(frame: CGRectMake(0, 0, 44, 44))
-            imageView.contentMode = .ScaleAspectFill
+            imageView.contentMode = .scaleAspectFill
             imageView.image = image
             imageView.clipsToBounds = true
             cell.accessoryView = imageView
@@ -492,7 +492,7 @@ public class _ButtonRowOf<T: Equatable> : Row<T, ButtonCellOf<T>> {
     required public init(tag: String?) {
         super.init(tag: tag)
         displayValueFor = nil
-        cellStyle = .Default
+        cellStyle = .default
     }
     
     public override func customDidSelect() {
@@ -500,10 +500,10 @@ public class _ButtonRowOf<T: Equatable> : Row<T, ButtonCellOf<T>> {
         if !isDisabled {
             if let presentationMode = presentationMode {
                 if let controller = presentationMode.createController(){
-                    presentationMode.presentViewController(controller, row: self, presentingViewController: self.cell.formViewController()!)
+                    presentationMode.presentViewController(viewController: controller, row: self, presentingViewController: self.cell.formViewController()!)
                 }
                 else{
-                    presentationMode.presentViewController(nil, row: self, presentingViewController: self.cell.formViewController()!)
+                    presentationMode.presentViewController(viewController: nil, row: self, presentingViewController: self.cell.formViewController()!)
                 }
             }
         }
@@ -512,8 +512,8 @@ public class _ButtonRowOf<T: Equatable> : Row<T, ButtonCellOf<T>> {
     public override func customUpdateCell() {
         super.customUpdateCell()
         let leftAligmnment = presentationMode != nil
-        cell.textLabel?.textAlignment = leftAligmnment ? .Left : .Center
-        cell.accessoryType = !leftAligmnment || isDisabled ? .None : .DisclosureIndicator
+        cell.textLabel?.textAlignment = leftAligmnment ? .left : .center
+        cell.accessoryType = !leftAligmnment || isDisabled ? .none : .disclosureIndicator
         cell.editingAccessoryType = cell.accessoryType;
         if (!leftAligmnment){
             var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
@@ -526,13 +526,13 @@ public class _ButtonRowOf<T: Equatable> : Row<T, ButtonCellOf<T>> {
     }
     
     public override func prepareForSegue(segue: UIStoryboardSegue) {
-        super.prepareForSegue(segue)
-        let rowVC = segue.destinationViewController as? RowControllerType
+        super.prepareForSegue(segue: segue)
+        let rowVC = segue.destination as? RowControllerType
         rowVC?.completionCallback = self.presentationMode?.completionHandler
     }
 }
 
-public class _ButtonRowWithPresent<T: Equatable, VCType: TypedRowControllerType where VCType: UIViewController, VCType.RowValue == T>: Row<T, ButtonCellOf<T>>, PresenterRowType {
+public class _ButtonRowWithPresent<T: Equatable, VCType: TypedRowControllerType>: Row<T, ButtonCellOf<T>>, PresenterRowType where VCType: UIViewController, VCType.RowValue == T {
     
     public var presentationMode: PresentationMode<VCType>?
     public var onPresentCallback : ((FormViewController, VCType)->())?
@@ -540,14 +540,14 @@ public class _ButtonRowWithPresent<T: Equatable, VCType: TypedRowControllerType 
     required public init(tag: String?) {
         super.init(tag: tag)
         displayValueFor = nil
-        cellStyle = .Default
+        cellStyle = .default
     }
     
     public override func customUpdateCell() {
         super.customUpdateCell()
         let leftAligmnment = presentationMode != nil
-        cell.textLabel?.textAlignment = leftAligmnment ? .Left : .Center
-        cell.accessoryType = !leftAligmnment || isDisabled ? .None : .DisclosureIndicator
+        cell.textLabel?.textAlignment = leftAligmnment ? .left : .center
+        cell.accessoryType = !leftAligmnment || isDisabled ? .none : .disclosureIndicator
         cell.editingAccessoryType = cell.accessoryType;
         if (!leftAligmnment){
             var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
@@ -566,18 +566,18 @@ public class _ButtonRowWithPresent<T: Equatable, VCType: TypedRowControllerType 
                 if let controller = presentationMode.createController(){
                     controller.row = self
                     onPresentCallback?(cell.formViewController()!, controller)
-                    presentationMode.presentViewController(controller, row: self, presentingViewController: self.cell.formViewController()!)
+                    presentationMode.presentViewController(viewController: controller, row: self, presentingViewController: self.cell.formViewController()!)
                 }
                 else{
-                    presentationMode.presentViewController(nil, row: self, presentingViewController: self.cell.formViewController()!)
+                    presentationMode.presentViewController(viewController: nil, row: self, presentingViewController: self.cell.formViewController()!)
                 }
             }
         }
     }
     
     public override func prepareForSegue(segue: UIStoryboardSegue) {
-        super.prepareForSegue(segue)
-        guard let rowVC = segue.destinationViewController as? VCType else {
+        super.prepareForSegue(segue: segue)
+        guard let rowVC = segue.destination as? VCType else {
             return
         }
         if let callback = self.presentationMode?.completionHandler{
@@ -946,7 +946,7 @@ public final class ButtonRowOf<T: Equatable> : _ButtonRowOf<T>, RowType {
 
 public typealias ButtonRow = ButtonRowOf<String>
 
-public final class ButtonRowWithPresent<T: Equatable, VCType: TypedRowControllerType where VCType: UIViewController, VCType.RowValue == T> : _ButtonRowWithPresent<T, VCType>, RowType {
+public final class ButtonRowWithPresent<T: Equatable, VCType: TypedRowControllerType> : _ButtonRowWithPresent<T, VCType>, RowType where VCType: UIViewController, VCType.RowValue == T {
     public required init(tag: String?) {
         super.init(tag: tag)
     }

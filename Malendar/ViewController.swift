@@ -19,7 +19,7 @@ class EventTableViewCell : UITableViewCell {
     
     func loadItem(title: String, note: String?, start: NSDate, end: NSDate) {
         
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "hh:mm"
     
         
@@ -29,8 +29,8 @@ class EventTableViewCell : UITableViewCell {
         }else{
             eventNote.text = "No note..."
         }
-        eventStart.text = dateFormatter.stringFromDate(start)
-        eventEnd.text = dateFormatter.stringFromDate(end)
+        eventStart.text = dateFormatter.stringFromDate(start as Date)
+        eventEnd.text = dateFormatter.stringFromDate(end as Date)
     }
 
 }
