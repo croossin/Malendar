@@ -56,9 +56,9 @@ public final class CVCalendarWeekView: UIView {
         self.index = index
         
         if let size = monthView.calendarView.weekViewSize {
-            super.init(frame: CGRectMake(0, CGFloat(index) * size.height, size.width, size.height))
+            super.init(frame: CGRect(x: 0, y: CGFloat(index) * size.height, width: size.width, height: size.height))
         } else {
-            super.init(frame: CGRectZero)
+            super.init(frame: CGRect.zero)
         }
         
         // Get weekdays in.
@@ -67,7 +67,7 @@ public final class CVCalendarWeekView: UIView {
         
         // Get weekdays out.
         if let weeksOut = self.monthView!.weeksOut {
-            if self.weekdaysIn?.count ?? <#default value#> < 7 {
+            if self.weekdaysIn?.count ?? 0 < 7 {
                 if weeksOut.count > 1 {
                     let daysOut = 7 - self.weekdaysIn!.count
                     
@@ -85,7 +85,7 @@ public final class CVCalendarWeekView: UIView {
                                     break
                                 }
                             } else if value < 10 {
-                                if self.index == manager?.monthDateRange(date: self.monthView!.date!).countOfWeeks ?? <#default value#> - 1 {
+                                if self.index == manager?.monthDateRange(date: self.monthView!.date!).countOfWeeks ?? 0 - 1 {
                                     result = weekdaysOut
                                     break
                                 }
@@ -135,7 +135,7 @@ extension CVCalendarWeekView {
                     self.addSubview(interactiveView)
                 } else {
                     self.interactiveView = UIView(frame: self.bounds)
-                    self.interactiveView.backgroundColor = .clearColor()
+                    self.interactiveView.backgroundColor = .clear()
                     
                     let tapRecognizer = UITapGestureRecognizer(target: self, action: "didTouchInteractiveView:")
                     let pressRecognizer = UILongPressGestureRecognizer(target: self, action: "didPressInteractiveView:")
@@ -197,7 +197,7 @@ extension CVCalendarWeekView {
             for (index, dayView) in dayViews.enumerated() {
                 let hSpace = calendarView.appearance.spaceBetweenDayViews!
                 let x = CGFloat(index) * CGFloat(size.width + hSpace) + hSpace/2
-                dayView.frame = CGRectMake(x, 0, size.width, size.height)
+                dayView.frame = CGRect(x: x, y: 0, width: size.width, height: size.height)
                 dayView.reloadContent()
             }
         }

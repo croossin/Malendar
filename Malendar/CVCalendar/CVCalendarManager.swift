@@ -221,7 +221,7 @@ public final class CVCalendarManager {
     
     public static func componentsForDate(date: NSDate) -> NSDateComponents {
         let units = YearUnit.union(MonthUnit).union(WeekUnit).union(DayUnit)
-        let components = NSCalendar.currentCalendar.components(units, fromDate: date)
+        let components = NSCalendar.currentCalendar.components(units, from: date as Date)
         
         return components
     }
@@ -233,6 +233,6 @@ public final class CVCalendarManager {
         comps.weekOfMonth = week
         comps.day = day
         
-        return NSCalendar.currentCalendar().dateFromComponents(comps)
+        return NSCalendar.currentCalendar.dateComponents(comps)
     }
 }

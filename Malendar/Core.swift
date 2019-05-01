@@ -304,7 +304,7 @@ extension Form : RangeReplaceableCollectionType {
         for (var i = subRange.startIndex; i < subRange.endIndex; i++) {
             if let section = kvoWrapper.sections.objectAtIndex(i) as? Section {
                 section.willBeRemovedFromForm()
-                kvoWrapper._allSections.removeAtIndex(kvoWrapper._allSections.indexOf(section)!)
+                kvoWrapper._allSections.removeAtIndex(kvoWrapper._allSections.firstIndex(of:section)!)
             }
         }
         kvoWrapper.sections.replaceObjectsInRange(NSMakeRange(subRange.startIndex, subRange.endIndex - subRange.startIndex), withObjectsFromArray: newElements.map { $0 })
@@ -374,7 +374,7 @@ extension Form {
         }
     }
     
-    private func addRowObservers(taggable: Taggable, rowTags: [String], type: ConditionType) {
+    func addRowObservers(taggable: Taggable, rowTags: [String], type: ConditionType) {
         for rowTag in rowTags{
             if let _ = rowObservers[rowTag]?[type]{
                 if !rowObservers[rowTag]![type]!.contains(where: { $0 === taggable }){
@@ -388,23 +388,23 @@ extension Form {
         }
     }
     
-    private func removeRowObservers(taggable: Taggable, rows: [String], type: ConditionType) {
+    public func removeRowObservers(taggable: Taggable, rows: [String], type: ConditionType) {
         for row in rows{
-            guard var arr = rowObservers[row]?[type], let index = arr.indexOf({ $0 === taggable }) else { continue }
+            guard var arr = rowObservers[row]?[type], let index = arr.firstIndex(of:{ $0 === taggable }) else { continue }
             arr.removeAtIndex(index)
         }
     }
     
     internal func nextRowForRow(currentRow: BaseRow) -> BaseRow? {
         let allRows = rows
-        guard let index = allRows.indexOf(currentRow) else { return nil }
+        guard let index = allRows.firstIndex(of:currentRow) else { return nil }
         guard index < allRows.count - 1 else { return nil }
         return allRows[index + 1]
     }
     
     internal func previousRowForRow(currentRow: BaseRow) -> BaseRow? {
         let allRows = rows
-        guard let index = allRows.indexOf(currentRow) else { return nil }
+        guard let index = allRows.firstIndex(of:currentRow) else { return nil }
         guard index > 0 else { return nil }
         return allRows[index - 1]
     }
@@ -415,10 +415,10 @@ extension Form {
     
     private func showSection(section: Section){
         guard !kvoWrapper.sections.contains(section) else { return }
-        guard var index = kvoWrapper._allSections.indexOf(section) else { return }
+        guard var index = kvoWrapper._allSections.firstIndex(of:section) else { return }
         var formIndex = NSNotFound
         while (formIndex == NSNotFound && index > 0){
-            let previous = kvoWrapper._allSections[--index]
+            let previous = kvoWrapper._allSections[index-=1]
             formIndex = kvoWrapper.sections.indexOfObject(previous)
         }
         kvoWrapper.sections.insertObject(section, atIndex: formIndex == NSNotFound ? 0 : ++formIndex)
@@ -443,7 +443,7 @@ public class Section {
     public var header: HeaderFooterViewRepresentable?
     public var footer: HeaderFooterViewRepresentable?
     
-    public var index: Int? { return form?.indexOf(self) }
+    public var index: Int? { return form?.firstIndex(of:self) }
     
     public var hidden : Condition? {
         willSet { removeFromRowObservers() }
@@ -476,8 +476,8 @@ public class Section {
     
     //MARK: Private
     private lazy var kvoWrapper: KVOWrapper = { [unowned self] in return KVOWrapper(section: self) }()
-    private var headerView: UIView?
-    private var footerView: UIView?
+    public var headerView: UIView?
+    public var footerView: UIView?
     private var hiddenCache = false
 }
 
@@ -523,7 +523,7 @@ extension Section : RangeReplaceableCollectionType {
         for (var i = subRange.startIndex; i < subRange.endIndex; i++) {
             if let row = kvoWrapper.rows.objectAtIndex(i) as? BaseRow {
                 row.willBeRemovedFromForm()
-                kvoWrapper._allRows.removeAtIndex(kvoWrapper._allRows.indexOf(row)!)
+                kvoWrapper._allRows.removeAtIndex(kvoWrapper._allRows.firstIndex(of:row)!)
             }
         }
         kvoWrapper.rows.replaceObjectsInRange(NSMakeRange(subRange.startIndex, subRange.endIndex - subRange.startIndex), withObjectsFromArray: newElements.map { $0 })
@@ -634,7 +634,7 @@ extension Section {
                 return mutableArrayValue(forKey: "_rows")
             }
         }
-        private var _allRows = [BaseRow]()
+        public var _allRows = [BaseRow]()
         
         weak var section: Section?
         
@@ -672,7 +672,7 @@ extension Section {
     }
     
     public func rowByTag<Row: RowType>(tag: String) -> Row? {
-        guard let index = kvoWrapper._allRows.indexOf({ $0.tag == tag }) else { return nil }
+        guard let index = kvoWrapper._allRows.firstIndex(of:{ $0.tag == tag }) else { return nil }
         return kvoWrapper._allRows[index] as? Row
     }
 }
@@ -711,9 +711,9 @@ extension Section /* Condition */{
         guard let h = hidden else { return }
         switch h {
             case .Function(let tags, _):
-                form?.addRowObservers(self, rowTags: tags, type: .Hidden)
+                form?.addRowObservers(taggable: self, rowTags: tags, type: .Hidden)
             case .Predicate(let predicate):
-                form?.addRowObservers(self, rowTags: predicate.predicateVars, type: .Hidden)
+                form?.addRowObservers(taggable: self, rowTags: predicate.predicateVars, type: .Hidden)
         }
     }
     
@@ -729,24 +729,24 @@ extension Section /* Condition */{
         guard let h = hidden else { return }
         switch h {
             case .Function(let tags, _):
-                form?.removeRowObservers(self, rows: tags, type: .Hidden)
+                form?.removeRowObservers(taggable: self, rows: tags, type: .Hidden)
             case .Predicate(let predicate):
-                form?.removeRowObservers(self, rows: predicate.predicateVars, type: .Hidden)
+                form?.removeRowObservers(taggable: self, rows: predicate.predicateVars, type: .Hidden)
         }
     }
     
-    private func hideRow(row: BaseRow){
+    internal func hideRow(row: BaseRow){
         row.baseCell.cellResignFirstResponder()
         (row as? BaseInlineRowType)?.collapseInlineRow()
         kvoWrapper.rows.remove(row)
     }
     
-    private func showRow(row: BaseRow){
+    internal func showRow(row: BaseRow){
         guard !kvoWrapper.rows.contains(row) else { return }
-        guard var index = kvoWrapper._allRows.indexOf(row) else { return }
+        guard var index = kvoWrapper._allRows.firstIndex(of:row) else { return }
         var formIndex = NSNotFound
         while (formIndex == NSNotFound && index > 0){
-            let previous = kvoWrapper._allRows[--index]
+            let previous = kvoWrapper._allRows[index-=1]
             formIndex = kvoWrapper.rows.indexOfObject(previous)
         }
         kvoWrapper.rows.insertObject(row, atIndex: formIndex == NSNotFound ? 0 : ++formIndex)
@@ -784,16 +784,16 @@ extension RowType where Self: BaseRow, Cell : TypedCellType, Cell.Value == Value
 }
 
 internal class RowDefaults {
-    private static var cellUpdate = Dictionary<String, (BaseCell, BaseRow) -> Void>()
-    private static var cellSetup = Dictionary<String, (BaseCell, BaseRow) -> Void>()
-    private static var onCellHighlight = Dictionary<String, (BaseCell, BaseRow) -> Void>()
-    private static var onCellUnHighlight = Dictionary<String, (BaseCell, BaseRow) -> Void>()
-    private static var rowInitialization = Dictionary<String, (BaseRow) -> Void>()
-    private static var rawCellUpdate = Dictionary<String, Any>()
-    private static var rawCellSetup = Dictionary<String, Any>()
-    private static var rawOnCellHighlight = Dictionary<String, Any>()
-    private static var rawOnCellUnHighlight = Dictionary<String, Any>()
-    private static var rawRowInitialization = Dictionary<String, Any>()
+    public static var cellUpdate = Dictionary<String, (BaseCell, BaseRow) -> Void>()
+    public static var cellSetup = Dictionary<String, (BaseCell, BaseRow) -> Void>()
+    public static var onCellHighlight = Dictionary<String, (BaseCell, BaseRow) -> Void>()
+    public static var onCellUnHighlight = Dictionary<String, (BaseCell, BaseRow) -> Void>()
+    public static var rowInitialization = Dictionary<String, (BaseRow) -> Void>()
+    public static var rawCellUpdate = Dictionary<String, Any>()
+    public static var rawCellSetup = Dictionary<String, Any>()
+    public static var rawOnCellHighlight = Dictionary<String, Any>()
+    public static var rawOnCellUnHighlight = Dictionary<String, Any>()
+    public static var rawRowInitialization = Dictionary<String, Any>()
     
 }
 
@@ -884,33 +884,33 @@ extension RowType where Self : BaseRow, Cell : TypedCellType, Cell.Value == Valu
         get { return RowDefaults.rawRowInitialization["\(self)"] as? ((Self) -> ()) }
     }
     
-    public func onChange(callback: Self -> ()) -> Self{
+    public func onChange(callback: @escaping (Self) -> ()) -> Self{
         callbackOnChange = { [unowned self] in callback(self) }
         return self
     }
     
-    public func cellUpdate(callback: ((cell: Cell, row: Self) -> ())) -> Self{
-        callbackCellUpdate = { [unowned self] in  callback(cell: self.cell, row: self) }
+    public func cellUpdate(callback: @escaping ((_ cell: Cell, _ row: Self) -> ())) -> Self{
+        callbackCellUpdate = { [unowned self] in  callback(self.cell, self) }
         return self
     }
     
-    public func cellSetup(callback: ((cell: Cell, row: Self) -> ())) -> Self{
-        callbackCellSetup = { [unowned self] (cell:Cell) in  callback(cell: cell, row: self) }
+    public func cellSetup(callback: @escaping ((_ cell: Cell, _ row: Self) -> ())) -> Self{
+        callbackCellSetup = { [unowned self] (cell:Cell) in  callback(cell, self) }
         return self
     }
     
-    public func onCellSelection(callback: ((cell: Cell, row: Self) -> ())) -> Self{
-        callbackCellOnSelection = { [unowned self] in  callback(cell: self.cell, row: self) }
+    public func onCellSelection(callback: @escaping ((_ cell: Cell, _ row: Self) -> ())) -> Self{
+        callbackCellOnSelection = { [unowned self] in  callback(self.cell, self) }
         return self
     }
     
-    public func onCellHighlight(callback: (cell: Cell, row: Self)->()) -> Self {
-        callbackOnCellHighlight = { [unowned self] in  callback(cell: self.cell, row: self) }
+    public func onCellHighlight(callback: @escaping (_ cell: Cell, _ row: Self)->()) -> Self {
+        callbackOnCellHighlight = { [unowned self] in  callback(self.cell, self) }
         return self
     }
     
-    public func onCellUnHighlight(callback: (cell: Cell, row: Self)->()) -> Self {
-        callbackOnCellUnHighlight = { [unowned self] in  callback(cell: self.cell, row: self) }
+    public func onCellUnHighlight(callback: @escaping (_ cell: Cell, _ row: Self)->()) -> Self {
+        callbackOnCellUnHighlight = { [unowned self] in  callback(self.cell, self) }
         return self
     }
 }
@@ -918,15 +918,15 @@ extension RowType where Self : BaseRow, Cell : TypedCellType, Cell.Value == Valu
 
 public class BaseRow : BaseRowType {
 
-    private var callbackOnChange: (()->Void)?
-    private var callbackCellUpdate: (()->Void)?
-    private var callbackCellSetup: Any?
-    private var callbackCellOnSelection: (()->Void)?
-    private var callbackOnCellHighlight: (()->Void)?
-    private var callbackOnCellUnHighlight: (()->Void)?
-    private var callbackOnExpandInlineRow: Any?
-    private var callbackOnCollapseInlineRow: Any?
-    private var _inlineRow: BaseRow?
+    public var callbackOnChange: (()->Void)?
+    public var callbackCellUpdate: (()->Void)?
+    public var callbackCellSetup: Any?
+    public var callbackCellOnSelection: (()->Void)?
+    public var callbackOnCellHighlight: (()->Void)?
+    public var callbackOnCellUnHighlight: (()->Void)?
+    public var callbackOnExpandInlineRow: Any?
+    public var callbackOnCollapseInlineRow: Any?
+    public var _inlineRow: BaseRow?
     
     public var title: String?
     public var cellStyle = UITableViewCell.CellStyle.value1
@@ -961,7 +961,7 @@ public class BaseRow : BaseRowType {
     public func prepareForSegue(segue: UIStoryboardSegue) {}
     
     public final func indexPath() -> NSIndexPath? {
-        guard let sectionIndex = section?.index, let rowIndex = section?.indexOf(self) else { return nil }
+        guard let sectionIndex = section?.index, let rowIndex = section?.firstIndex(of:self) else { return nil }
         return NSIndexPath(forRow: rowIndex, inSection: sectionIndex)
     }
     
@@ -992,10 +992,10 @@ extension BaseRow {
                 hiddenCache = predicate.evaluate(with: self, substitutionVariables: form.dictionaryValuesToEvaluatePredicate())
         }
         if hiddenCache {
-            section?.hideRow(self)
+            section?.hideRow(row: self)
         }
         else{
-            section?.showRow(self)
+            section?.showRow(row: self)
         }
     }
     
@@ -1025,9 +1025,9 @@ extension BaseRow {
         guard let h = hidden else { return }
         switch h {
             case .Function(let tags, _):
-                section?.form?.addRowObservers(self, rowTags: tags, type: .Hidden)
+                section?.form?.addRowObservers(taggable: self, rowTags: tags, type: .Hidden)
             case .Predicate(let predicate):
-                section?.form?.addRowObservers(self, rowTags: predicate.predicateVars, type: .Hidden)
+                section?.form?.addRowObservers(taggable: self, rowTags: predicate.predicateVars, type: .Hidden)
         }
     }
     
@@ -1035,9 +1035,9 @@ extension BaseRow {
         guard let d = disabled else { return }
         switch d {
             case .Function(let tags, _):
-                section?.form?.addRowObservers(self, rowTags: tags, type: .Disabled)
+                section?.form?.addRowObservers(taggable: self, rowTags: tags, type: .Disabled)
             case .Predicate(let predicate):
-                section?.form?.addRowObservers(self, rowTags: predicate.predicateVars, type: .Disabled)
+                section?.form?.addRowObservers(taggable: self, rowTags: predicate.predicateVars, type: .Disabled)
         }
     }
     
@@ -1046,7 +1046,7 @@ extension BaseRow {
         addToDisabledRowObservers()
     }
     
-    private final func willBeRemovedFromForm(){
+    public final func willBeRemovedFromForm(){
         (self as? BaseInlineRowType)?.collapseInlineRow()
         if let t = tag {
             section?.form?.rowsByTag[t] = nil
@@ -1059,9 +1059,9 @@ extension BaseRow {
         guard let h = hidden else { return }
         switch h {
             case .Function(let tags, _):
-                section?.form?.removeRowObservers(self, rows: tags, type: .Hidden)
+                section?.form?.removeRowObservers(taggable: self, rows: tags, type: .Hidden)
             case .Predicate(let predicate):
-                section?.form?.removeRowObservers(self, rows: predicate.predicateVars, type: .Hidden)
+                section?.form?.removeRowObservers(taggable: self, rows: predicate.predicateVars, type: .Hidden)
         }
     }
     
@@ -1069,9 +1069,9 @@ extension BaseRow {
         guard let d = disabled else { return }
         switch d {
             case .Function(let tags, _):
-                section?.form?.removeRowObservers(self, rows: tags, type: .Disabled)
+                section?.form?.removeRowObservers(taggable: self, rows: tags, type: .Disabled)
             case .Predicate(let predicate):
-                section?.form?.removeRowObservers(self, rows: predicate.predicateVars, type: .Disabled)
+                section?.form?.removeRowObservers(taggable: self, rows: predicate.predicateVars, type: .Disabled)
         }
     }
     
@@ -1142,7 +1142,7 @@ public class Row<T: Equatable, Cell: CellType>: RowOf<T>,  TypedRowType where Ce
         guard _cell == nil else{
             return _cell
         }
-        let result = cellProvider.createCell(self.cellStyle)
+        let result = cellProvider.createCell(cellStyle: self.cellStyle)
         result.row = self
         result.setup()
         _cell = result
@@ -1633,8 +1633,8 @@ public protocol FormViewControllerProtocol {
     func beginEditing<T:Equatable>(cell: Cell<T>)
     func endEditing<T:Equatable>(cell: Cell<T>)
     
-    func insertAnimationForRows(rows: [BaseRow]) -> UITableView.RowAnimationUITableView.RowAnimation
-    func deleteAnimationForRows(rows: [BaseRow]) -> UITableView.RowAnimationUITableView.RowAnimation
+    func insertAnimationForRows(rows: [BaseRow]) -> UITableView.RowAnimation
+    func deleteAnimationForRows(rows: [BaseRow]) -> UITableView.RowAnimation
     func reloadAnimationOldRows(oldRows: [BaseRow], newRows: [BaseRow]) -> UITableView.RowAnimation
     func insertAnimationForSections(sections : [Section]) -> UITableView.RowAnimation
     func deleteAnimationForSections(sections : [Section]) -> UITableView.RowAnimation
@@ -1696,7 +1696,7 @@ public class FormViewController : UIViewController, FormViewControllerProtocol {
     
     lazy public var navigationAccessoryView : NavigationAccessoryView = {
         [unowned self] in
-        let naview = NavigationAccessoryView(frame: CGRectMake(0, 0, self.view.frame.width, 44.0))
+        let naview = NavigationAccessoryView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44.0))
         naview.doneButton.target = self
         naview.doneButton.action = "navigationDone:"
         naview.previousButton.target = self
@@ -2029,7 +2029,7 @@ extension FormViewController {
         
         let options = navigationOptions ?? Form.defaultNavigationOptions
         guard options.contains(.Enabled) else { return nil }
-        guard let nextRow = direction == .Down ? form.nextRowForRow(currentRow: currentRow) : form.previousRowForRow(currentRow) else { return nil }
+        guard let nextRow = direction == .Down ? form.nextRowForRow(currentRow: currentRow) : form.previousRowForRow(currentRow: currentRow) else { return nil }
         if nextRow.isDisabled && options.contains(.StopDisabledRow) {
             return nil
         }
@@ -2039,7 +2039,7 @@ extension FormViewController {
         if (!nextRow.isDisabled && nextRow.baseCell.cellCanBecomeFirstResponder()){
             return nextRow
         }
-        return nextRowForRow(nextRow, withDirection:direction)
+        return nextRowForRow(currentRow: nextRow, withDirection:direction)
     }
     
     public func inputAccessoryViewForRow(row: BaseRow) -> UIView? {
@@ -2061,7 +2061,7 @@ public class NavigationAccessoryView : UIToolbar {
     private var flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     
     override init(frame: CGRect) {
-        super.init(frame: CGRectMake(0, 0, frame.size.width, 44.0))
+        super.init(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: 44.0))
         autoresizingMask = .flexibleWidth
         fixedSpace.width = 22.0
         setItems([previousButton, fixedSpace, nextButton, flexibleSpace, doneButton], animated: false)

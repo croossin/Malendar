@@ -88,7 +88,7 @@ extension CVAuxiliaryView {
 
 extension CVAuxiliaryView {
     func circlePath() -> UIBezierPath {
-        let arcCenter = CGPointMake(frame.width / 2, frame.height / 2)
+        let arcCenter = CGPoint(x: frame.width / 2, y: frame.height / 2)
         let startAngle = CGFloat(0)
         let endAngle = CGFloat(M_PI * 2.0)
         let clockwise = true
@@ -104,10 +104,10 @@ extension CVAuxiliaryView {
         let offset = appearance.spaceBetweenDayViews!
         
         let flag = UIBezierPath()
-        flag.move(to: CGPointMake(bounds.width / 2, bounds.height / 2 - radius))
-        flag.addLine(to: CGPointMake(bounds.width, bounds.height / 2 - radius))
-        flag.addLine(to: CGPointMake(bounds.width, bounds.height / 2 + radius ))
-        flag.addLine(to: CGPointMake(bounds.width / 2, bounds.height / 2 + radius))
+        flag.move(to: CGPoint(x: bounds.width / 2, y: bounds.height / 2 - radius))
+        flag.addLine(to: CGPoint(x: bounds.width, y: bounds.height / 2 - radius))
+        flag.addLine(to: CGPoint(x: bounds.width, y: bounds.height / 2 + radius ))
+        flag.addLine(to: CGPoint(x: bounds.width / 2, y: bounds.height / 2 + radius))
         
         let path = CGMutablePath()
         CGPathAddPath(path, nil, circlePath().CGPath)
@@ -118,10 +118,10 @@ extension CVAuxiliaryView {
     
     func leftFlagPath() -> UIBezierPath {
         let flag = UIBezierPath()
-        flag.move(to: CGPointMake(bounds.width / 2, bounds.height / 2 + radius))
-        flag.addLine(to: CGPointMake(0, bounds.height / 2 + radius))
-        flag.addLine(to: CGPointMake(0, bounds.height / 2 - radius))
-        flag.addLine(to: CGPointMake(bounds.width / 2, bounds.height / 2 - radius))
+        flag.move(to: CGPoint(x: bounds.width / 2, y: bounds.height / 2 + radius))
+        flag.addLine(to: CGPoint(x: 0, y: bounds.height / 2 + radius))
+        flag.addLine(to: CGPoint(x: 0, y: bounds.height / 2 - radius))
+        flag.addLine(to: CGPoint(x: bounds.width / 2, y: bounds.height / 2 - radius))
         
         let path = CGMutablePath()
         CGPathAddPath(path, nil, circlePath().CGPath)
@@ -139,7 +139,7 @@ extension CVAuxiliaryView {
         
         print("offset = \(offset)")
         
-        let path = UIBezierPath(rect: CGRectMake(0 - offset! ?? <#default value#> ?? <#default value#>, midY - radius, bounds.width + offset! / 2, radius * 2))
+        let path = UIBezierPath(rect: CGRect(x: 0 - offset!, y: midY - radius, width: bounds.width + offset! / 2, height: radius * 2))
         
         return path
     }

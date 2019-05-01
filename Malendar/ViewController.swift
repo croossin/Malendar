@@ -65,23 +65,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //Initialize drop down menu
         //Menu
         let items = ["Monthly Calendar", "Weekly Calendar"]
-        self.navigationController?.navigationBar.translucent = false
+        self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.0/255.0, green:180/255.0, blue:220/255.0, alpha: 1.0)
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         
-        let dropDownMenuView = BTNavigationDropdownMenu(title: items.first!, items: items)
+        let dropDownMenuView = BTNavigationDropdownMenu(title: items.first!, items: items as [AnyObject])
         dropDownMenuView.cellHeight = 50
         dropDownMenuView.cellBackgroundColor = self.navigationController?.navigationBar.barTintColor
         dropDownMenuView.cellSelectionColor = UIColor(red: 0.0/255.0, green:160.0/255.0, blue:195.0/255.0, alpha: 1.0)
-        dropDownMenuView.cellTextLabelColor = UIColor.whiteColor()
+        dropDownMenuView.cellTextLabelColor = UIColor.white
         dropDownMenuView.cellTextLabelFont = UIFont(name: "Avenir-Heavy", size: 17)
         dropDownMenuView.arrowPadding = 15
         dropDownMenuView.animationDuration = 0.5
-        dropDownMenuView.maskBackgroundColor = UIColor.blackColor()
+        dropDownMenuView.maskBackgroundColor = UIColor.black
         dropDownMenuView.maskBackgroundOpacity = 0.3
         dropDownMenuView.didSelectItemAtIndexHandler = {(indexPath: Int) -> () in
             print("Did select item at index: \(indexPath)")
-            self.dealWithNavBarSelection(indexPath)
+            self.dealWithNavBarSelection(indexSelected: indexPath)
         }
        
         // Initialize the event store
@@ -92,14 +92,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         //Set up custom cell
         let nib = UINib(nibName: "EventTableViewCell", bundle: nil)
-        self.tableView.registerNib(nib, forCellReuseIdentifier: "customCell")
+        self.tableView.register(nib, forCellReuseIdentifier: "customCell")
        
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         // Check whether we are authorized to access Calendar
         self.checkEventStoreAccessForCalendar()
-        self.eventsList = self.fetchEvents(NSDate())
+        self.eventsList = self.fetchEvents(givenStartDate: NSDate())
         reloadTable()
         
     }
@@ -119,30 +119,30 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func dealWithNavBarSelection(indexSelected: Int){
         //monthly
         if(indexSelected == 0){
-            self.calendarView.changeMode(.MonthView)
+            self.calendarView.changeMode(mode: .MonthView)
         }
         //weekly
         if(indexSelected == 1){
-            self.calendarView.changeMode(.WeekView)
+            self.calendarView.changeMode(mode: .WeekView)
             print("week view")
         }
     }
     
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.eventsList.count;
     }
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell:EventTableViewCell = self.tableView.dequeueReusableCellWithIdentifier("customCell") as! EventTableViewCell!
+        let cell:EventTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: "customCell") as! EventTableViewCell? ?? <#default value#>
 
-        let cellTitle = self.eventsList[indexPath.row].title
+        guard let cellTitle = self.eventsList[indexPath.row].title else { return <#default value#> }
         let cellNote = self.eventsList[indexPath.row].notes
         let cellStart = self.eventsList[indexPath.row].startDate
         let cellEnd = self.eventsList[indexPath.row].endDate
         
-        cell.loadItem(cellTitle, note: cellNote, start: cellStart, end: cellEnd)
+        cell.loadItem(title: cellTitle, note: cellNote, start: cellStart as! NSDate, end: cellEnd as! NSDate)
         
         return cell
     }
@@ -212,7 +212,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let tomorrowDateComponents = NSDateComponents()
         tomorrowDateComponents.day = 1
         
-        let endDate = NSCalendar.currentCalendar().dateByAddingComponents(tomorrowDateComponents,
+        let endDate = NSCalendar.currentCalendar.dateByAddingComponents(tomorrowDateComponents,
             toDate: startDate,
             options: [])!
         // We will only search the default calendar for our events
@@ -235,30 +235,30 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // Check the authorization status of our application for Calendar
     private func checkEventStoreAccessForCalendar() {
-        let status = EKEventStore.authorizationStatusForEntityType(EKEntityType.Event)
+        let status = EKEventStore.authorizationStatus(for: EKEntityType.event)
         
         switch status {
             // Update our UI if the user has granted access to their Calendar
-        case .Authorized:
+        case .authorized:
             self.eventStore = EKEventStore()
             self.defaultCalendar = self.eventStore.defaultCalendarForNewEvents
             
             // Prompt the user for access to Calendar if there is no definitive answer
-        case .NotDetermined:
+        case .notDetermined:
             self.eventStore = EKEventStore()
             self.requestCalendarAccess()
             // Display a message if the user has denied or restricted access to Calendar
-        case .Denied, .Restricted:
+        case .denied, .restricted:
             print("denied")
         }
     }
     
     // Prompt the user for access to their Calendar
     private func requestCalendarAccess() {
-        self.eventStore.requestAccessToEntityType(EKEntityType.Event) {[weak self] granted, error in
+        self.eventStore.requestAccess(to: EKEntityType.event) {[weak self] granted, error in
             if granted {
                 // Let's ensure that our code will be executed from the main queue
-                dispatch_async(dispatch_get_main_queue()) {
+                dispatch_get_main_queue().async() {
                     // The user has granted access to their Calendar; let's populate our UI with all events occuring in the next 24 hours.
                     self?.accessGrantedForCalendar()
                 }
@@ -303,7 +303,7 @@ extension ViewController: CVCalendarViewDelegate, CVCalendarMenuViewDelegate {
         
         // Fetch all events happening in the next 24 hours and put them into eventsList
         let currentDate = calendarView.presentedDate.convertedDate()
-        self.eventsList = self.fetchEvents(currentDate!)
+        self.eventsList = self.fetchEvents(givenStartDate: currentDate!)
 
         // Update the UI with the above events
         reloadTable()
@@ -314,31 +314,31 @@ extension ViewController: CVCalendarViewDelegate, CVCalendarMenuViewDelegate {
             let updatedMonthLabel = UILabel()
             updatedMonthLabel.textColor = monthLabel.textColor
             updatedMonthLabel.font = monthLabel.font
-            updatedMonthLabel.textAlignment = .Center
+            updatedMonthLabel.textAlignment = .center
             updatedMonthLabel.text = date.globalDescription
             updatedMonthLabel.sizeToFit()
             updatedMonthLabel.alpha = 0
             updatedMonthLabel.center = self.monthLabel.center
             
             let offset = CGFloat(48)
-            updatedMonthLabel.transform = CGAffineTransformMakeTranslation(0, offset)
-            updatedMonthLabel.transform = CGAffineTransformMakeScale(1, 0.1)
+            updatedMonthLabel.transform = CGAffineTransform(translationX: 0, y: offset)
+            updatedMonthLabel.transform = CGAffineTransform(scaleX: 1, y: 0.1)
             
-            UIView.animateWithDuration(0.35, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+            UIView.animate(withDuration: 0.35, delay: 0, options: UIView.AnimationOptions.curveEaseIn, animations: {
                 self.animationFinished = false
-                self.monthLabel.transform = CGAffineTransformMakeTranslation(0, -offset)
-                self.monthLabel.transform = CGAffineTransformMakeScale(1, 0.1)
+                self.monthLabel.transform = CGAffineTransform(translationX: 0, y: -offset)
+                self.monthLabel.transform = CGAffineTransform(scaleX: 1, y: 0.1)
                 self.monthLabel.alpha = 0
                 
                 updatedMonthLabel.alpha = 1
-                updatedMonthLabel.transform = CGAffineTransformIdentity
+                updatedMonthLabel.transform = CGAffineTransform.identity
                 
                 }) { _ in
                     
                     self.animationFinished = true
                     self.monthLabel.frame = updatedMonthLabel.frame
                     self.monthLabel.text = updatedMonthLabel.text
-                    self.monthLabel.transform = CGAffineTransformIdentity
+                    self.monthLabel.transform = CGAffineTransform.identity
                     self.monthLabel.alpha = 1
                     updatedMonthLabel.removeFromSuperview()
             }
@@ -353,7 +353,7 @@ extension ViewController: CVCalendarViewDelegate, CVCalendarMenuViewDelegate {
     
     func dotMarker(shouldShowOnDayView dayView: CVCalendarDayView) -> Bool {
         var tempEventsList: [EKEvent] = []
-        tempEventsList = fetchEvents(dayView.date.convertedDate()!)
+        tempEventsList = fetchEvents(givenStartDate: dayView.date.convertedDate()!)
         if(!tempEventsList.isEmpty){
             return true
         }
@@ -361,7 +361,7 @@ extension ViewController: CVCalendarViewDelegate, CVCalendarMenuViewDelegate {
     }
     
     func dotMarker(colorOnDayView dayView: CVCalendarDayView) -> [UIColor] {
-        return [UIColor.redColor()]
+        return [UIColor.red]
     }
     
     func dotMarker(shouldMoveOnHighlightingOnDayView dayView: CVCalendarDayView) -> Bool {
@@ -395,11 +395,11 @@ extension ViewController: CVCalendarViewAppearanceDelegate {
 
 extension ViewController {
     @IBAction func switchChanged(sender: UISwitch) {
-        if sender.on {
-            calendarView.changeDaysOutShowingState(false)
+        if sender.isOn {
+            calendarView.changeDaysOutShowingState(shouldShow: false)
             shouldShowDaysOut = true
         } else {
-            calendarView.changeDaysOutShowingState(true)
+            calendarView.changeDaysOutShowingState(shouldShow: true)
             shouldShowDaysOut = false
         }
     }
@@ -410,12 +410,12 @@ extension ViewController {
     
     /// Switch to WeekView mode.
     @IBAction func toWeekView(sender: AnyObject) {
-        calendarView.changeMode(.WeekView)
+        calendarView.changeMode(mode: .WeekView)
     }
     
     /// Switch to MonthView mode.
     @IBAction func toMonthView(sender: AnyObject) {
-        calendarView.changeMode(.MonthView)
+        calendarView.changeMode(mode: .MonthView)
     }
     
     @IBAction func loadPrevious(sender: AnyObject) {
@@ -432,13 +432,13 @@ extension ViewController {
 
 extension ViewController {
     func toggleMonthViewWithMonthOffset(offset: Int) {
-        let calendar = NSCalendar.currentCalendar()
+        let calendar = NSCalendar.current
         let calendarManager = calendarView.manager
-        let components = Manager.componentsForDate(NSDate()) // from today
+        let components = Manager.componentsForDate(date: NSDate()) // from today
         
         components.month += offset
         
-        let resultDate = calendar.dateFromComponents(components)!
+        let resultDate = calendar.dateComponents(components)!
         
         self.calendarView.toggleViewWithDate(resultDate)
     }

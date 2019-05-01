@@ -175,7 +175,7 @@ public final class CVCalendarView: UIView {
     // MARK: - Initialization
     
     public init() {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         isHidden = true
     }
     
@@ -230,11 +230,11 @@ extension CVCalendarView {
                         addConstraint(NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: frame.height))
                     }
                     
-                    weekViewSize = CGSizeMake(width, height)
-                    dayViewSize = CGSizeMake((width / 7.0) - hSpace, height)
+                    weekViewSize = CGSize(width: width, height: height)
+                    dayViewSize = CGSize(width: (width / 7.0) - hSpace, height: height)
                     validated = true
                     
-                    contentController.updateFrames(frame: selfSize != contentViewSize ? bounds : CGRectZero)
+                    contentController.updateFrames(frame: selfSize != contentViewSize ? bounds : CGRect.zero)
                 }
             }
         }
@@ -295,7 +295,7 @@ extension CVCalendarView {
             newController.scrollView.alpha = 0
             addSubview(newController.scrollView)
             
-            UIView.animate(withDuration: 0.5, delay: 0, options: UIView.AnimationOptions.CurveEaseInOut, animations: {
+            UIView.animate(withDuration: 0.5, delay: 0, options: [.curveEaseIn, .curveEaseOut], animations: {
                 self.contentController.scrollView.alpha = 0
                 newController.scrollView.alpha = 1
             }) { _ in

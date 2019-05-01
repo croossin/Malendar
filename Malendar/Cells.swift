@@ -200,10 +200,10 @@ public class _FieldCell<T> : Cell<T>, UITextFieldDelegate, TextFieldCell where T
         contentView.removeConstraints(dynamicConstraints)
         dynamicConstraints = []
         var views : [String: AnyObject] =  ["textField": textField]
-        dynamicConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-11-[textField]-11-|", options: .AlignAllBaseline, metrics: nil, views: ["textField": textField])
+        dynamicConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-11-[textField]-11-|", options: .alignAllLastBaseline, metrics: nil, views: ["textField": textField])
         
         if let label = titleLabel, let text = label.text, !text.isEmpty {
-            dynamicConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-11-[titleLabel]-11-|", options: .AlignAllBaseline, metrics: nil, views: ["titleLabel": label])
+            dynamicConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-11-[titleLabel]-11-|", options: .alignAllLastBaseline, metrics: nil, views: ["titleLabel": label])
             dynamicConstraints.append(NSLayoutConstraint(item: label, attribute: .centerY, relatedBy: .equal, toItem: textField, attribute: .centerY, multiplier: 1, constant: 0))
         }
         if let imageView = imageView, let _ = imageView.image {
@@ -221,7 +221,7 @@ public class _FieldCell<T> : Cell<T>, UITextFieldDelegate, TextFieldCell where T
             if let titleLabel = titleLabel, let text = titleLabel.text, !text.isEmpty {
                 views["label"] = titleLabel
                 dynamicConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-[label]-[textField]-|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: views)
-                dynamicConstraints.append(NSLayoutConstraint(item: textField, attribute: .width, relatedBy: (row as? FieldRowConformance)?.textFieldPercentage != nil ? .equal : .greaterThanOrEqual, toItem: contentView, attribute: .Width, multiplier: (row as? FieldRowConformance)?.textFieldPercentage ?? 0.3, constant: 0.0))
+                dynamicConstraints.append(NSLayoutConstraint(item: textField, attribute: .width, relatedBy: (row as? FieldRowConformance)?.textFieldPercentage != nil ? .equal : .greaterThanOrEqual, toItem: contentView, attribute: .width, multiplier: (row as? FieldRowConformance)?.textFieldPercentage ?? 0.3, constant: 0.0))
             }
             else{
                 dynamicConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-[textField]-|", options: .alignAllLeft, metrics: nil, views: views)
@@ -239,7 +239,7 @@ public class _FieldCell<T> : Cell<T>, UITextFieldDelegate, TextFieldCell where T
         if let fieldRow = row as? FieldRowConformance, let formatter = fieldRow.formatter, fieldRow.useFormatterDuringInput {
             let value: AutoreleasingUnsafeMutablePointer<AnyObject?> = AutoreleasingUnsafeMutablePointer<AnyObject?>.init(UnsafeMutablePointer<T>.allocate(capacity: 1))
             let errorDesc: AutoreleasingUnsafeMutablePointer<NSString?>? = nil
-            if formatter.getObjectValue(value, forString: textValue, errorDescription: errorDesc) {
+            if formatter.getObjectValue(value, for: textValue, errorDescription: errorDesc) {
                 row.value = value.memory as? T
                 if var selStartPos = textField.selectedTextRange?.start {
                     let oldVal = textField.text
@@ -286,6 +286,10 @@ public class TextCell : _FieldCell<String>, CellType {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
     
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     public override func update() {
         super.update()
         textField.autocorrectionType = .default
@@ -299,6 +303,10 @@ public class IntCell : _FieldCell<Int>, CellType {
     
     required public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     public override func update() {
@@ -315,6 +323,10 @@ public class PhoneCell : _FieldCell<String>, CellType {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
     
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     public override func update() {
         super.update()
         textField.keyboardType = .phonePad
@@ -325,6 +337,10 @@ public class NameCell : _FieldCell<String>, CellType {
     
     required public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     public override func update() {
@@ -341,6 +357,10 @@ public class EmailCell : _FieldCell<String>, CellType {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
     
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     public override func update() {
         super.update()
         textField.autocorrectionType = .no
@@ -353,6 +373,10 @@ public class PasswordCell : _FieldCell<String>, CellType {
     
     required public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     public override func update() {
@@ -370,6 +394,10 @@ public class DecimalCell : _FieldCell<Float>, CellType {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
     
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     public override func update() {
         super.update()
         textField.keyboardType = .decimalPad
@@ -380,6 +408,10 @@ public class URLCell : _FieldCell<NSURL>, CellType {
     
     required public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     public override func update() {
@@ -393,7 +425,11 @@ public class TwitterCell : _FieldCell<String>, CellType {
     required public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
-
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     public override func update() {
         super.update()
         textField.autocorrectionType = .no
@@ -406,6 +442,10 @@ public class AccountCell : _FieldCell<String>, CellType {
     
     required public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     public override func update() {
@@ -493,10 +533,6 @@ public class DateCell : Cell<NSDate>, CellType {
 }
 
 public class DateInlineCell : Cell<NSDate>, CellType {
-    
-    public required init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -637,7 +673,7 @@ public class _TextAreaCell<T> : Cell<T>, UITextViewDelegate, AreaCell where T: E
         textView.text = row.displayValueFor?(row.value)
         placeholderLabel.text = (row as? TextAreaConformance)?.placeholder
         placeholderLabel.sizeToFit()
-        placeholderLabel.isHidden = textView.text.characters.count != 0
+        placeholderLabel.isHidden = textView.text.count != 0
     }
     
     public override func cellCanBecomeFirstResponder() -> Bool {
@@ -667,7 +703,7 @@ public class _TextAreaCell<T> : Cell<T>, UITextViewDelegate, AreaCell where T: E
     }
     
     public func textViewDidChange(textView: UITextView) {
-        placeholderLabel.isHidden = textView.text.characters.count != 0
+        placeholderLabel.isHidden = textView.text.count != 0
         guard let textValue = textView.text else {
             row.value = nil
             return
@@ -870,7 +906,7 @@ public class SegmentedCell<T: Equatable> : Cell<T>, CellType {
     
     func selectedIndex() -> Int? {
         guard let value = row.value else { return nil }
-        return (row as! SegmentedRow<T>).options.indexOf(value)
+        return (row as! SegmentedRow<T>).options.firstIndex(of:value)
     }
 }
 

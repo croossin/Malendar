@@ -71,9 +71,9 @@ public final class CVCalendarDayView: UIView {
         if let size = weekView.calendarView.dayViewSize {
             let hSpace = weekView.calendarView.appearance.spaceBetweenDayViews!
             let x = (CGFloat(weekdayIndex - 1) * (size.width + hSpace)) + (hSpace/2)
-            super.init(frame: CGRectMake(x, 0, size.width, size.height))
+            super.init(frame: CGRect(x: x, y: 0, width: size.width, height: size.height))
         } else {
-            super.init(frame: CGRectZero)
+            super.init(frame: CGRect.zero)
         }
         
         date = dateWithWeekView(weekView: weekView, andWeekIndex: weekdayIndex)
@@ -134,7 +134,7 @@ public final class CVCalendarDayView: UIView {
         var month = dateRange.month
         
         if isOut {
-            day > 20 ? month-- : month++
+            day > 20 ? month-=1 : month+=1
         }
         
         return CVDate(day: day, month: month, week: week, year: year)
@@ -213,7 +213,7 @@ extension CVCalendarDayView {
                 let layer = CALayer()
                 layer.borderColor = UIColor.gray.cgColor
                 layer.borderWidth = height
-                layer.frame = CGRectMake(0, 1, CGRectGetWidth(self.frame), height)
+                layer.frame = CGRect(x: 0, y: 1, width: self.frame.width, height: height)
                 
                 self.topMarker = layer
                 self.layer.addSublayer(self.topMarker!)
@@ -259,7 +259,7 @@ extension CVCalendarDayView {
                     yOffset = y
                 }
                 let y = CGRectGetMidY(frame) + yOffset
-                let markerFrame = CGRectMake(0, 0, width, height)
+                let markerFrame = CGRect(x: 0, y: 0, width: width, height: height)
                 
                 if (colors!.count > 3) {
                     assert(false, "Only 3 dot markers allowed per day")
@@ -280,7 +280,7 @@ extension CVCalendarDayView {
                     
                     let dotMarker = CVAuxiliaryView(dayView: self, rect: markerFrame, shape: .Circle)
                     dotMarker.fillColor = color
-                    dotMarker.center = CGPointMake(x, y)
+                    dotMarker.center = CGPoint(x, y)
                     insertSubview(dotMarker, atIndex: 0)
                     
                     dotMarker.setNeedsDisplay()
@@ -333,13 +333,13 @@ extension CVCalendarDayView {
                         let point = pointAtAngle(angle: CGFloat(-90).toRadians(), withinCircleView: circleView)
                         let spaceBetweenDotAndCircle = CGFloat(1)
                         let offset = point.y - dotMarker.frame.origin.y - dotMarker.bounds.height/2 + spaceBetweenDotAndCircle
-                        transform = unwinded ? CGAffineTransformIdentity : CGAffineTransform(translationX: 0, y: offset)
+                        transform = unwinded ? CGAffineTransform.identity : CGAffineTransform(translationX: 0, y: offset)
                         
-                        if dotMarker.center.y + offset > CGRectGetMaxY(frame) {
+                        if dotMarker.center.y + offset > frame.maxY {
                             coloring = true
                         }
                     } else {
-                        transform = CGAffineTransformIdentity
+                        transform = CGAffineTransform.identity
                     }
                     
                     if !coloring {
@@ -386,7 +386,7 @@ extension CVCalendarDayView {
         let x = floor(cos(angle)) < 0 ? center.x - xDistance : center.x + xDistance
         let y = center.y - yDistance
         
-        let result = CGPointMake(x, y)
+        let result = CGPoint(x: x, y: y)
         
         return result
     }
@@ -523,7 +523,7 @@ extension CVCalendarDayView {
 // MARK: - Safe execution
 
 extension CVCalendarDayView {
-    public func safeExecuteBlock(block: () -> Void, collapsingOnNil collapsing: Bool, withObjects objects: AnyObject?...) {
+    public func safeExecuteBlock(block: Void -> Void, collapsingOnNil collapsing: Bool, withObjects objects: AnyObject?...) {
         for object in objects {
             if object == nil {
                 if collapsing {

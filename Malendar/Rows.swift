@@ -118,9 +118,9 @@ public class _DateInlineRow: _DateInlineFieldRow {
     public required init(tag: String?) {
         super.init(tag: tag)
         dateFormatter = DateFormatter()
-        dateFormatter?.timeStyle = .NoStyle
-        dateFormatter?.dateStyle = .MediumStyle
-        dateFormatter?.locale = .currentLocale()
+        dateFormatter?.timeStyle = .none
+        dateFormatter?.dateStyle = .medium
+        dateFormatter?.locale = .current
     }
 }
 
@@ -131,9 +131,9 @@ public class _DateTimeInlineRow: _DateInlineFieldRow {
     public required init(tag: String?) {
         super.init(tag: tag)
         dateFormatter = DateFormatter()
-        dateFormatter?.timeStyle = .ShortStyle
-        dateFormatter?.dateStyle = .ShortStyle
-        dateFormatter?.locale = .currentLocale()
+        dateFormatter?.timeStyle = .short
+        dateFormatter?.dateStyle = .short
+        dateFormatter?.locale = .current
     }
 }
 
@@ -144,9 +144,9 @@ public class _TimeInlineRow: _DateInlineFieldRow {
     public required init(tag: String?) {
         super.init(tag: tag)
         dateFormatter = DateFormatter()
-        dateFormatter?.timeStyle = .ShortStyle
-        dateFormatter?.dateStyle = .NoStyle
-        dateFormatter?.locale = .currentLocale()
+        dateFormatter?.timeStyle = .short
+        dateFormatter?.dateStyle = .none
+        dateFormatter?.locale = .current
     }
 }
 
@@ -180,8 +180,8 @@ public class _IntRow: FieldRow<Int, IntCell> {
     public required init(tag: String?) {
         super.init(tag: tag)
         let numberFormatter = NumberFormatter()
-        numberFormatter.locale = .currentLocale()
-        numberFormatter.numberStyle = .DecimalStyle
+        numberFormatter.locale = .current
+        numberFormatter.numberStyle = .decimal
         numberFormatter.minimumFractionDigits = 0
         formatter = numberFormatter
     }
@@ -215,8 +215,8 @@ public class _DecimalRow: FieldRow<Float, DecimalCell> {
     public required init(tag: String?) {
         super.init(tag: tag)
         let numberFormatter = NumberFormatter()
-        numberFormatter.locale = .currentLocale()
-        numberFormatter.numberStyle = .DecimalStyle
+        numberFormatter.locale = .current
+        numberFormatter.numberStyle = .decimal
         numberFormatter.minimumFractionDigits = 2
         formatter = numberFormatter
     }
@@ -244,9 +244,9 @@ public class _TimeRow: _DateFieldRow {
     required public init(tag: String?) {
         super.init(tag: tag)
         dateFormatter = DateFormatter()
-        dateFormatter?.timeStyle = .ShortStyle
-        dateFormatter?.dateStyle = .NoStyle
-        dateFormatter?.locale = NSLocale.currentLocale()
+        dateFormatter?.timeStyle = .short
+        dateFormatter?.dateStyle = .none
+        dateFormatter?.locale = NSLocale.current
     }
 }
 
@@ -254,9 +254,9 @@ public class _DateRow: _DateFieldRow {
     required public init(tag: String?) {
         super.init(tag: tag)
         dateFormatter = DateFormatter()
-        dateFormatter?.timeStyle = .NoStyle
-        dateFormatter?.dateStyle = .MediumStyle
-        dateFormatter?.locale = NSLocale.currentLocale()
+        dateFormatter?.timeStyle = .none
+        dateFormatter?.dateStyle = .medium
+        dateFormatter?.locale = NSLocale.current
     }
 }
 
@@ -264,9 +264,9 @@ public class _DateTimeRow: _DateFieldRow {
     required public init(tag: String?) {
         super.init(tag: tag)
         dateFormatter = DateFormatter()
-        dateFormatter?.timeStyle = .ShortStyle
-        dateFormatter?.dateStyle = .ShortStyle
-        dateFormatter?.locale = NSLocale.currentLocale()
+        dateFormatter?.timeStyle = .short
+        dateFormatter?.dateStyle = .short
+        dateFormatter?.locale = NSLocale.current
     }
 }
 
@@ -462,7 +462,7 @@ public class _ImageRow : SelectorRow<UIImage, ImagePickerController>, PresenterR
         super.customUpdateCell()
         cell.accessoryType = .none
         if let image = self.value {
-            let imageView = UIImageView(frame: CGRectMake(0, 0, 44, 44))
+            let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
             imageView.contentMode = .scaleAspectFill
             imageView.image = image
             imageView.clipsToBounds = true

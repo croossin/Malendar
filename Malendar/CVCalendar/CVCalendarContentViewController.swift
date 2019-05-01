@@ -45,7 +45,7 @@ public class CVCalendarContentViewController: UIViewController {
         
         super.init(nibName: nil, bundle: nil)
         
-        scrollView.contentSize = CGSizeMake(frame.width * 3, frame.height)
+        scrollView.contentSize = CGSize(width: frame.width * 3, height: frame.height)
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
         scrollView.layer.masksToBounds = true
@@ -62,10 +62,10 @@ public class CVCalendarContentViewController: UIViewController {
 
 extension CVCalendarContentViewController {
     public func updateFrames(frame: CGRect) {
-        if frame != CGRectZero {
+        if frame != CGRect.zero {
             scrollView.frame = frame
             scrollView.removeAllSubviews()
-            scrollView.contentSize = CGSizeMake(frame.size.width * 3, frame.size.height)
+            scrollView.contentSize = CGSize(width: frame.size.width * 3, height: frame.size.height)
         }
         
         calendarView.isHidden = false
@@ -111,7 +111,7 @@ extension CVCalendarContentViewController {
 extension CVCalendarContentViewController {
     public func dateBeforeDate(date: NSDate) -> NSDate {
         let components = Manager.componentsForDate(date: date)
-        let calendar = NSCalendar.currentCalendar
+        let calendar = NSCalendar.current
         
         components.month -= 1
         
