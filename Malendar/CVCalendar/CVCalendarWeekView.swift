@@ -56,9 +56,9 @@ public final class CVCalendarWeekView: UIView {
         self.index = index
         
         if let size = monthView.calendarView.weekViewSize {
-            super.init(frame: CGRectMake(0, CGFloat(index) * size.height, size.width, size.height))
+            super.init(frame: CGRect(x: 0, y: CGFloat(index) * size.height, width: size.width, height: size.height))
         } else {
-            super.init(frame: CGRectZero)
+            super.init(frame: CGRect.zero)
         }
         
         // Get weekdays in.
@@ -67,7 +67,7 @@ public final class CVCalendarWeekView: UIView {
         
         // Get weekdays out.
         if let weeksOut = self.monthView!.weeksOut {
-            if self.weekdaysIn?.count < 7 {
+            if self.weekdaysIn?.count ?? 0 < 7 {
                 if weeksOut.count > 1 {
                     let daysOut = 7 - self.weekdaysIn!.count
                     
@@ -85,7 +85,7 @@ public final class CVCalendarWeekView: UIView {
                                     break
                                 }
                             } else if value < 10 {
-                                if self.index == manager.monthDateRange(self.monthView!.date!).countOfWeeks - 1 {
+                                if self.index == manager?.monthDateRange(date: self.monthView!.date!).countOfWeeks ?? 0 - 1 {
                                     result = weekdaysOut
                                     break
                                 }
@@ -125,7 +125,7 @@ public final class CVCalendarWeekView: UIView {
 
 extension CVCalendarWeekView {
     public func updateInteractiveView() {
-        safeExecuteBlock({
+        safeExecuteBlock(block: {
             
             let mode = self.monthView!.calendarView!.calendarMode!
             if mode == .WeekView {
@@ -135,7 +135,7 @@ extension CVCalendarWeekView {
                     self.addSubview(interactiveView)
                 } else {
                     self.interactiveView = UIView(frame: self.bounds)
-                    self.interactiveView.backgroundColor = .clearColor()
+                    self.interactiveView.backgroundColor = .clear()
                     
                     let tapRecognizer = UITapGestureRecognizer(target: self, action: "didTouchInteractiveView:")
                     let pressRecognizer = UILongPressGestureRecognizer(target: self, action: "didPressInteractiveView:")
@@ -152,24 +152,24 @@ extension CVCalendarWeekView {
     }
     
     public func didPressInteractiveView(recognizer: UILongPressGestureRecognizer) {
-        let location = recognizer.locationInView(self.interactiveView)
-        let state: UIGestureRecognizerState = recognizer.state
+        let location = recognizer.location(in: self.interactiveView)
+        let state: UIGestureRecognizer.State = recognizer.state
         
         switch state {
-        case .Began:
-            touchController.receiveTouchLocation(location, inWeekView: self, withSelectionType: .Range(.Started))
-        case .Changed:
-            touchController.receiveTouchLocation(location, inWeekView: self, withSelectionType: .Range(.Changed))
-        case .Ended:
-            touchController.receiveTouchLocation(location, inWeekView: self, withSelectionType: .Range(.Ended))
+        case .began:
+            touchController.receiveTouchLocation(location: location, inWeekView: self, withSelectionType: .Range(.Started))
+        case .changed:
+            touchController.receiveTouchLocation(location: location, inWeekView: self, withSelectionType: .Range(.Changed))
+        case .ended:
+            touchController.receiveTouchLocation(location: location, inWeekView: self, withSelectionType: .Range(.Ended))
             
         default: break
         }
     }
     
     public func didTouchInteractiveView(recognizer: UITapGestureRecognizer) {
-        let location = recognizer.locationInView(self.interactiveView)
-        touchController.receiveTouchLocation(location, inWeekView: self, withSelectionType: .Single)
+        let location = recognizer.location(in: self.interactiveView)
+        touchController.receiveTouchLocation(location: location, inWeekView: self, withSelectionType: .Single)
     }
 }
 
@@ -181,9 +181,9 @@ extension CVCalendarWeekView {
         for i in 1...7 {
             let dayView = CVCalendarDayView(weekView: self, weekdayIndex: i)
             
-            safeExecuteBlock({
+            safeExecuteBlock(block: {
                 self.dayViews!.append(dayView)
-                }, collapsingOnNil: true, withObjects: dayViews)
+            }, collapsingOnNil: true, withObjects: dayViews as AnyObject?)
             
             addSubview(dayView)
         }
@@ -194,10 +194,10 @@ extension CVCalendarWeekView {
         if let size = calendarView.dayViewSize, let dayViews = dayViews {
             let hSpace = calendarView.appearance.spaceBetweenDayViews!
             
-            for (index, dayView) in dayViews.enumerate() {
+            for (index, dayView) in dayViews.enumerated() {
                 let hSpace = calendarView.appearance.spaceBetweenDayViews!
                 let x = CGFloat(index) * CGFloat(size.width + hSpace) + hSpace/2
-                dayView.frame = CGRectMake(x, 0, size.width, size.height)
+                dayView.frame = CGRect(x: x, y: 0, width: size.width, height: size.height)
                 dayView.reloadContent()
             }
         }
@@ -207,7 +207,7 @@ extension CVCalendarWeekView {
 // MARK: - Safe execution
 
 extension CVCalendarWeekView {
-    public func safeExecuteBlock(block: Void -> Void, collapsingOnNil collapsing: Bool, withObjects objects: AnyObject?...) {
+    public func safeExecuteBlock(block: () -> Void, collapsingOnNil collapsing: Bool, withObjects objects: AnyObject?...) {
         for object in objects {
             if object == nil {
                 if collapsing {

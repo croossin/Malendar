@@ -13,7 +13,7 @@ import UIKit
   *  Instead use native Swift Set<T> collection.
 */
 
-public struct CVSet<T: AnyObject>: NilLiteralConvertible {
+public struct CVSet<T: AnyObject>: ExpressibleByNilLiteral {
     // MARK: - Private properties
     private var storage = [T]()
     
@@ -46,19 +46,19 @@ public struct CVSet<T: AnyObject>: NilLiteralConvertible {
 
 public extension CVSet {
     mutating func addObject(object: T) {
-        if indexObject(object) == nil {
+        if indexObject(object: object) == nil {
             storage.append(object)
         }
     }
     
     mutating func removeObject(object: T) {
-        if let index = indexObject(object) {
+        if let index = indexObject(object: object) {
             storage.removeAtIndex(index)
         }
     }
     
     mutating func removeAll(keepCapacity: Bool) {
-        storage.removeAll(keepCapacity: keepCapacity)
+        storage.removeAll(keepingCapacity: keepCapacity)
     }
 }
 
@@ -66,7 +66,7 @@ public extension CVSet {
 
 private extension CVSet {
     func indexObject(object: T) -> Int? {
-        for (index, storageObj) in storage.enumerate() {
+        for (index, storageObj) in storage.enumerated() {
             if storageObj === object {
                 return index
             }

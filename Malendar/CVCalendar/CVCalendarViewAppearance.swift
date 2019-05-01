@@ -29,13 +29,13 @@ public final class CVCalendarViewAppearance: NSObject {
     public var dayLabelWeekdaySelectedFont: UIFont? = UIFont(name: "Avenir-Heavy", size: 18)
     
     /// Default text color.
-    public var dayLabelWeekdayInTextColor: UIColor? = .blackColor()
-    public var dayLabelWeekdayOutTextColor: UIColor? = .grayColor()
-    public var dayLabelWeekdayHighlightedTextColor: UIColor? = .whiteColor()
-    public var dayLabelWeekdaySelectedTextColor: UIColor? = .whiteColor()
-    public var dayLabelPresentWeekdayTextColor: UIColor? = .redColor()
-    public var dayLabelPresentWeekdayHighlightedTextColor: UIColor? = .whiteColor()
-    public var dayLabelPresentWeekdaySelectedTextColor: UIColor? = .whiteColor()
+    public var dayLabelWeekdayInTextColor: UIColor? = .black
+    public var dayLabelWeekdayOutTextColor: UIColor? = .gray
+    public var dayLabelWeekdayHighlightedTextColor: UIColor? = .white
+    public var dayLabelWeekdaySelectedTextColor: UIColor? = .white
+    public var dayLabelPresentWeekdayTextColor: UIColor? = .red
+    public var dayLabelPresentWeekdayHighlightedTextColor: UIColor? = .white
+    public var dayLabelPresentWeekdaySelectedTextColor: UIColor? = .white
     
     /// Default text size.
     public var dayLabelWeekdayTextSize: CGFloat? = 18
@@ -46,20 +46,20 @@ public final class CVCalendarViewAppearance: NSObject {
     public var dayLabelPresentWeekdaySelectedTextSize: CGFloat? = 20
     
     /// Default highlighted state background & alpha.
-    public var dayLabelWeekdayHighlightedBackgroundColor: UIColor? = .colorFromCode(0x34AADC)
+    public var dayLabelWeekdayHighlightedBackgroundColor: UIColor? = .colorFromCode(code: 0x34AADC)
     public var dayLabelWeekdayHighlightedBackgroundAlpha: CGFloat? = 0.8
-    public var dayLabelPresentWeekdayHighlightedBackgroundColor: UIColor? = .colorFromCode(0xFF5E3A)
+    public var dayLabelPresentWeekdayHighlightedBackgroundColor: UIColor? = .colorFromCode(code: 0xFF5E3A)
     public var dayLabelPresentWeekdayHighlightedBackgroundAlpha: CGFloat? = 0.8
     
     /// Default selected state background & alpha.
-    public var dayLabelWeekdaySelectedBackgroundColor: UIColor? = .colorFromCode(0x1D62F0)
+    public var dayLabelWeekdaySelectedBackgroundColor: UIColor? = .colorFromCode(code: 0x1D62F0)
     public var dayLabelWeekdaySelectedBackgroundAlpha: CGFloat? = 0.8
-    public var dayLabelPresentWeekdaySelectedBackgroundColor: UIColor? = .colorFromCode(0xFF3B30)
+    public var dayLabelPresentWeekdaySelectedBackgroundColor: UIColor? = .colorFromCode(code: 0xFF3B30)
     public var dayLabelPresentWeekdaySelectedBackgroundAlpha: CGFloat? = 0.8
     
     
     // Default dot marker color.
-    public var dotMarkerColor: UIColor? = .whiteColor()
+    public var dotMarkerColor: UIColor? = .white
     
     public var delegate: CVCalendarViewAppearanceDelegate? {
         didSet {
@@ -111,8 +111,8 @@ public final class CVCalendarViewAppearance: NSObject {
     }
 }
 
-infix operator ~> { }
-public func ~><T: Any>(inout lhs: T?, rhs: T?) -> T? {
+infix operator ~>
+public func ~><T: Any>( lhs: inout T?, rhs: T?) -> T? {
     if lhs != nil && rhs != nil {
         lhs = rhs
     }

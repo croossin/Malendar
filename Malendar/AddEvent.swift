@@ -170,7 +170,7 @@ class NativeEventFormViewController : FormViewController {
                 }.onChange { [weak self] row in
                     let inputTitle = row.value as String?
                     if(inputTitle != nil){
-                        self!.eventNotes = row.value as String!
+                        self!.eventNotes = row.value as String? ?? <#default value#>
                     }else{
                         self!.eventNotes = ""
                     }
@@ -180,32 +180,32 @@ class NativeEventFormViewController : FormViewController {
     }
     
     func cancelTapped(barButtonItem: UIBarButtonItem) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     func addEvent(barButtonItem: UIBarButtonItem) {
         if(eventTitle == ""){
             let alertView = SCLAlertView()
             alertView.showCloseButton = true
-            alertView.showWarning("Title", subTitle: "Please include at least an event title.")
+            alertView.showWarning(title: "Title", subTitle: "Please include at least an event title.")
         }else{
             let event:EKEvent = EKEvent(eventStore: eventStore)
             
             event.title = eventTitle
-            event.startDate = eventStart
-            event.endDate = eventEnd
+            event.startDate = eventStart as NSDate
+            event.endDate = eventEnd as Date
             event.notes = eventNotes
-            event.allDay = eventAllday
+            event.isAllDay = eventAllday
             event.location = eventLocation
             event.calendar = eventStore.defaultCalendarForNewEvents
             do{
-                try self.eventStore.saveEvent(event, span: .ThisEvent)
+                try self.eventStore.save(event, span: .thisEvent)
                 
             }catch{
                 print(error)
             }
             print("Saved Event")
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -247,25 +247,25 @@ class NativeEventFormViewController : FormViewController {
     
     // Check the authorization status of our application for Calendar
     private func checkEventStoreAccessForCalendar() {
-        let status = EKEventStore.authorizationStatusForEntityType(EKEntityType.Event)
+        let status = EKEventStore.authorizationStatus(for: EKEntityType.event)
         
         switch status {
             // Update our UI if the user has granted access to their Calendar
-        case .Authorized: self.defaultCalendar = self.eventStore.defaultCalendarForNewEvents
+        case .authorized: self.defaultCalendar = self.eventStore.defaultCalendarForNewEvents
             // Prompt the user for access to Calendar if there is no definitive answer
-        case .NotDetermined: self.requestCalendarAccess()
+        case .notDetermined: self.requestCalendarAccess()
             // Display a message if the user has denied or restricted access to Calendar
-        case .Denied, .Restricted:
+        case .denied, .restricted:
             print("denied")
         }
     }
     
     // Prompt the user for access to their Calendar
     private func requestCalendarAccess() {
-        self.eventStore.requestAccessToEntityType(.Event) {[weak self] granted, error in
+        self.eventStore.requestAccess(to: .event) {[weak self] granted, error in
             if granted {
                 // Let's ensure that our code will be executed from the main queue
-                dispatch_async(dispatch_get_main_queue()) {
+                dispatch_get_main_queue().async() {
                     // The user has granted access to their Calendar; let's populate our UI with all events occuring in the next 24 hours.
                     self?.accessGrantedForCalendar()
                 }

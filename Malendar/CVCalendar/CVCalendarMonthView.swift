@@ -39,14 +39,14 @@ public final class CVCalendarMonthView: UIView {
     
     public var potentialSize: CGSize {
         get {
-            return CGSizeMake(bounds.width, CGFloat(weekViews.count) * weekViews[0].bounds.height + calendarView.appearance.spaceBetweenWeekViews! * CGFloat(weekViews.count))
+            return CGSize(width: bounds.width, height: CGFloat(weekViews.count) * weekViews[0].bounds.height + calendarView.appearance.spaceBetweenWeekViews! * CGFloat(weekViews.count))
         }
     }
     
     // MARK: - Initialization
     
     public init(calendarView: CVCalendarView, date: NSDate) {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         self.calendarView = calendarView
         self.date = date
         commonInit()
@@ -74,11 +74,11 @@ public final class CVCalendarMonthView: UIView {
 extension CVCalendarMonthView {
     public func commonInit() {
         let calendarManager = calendarView.manager
-        safeExecuteBlock({
-            self.numberOfWeeks = calendarManager.monthDateRange(self.date).countOfWeeks
-            self.weeksIn = calendarManager.weeksWithWeekdaysForMonthDate(self.date).weeksIn
-            self.weeksOut = calendarManager.weeksWithWeekdaysForMonthDate(self.date).weeksOut
-            self.currentDay = Manager.dateRange(NSDate()).day
+        safeExecuteBlock(block: {
+            self.numberOfWeeks = calendarManager?.monthDateRange(date: self.date).countOfWeeks
+            self.weeksIn = calendarManager?.weeksWithWeekdaysForMonthDate(date: self.date).weeksIn
+            self.weeksOut = calendarManager?.weeksWithWeekdaysForMonthDate(date: self.date).weeksOut
+            self.currentDay = Manager.dateRange(date: NSDate()).day
             }, collapsingOnNil: true, withObjects: date)
     }
 }
@@ -89,14 +89,14 @@ extension CVCalendarMonthView {
     public func reloadViewsWithRect(frame: CGRect) {
         self.frame = frame
         
-        safeExecuteBlock({
+        safeExecuteBlock(block: {
             for (index, weekView) in self.weekViews.enumerate() {
                 if let size = self.calendarView.weekViewSize {
-                    weekView.frame = CGRectMake(0, size.height * CGFloat(index), size.width, size.height)
+                    weekView.frame = CGRect(0, size.height * CGFloat(index), size.width, size.height)
                     weekView.reloadDayViews()
                 }
             }
-        }, collapsingOnNil: true, withObjects: weekViews)
+        }, collapsingOnNil: true, withObjects: weekViews as AnyObject?)
     }
 }
 
@@ -111,17 +111,17 @@ extension CVCalendarMonthView {
     public func createWeekViews() {
         weekViews = [CVCalendarWeekView]()
         
-        safeExecuteBlock({
+        safeExecuteBlock(block: {
             for i in 0..<self.numberOfWeeks! {
                 let weekView = CVCalendarWeekView(monthView: self, index: i)
                 
-                self.safeExecuteBlock({
+                self.safeExecuteBlock(block: {
                     self.weekViews!.append(weekView)
-                    }, collapsingOnNil: true, withObjects: self.weekViews)
+                }, collapsingOnNil: true, withObjects: self.weekViews as AnyObject?)
                 
                 self.addSubview(weekView)
             }
-            }, collapsingOnNil: true, withObjects: numberOfWeeks)
+        }, collapsingOnNil: true, withObjects: numberOfWeeks as AnyObject?)
     }
 }
 
@@ -129,7 +129,7 @@ extension CVCalendarMonthView {
 
 extension CVCalendarMonthView {
     public func updateInteractiveView() {
-        safeExecuteBlock({
+        safeExecuteBlock(block: {
             let mode = self.calendarView!.calendarMode!
             if mode == .MonthView {
                 if let interactiveView = self.interactiveView {
@@ -138,7 +138,7 @@ extension CVCalendarMonthView {
                     self.addSubview(interactiveView)
                 } else {
                     self.interactiveView = UIView(frame: self.bounds)
-                    self.interactiveView.backgroundColor = .clearColor()
+                    self.interactiveView.backgroundColor = .clear
                     
                     let tapRecognizer = UITapGestureRecognizer(target: self, action: "didTouchInteractiveView:")
                     let pressRecognizer = UILongPressGestureRecognizer(target: self, action: "didPressInteractiveView:")
@@ -155,31 +155,31 @@ extension CVCalendarMonthView {
     }
     
     public func didPressInteractiveView(recognizer: UILongPressGestureRecognizer) {
-        let location = recognizer.locationInView(self.interactiveView)
-        let state: UIGestureRecognizerState = recognizer.state
+        let location = recognizer.location(in: self.interactiveView)
+        let state: UIGestureRecognizer.State = recognizer.state
         
         switch state {
-        case .Began:
-            touchController.receiveTouchLocation(location, inMonthView: self, withSelectionType: .Range(.Started))
-        case .Changed:
-            touchController.receiveTouchLocation(location, inMonthView: self, withSelectionType: .Range(.Changed))
-        case .Ended:
-            touchController.receiveTouchLocation(location, inMonthView: self, withSelectionType: .Range(.Ended))
+        case .began:
+            touchController.receiveTouchLocation(location: location, inMonthView: self, withSelectionType: .Range(.Started))
+        case .changed:
+            touchController.receiveTouchLocation(location: location, inMonthView: self, withSelectionType: .Range(.Changed))
+        case .ended:
+            touchController.receiveTouchLocation(location: location, inMonthView: self, withSelectionType: .Range(.Ended))
             
         default: break
         }
     }
     
     public func didTouchInteractiveView(recognizer: UITapGestureRecognizer) {
-        let location = recognizer.locationInView(self.interactiveView)
-        touchController.receiveTouchLocation(location, inMonthView: self, withSelectionType: .Single)
+        let location = recognizer.location(in: self.interactiveView)
+        touchController.receiveTouchLocation(location: location, inMonthView: self, withSelectionType: .Single)
     }
 }
 
 // MARK: - Safe execution
 
 extension CVCalendarMonthView {
-    public func safeExecuteBlock(block: Void -> Void, collapsingOnNil collapsing: Bool, withObjects objects: AnyObject?...) {
+    public func safeExecuteBlock(block: () -> Void, collapsingOnNil collapsing: Bool, withObjects objects: AnyObject?...) {
         for object in objects {
             if object == nil {
                 if collapsing {
